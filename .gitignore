@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+data/*.db
+alerts/bulletin_history.jsonl
+alerts/latest_run.json
+.venv/

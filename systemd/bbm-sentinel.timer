@@ -1,0 +1,11 @@
+[Unit]
+Description=Run BBM Sentinel Jember every hour
+
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=300
+Persistent=true
+Unit=bbm-sentinel.service
+
+[Install]
+WantedBy=timers.target

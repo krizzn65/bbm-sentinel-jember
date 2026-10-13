@@ -1,0 +1,10 @@
+[Unit]
+Description=BBM Sentinel Jember: hourly data collection and risk scoring
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/hatch/workspace/bbm-sentinel-jember
+ExecStart=/home/hatch/workspace/bbm-sentinel-jember/scripts/run_once.sh
+TimeoutStartSec=600

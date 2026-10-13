@@ -1,0 +1,3 @@
+requests>=2.31
+# Optional, only for the ML calibration stage (see src/sentinel/train.py):
+# scikit-learn>=1.4
