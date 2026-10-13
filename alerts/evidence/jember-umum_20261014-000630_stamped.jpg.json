@@ -1,0 +1,23 @@
+{
+ "station_name": "SPBU di Jember (dari foto berita)",
+ "station_code": null,
+ "address": "SPBU persisnya belum teridentifikasi dari berita",
+ "captured_at": "2026-10-13T12:53:00+07:00",
+ "time_label": "Perkiraan waktu foto (dari waktu berita terbit)",
+ "source": "Berita : Antrean Panjang di SPBU, Bupati Kubu Raya: Sejak Jauh Hari Saya Ingatkan Agar Jaga Stok BB",
+ "queue_status": "terhitung dari foto: 2 motor, 1 mobil",
+ "queue_length_m": 8.4,
+ "wait_hours": null,
+ "vehicle_counts": {
+  "orang": 7,
+  "sepeda": 0,
+  "mobil": 1,
+  "motor": 2,
+  "bus": 0,
+  "truk": 0
+ },
+ "original_path": "/home/hatch/workspace/bbm-sentinel-jember/alerts/harvest/20261014-000629_6f7705ea_annotated.jpg",
+ "watermarked_path": "/home/hatch/workspace/bbm-sentinel-jember/alerts/evidence/jember-umum_20261014-000630_stamped.jpg",
+ "original_sha256": "7bc36a8a7fc8c58b62c92e43f79458bbf6d094e20df934b68a47926fafccd128",
+ "watermarked_sha256": "4cfcea708345b1f9440628e6d0448a4c6357dce0b5a82721350cded8daa0a4dd"
+}

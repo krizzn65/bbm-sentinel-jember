@@ -96,6 +96,23 @@ BBM dan peringkat SPBU kota/kampus yang paling terdampak.
    1 truk terdeteksi benar; foto dari dalam mobil yang kendaraannya
    tertutup dasbor terbaca sebagian - sesuai sifat batas bawah.
 
+10. **Pemanen foto antrean otomatis** (`src/sentinel/collectors/images.py`):
+   pengganti jalur CCTV yang tertutup. Saat mode krisis aktif (atau
+   risiko >= ambang), pipeline memanen foto dari berita daring tentang
+   antrean SPBU Jember (Bing News RSS -> gambar artikel/og:image), dengan
+   gerbang geografis ketat: judul wajib menyebut "Jember" (uji langsung
+   pertama menangkap foto Sukawati-Bali dan Kubu Raya-Kalimantan yang
+   lolos kata kunci umum - keduanya ditolak dan dibersihkan). Foto yang
+   lolos dihitung kendaraannya oleh lapisan computer vision, dianotasi,
+   di-watermark sebagai bukti, dan masuk tabel bukti + buletin. Foto
+   unggahan publik media sosial dapat diteruskan ke `alerts/inbox/`
+   (nama berkas memuat kode SPBU untuk atribusi) dan diproses dengan
+   jalur yang sama. Berjalan otomatis di dalam putaran pipeline;
+   manual: `python3 scripts/harvest_images.py --force`. Uji langsung
+   2026-10-14 dini hari: 3 foto Jember asli terpanen dan terhitung
+   (salah satunya terbaca kode 54.681.25 pada papan harga di foto =
+   SPBU Ahmad Yani, terverifikasi visual).
+
 ## Menjalankan
 
 ```sh

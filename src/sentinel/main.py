@@ -78,6 +78,15 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
             fc_lay = forecast.lay_summary(fc)
     except Exception as exc:  # forecast must never break the pipeline
         errors.append(f"forecast: {exc}")
+    harvest_summary = None
+    hcfg = cfg.get("harvest", {})
+    if hcfg.get("enabled") and (active or risk >= hcfg.get("min_risk", 40)):
+        try:
+            from .collectors import images as image_harvest
+            harvest_summary = image_harvest.harvest(store, cfg)
+            image_harvest.process_inbox(store, cfg)
+        except Exception as exc:
+            errors.append(f"harvest: {exc}")
     try:
         evidence = imaging.latest_evidence(store, limit=5)
     except Exception:
@@ -97,6 +106,7 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
                     "score": r["score"], "confidence": r["confidence"]}
                    for r in station_results[:5]],
                "bulletin": bulletin,
+               "harvest": harvest_summary,
                "evidence_images": evidence,
                "forecast": ({"peak_date": fc["peak"]["date"],
                              "peak_date_id": fc["peak"]["date_id"],

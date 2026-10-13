@@ -1,0 +1,23 @@
+{
+ "station_name": "SPBU di Jember (dari foto berita)",
+ "station_code": null,
+ "address": "SPBU persisnya belum teridentifikasi dari berita",
+ "captured_at": "2026-10-13T10:16:00+07:00",
+ "time_label": "Perkiraan waktu foto (dari waktu berita terbit)",
+ "source": "Berita : BBM Langka, Antrean SPBU di Sukawati Picu Kemacetan",
+ "queue_status": "terhitung dari foto: 1 motor, 1 mobil",
+ "queue_length_m": 6.7,
+ "wait_hours": null,
+ "vehicle_counts": {
+  "orang": 4,
+  "sepeda": 0,
+  "mobil": 1,
+  "motor": 1,
+  "bus": 0,
+  "truk": 0
+ },
+ "original_path": "/home/hatch/workspace/bbm-sentinel-jember/alerts/harvest/20261014-000635_a2cce41e_annotated.jpg",
+ "watermarked_path": "/home/hatch/workspace/bbm-sentinel-jember/alerts/evidence/jember-umum_20261014-000636_stamped.jpg",
+ "original_sha256": "78115764ddfb9c7a8409cc398b11ee9e29bb78b552bf210d957f044e7374e911",
+ "watermarked_sha256": "0999698d54f098cd35b4c51100ec3efae2d09a81975356a02b16f7938caecd96"
+}

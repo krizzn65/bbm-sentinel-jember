@@ -114,5 +114,16 @@
   "holiday_minor_boost": 5,
   "weekend_boost": 3
  },
- "known_events": []
+ "known_events": [],
+ "harvest": {
+  "enabled": true,
+  "min_risk": 40,
+  "cooldown_hours": 3,
+  "max_images": 4,
+  "queries": [
+   "antrean SPBU Jember",
+   "BBM langka Jember SPBU antre",
+   "SPBU Jember antrean mengular"
+  ]
+ }
 }
