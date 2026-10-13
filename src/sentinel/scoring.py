@@ -105,6 +105,16 @@ def build_features(store, cfg):
     v = feats["news_lokal_queue_m"]["value"]
     if v is not None:
         feats["news_lokal_queue_m"]["score"] = round(min(100.0, v / 10.0), 1)
+    # Social listening: public posts about Jember SPBU queues in the
+    # last 24h (agent-fed, see collectors/social.py). Citizens post
+    # hours before newsrooms publish, so this is the earliest local
+    # signal; 5 queue posts saturate the feature.
+    feats["social_lokal_posts"] = {
+        "layer": "lokal", "value": _latest(store, "social_queue_posts_24h"),
+        "score": None}
+    v = feats["social_lokal_posts"]["value"]
+    if v is not None:
+        feats["social_lokal_posts"]["score"] = round(min(100.0, v * 20.0), 1)
     return feats
 
 

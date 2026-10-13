@@ -21,9 +21,12 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[2]
-# Prefer the small model (better recall on partly occluded vehicles);
-# fall back to nano when only that is present.
-MODEL_CANDIDATES = [ROOT / "models" / "yolov8s.onnx", ROOT / "models" / "yolov8n.onnx"]
+# Prefer an SPBU fine-tune when one has been trained (see
+# scripts/train_vision.py); then the small COCO model (better recall
+# on partly occluded vehicles); fall back to nano.
+MODEL_CANDIDATES = [ROOT / "models" / "yolov8s_spbu.onnx",
+                    ROOT / "models" / "yolov8s.onnx",
+                    ROOT / "models" / "yolov8n.onnx"]
 MODEL_PATH = next((p for p in MODEL_CANDIDATES if p.exists()), MODEL_CANDIDATES[0])
 IMG_SIZE = 640
 CONF_MIN = 0.35

@@ -26,6 +26,14 @@ CREATE TABLE IF NOT EXISTS ground_reports (
 CREATE TABLE IF NOT EXISTS labels (
   id INTEGER PRIMARY KEY, start TEXT, end TEXT, outcome INTEGER, label TEXT, triggers TEXT
 );
+CREATE TABLE IF NOT EXISTS vision_corrections (
+  id INTEGER PRIMARY KEY, ts TEXT, image_path TEXT, station_code TEXT,
+  model_counts TEXT, corrected_counts TEXT, note TEXT, source TEXT
+);
+CREATE TABLE IF NOT EXISTS social_signals (
+  id INTEGER PRIMARY KEY, ts TEXT, platform TEXT, posts_found INTEGER,
+  queue_posts INTEGER, stations_mentioned TEXT, detail TEXT
+);
 """
 
 

@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 from . import crisis, forecast, imaging, scoring
-from .collectors import gdelt, market, meteo, news, stations
+from .collectors import gdelt, market, meteo, news, social, stations
 from .store import Store
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,7 +33,7 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
     run_id = store.start_run()
     collected, errors = {}, []
     for name, fn in (("market", market.collect), ("meteo", meteo.collect),
-                     ("news", news.collect)):
+                     ("news", news.collect), ("social", social.collect)):
         try:
             collected[name] = fn(store, run_id, cfg)
             print(f"[sentinel] collector {name} ok", flush=True)
@@ -106,6 +106,7 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
                     "score": r["score"], "confidence": r["confidence"]}
                    for r in station_results[:5]],
                "bulletin": bulletin,
+               "social_signals": collected.get("social"),
                "harvest": harvest_summary,
                "evidence_images": evidence,
                "forecast": ({"peak_date": fc["peak"]["date"],

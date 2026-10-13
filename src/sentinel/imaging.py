@@ -208,7 +208,12 @@ def latest_evidence(store, limit=5):
 
 def write_manifest(store):
     items = latest_evidence(store, limit=10)
-    out = ROOT / "alerts" / "evidence_latest.json"
+    # Write next to the store's own database, NOT unconditionally to
+    # the repo root: the test suite uses throwaway stores and used to
+    # clobber the live manifest with test entries.
+    db_file = store.conn.execute("PRAGMA database_list").fetchone()[2]
+    root = Path(db_file).resolve().parents[1] if db_file else ROOT
+    out = root / "alerts" / "evidence_latest.json"
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps({"images": items}, ensure_ascii=False, indent=1))
     return items

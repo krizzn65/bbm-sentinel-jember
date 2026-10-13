@@ -66,6 +66,8 @@ def _station_groups(station_results):
             label += f" (antrean sekitar {d['queue_max_m']:.0f} meter)"
         elif d["wait_max_h"]:
             label += f" (nunggu sampai {d['wait_max_h']:.0f} jam)"
+        if d.get("report_fresh_count"):
+            label += " (laporan warga)"
         if res["score"] >= 60:
             avoid.append(label)
         elif res["score"] >= 30:
@@ -144,7 +146,7 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
                 vc = vc["queue"]
             det = ", ".join(f"{v} {k}" for k, v in vc.items()
                             if v and k in ("motor", "mobil", "truk", "bus"))
-            if det:
+            if det and "terhitung" not in q:
                 q += f" (terhitung di foto: {det})"
             lines.append(f"- {ev['station_name']}: {q}{when}")
         lines.append("")

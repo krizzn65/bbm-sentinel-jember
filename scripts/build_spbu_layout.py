@@ -30,8 +30,8 @@ UA = {"User-Agent": "bbm-sentinel-jember/0.3 (layout reference)"}
 
 # code -> (lat, lng, geocoder matched_level, relevance)
 GEOCODED = {
-    "54.681.18": (-8.15739, 113.71297, "FULL_ADDRESS (street vicinity)", 82),
-    "54.681.25": (-8.17269, 113.70420, "FULL_ADDRESS", 92),
+    "54.681.18": (-8.15989, 113.71997, "FULL_ADDRESS (named PERTAMINA)", 55),
+    "54.681.25": (-8.17359, 113.70391, "FULL_ADDRESS (named PERTAMINA)", 72),
     "54.681.11": (-8.19142, 113.69618, "STREET", 91),
     "54.681.13": (-8.15497, 113.71251, "STREET", 81),
     "51.681.23": (-8.16882, 113.69302, "FULL_ADDRESS (low relevance)", 56),
