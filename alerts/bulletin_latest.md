@@ -1,5 +1,6 @@
-Info BBM Jember, Selasa, 13 Oktober 2026 pukul 23:07 WIB
+Info BBM Jember, Selasa, 13 Oktober 2026 pukul 23:25 WIB
 Status: ADA SPBU KEHABISAN STOK.
+Perkiraan dari pola krisis sebelumnya: antrean kemungkinan memuncak pada Sabtu, 17 Oktober 2026. Kalau bisa, isi bensin sebelum tanggal itu.
 
 Bensin yang lagi susah dicari:
 - Pertalite: habis di beberapa SPBU

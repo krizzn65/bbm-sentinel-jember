@@ -28,6 +28,18 @@
         peringkat SPBU kota/kampus
                    v
         alert ke pengguna (WhatsApp)
+
+Lapisan prediksi bertanggal (forecast.py):
+  tren teredam + faktor kepercayaan rentang observasi + kalender libur
+  + ANALOG HISTORIS (history.py): pola pemicu hari ini dicocokkan ke
+  episode terdokumentasi (data/historical_episodes.json); episode
+  terdekat menentukan perkiraan tanggal puncak & durasi.
+
+Lapisan bukti visual (imaging.py):
+  foto CCTV publik / media / laporan warga -> salinan ber-watermark
+  (SPBU, tanggal+jam WIB, keadaan antrean, sumber) + sidecar SHA-256
+  -> evidence_images + alerts/evidence_latest.json -> dilampirkan
+  pada alert yang mengutipnya.
 ```
 
 ## Keputusan desain

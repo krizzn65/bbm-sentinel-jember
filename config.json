@@ -1,111 +1,118 @@
 {
-  "crisis_mode": {
-    "bulletin_note": "Mode krisis aktif selama indeks >= 60 atau antrean lokal terkonfirmasi. Buletin harian wajib menyebut status per jenis BBM dan peringkat SPBU kota/kampus.",
-    "enter_local_queue_confirmed": true,
-    "enter_risk_index": 60,
-    "exit_risk_index": 35
+ "crisis_mode": {
+  "bulletin_note": "Mode krisis aktif selama indeks >= 60 atau antrean lokal terkonfirmasi. Buletin harian wajib menyebut status per jenis BBM dan peringkat SPBU kota/kampus.",
+  "enter_local_queue_confirmed": true,
+  "enter_risk_index": 60,
+  "exit_risk_index": 35
+ },
+ "layer_weights": {
+  "global": 0.2,
+  "lokal": 0.25,
+  "nasional": 0.2,
+  "regional": 0.35
+ },
+ "levels": [
+  {
+   "min": 0,
+   "name": "HIJAU"
   },
-  "layer_weights": {
-    "global": 0.2,
-    "lokal": 0.25,
-    "nasional": 0.2,
-    "regional": 0.35
+  {
+   "min": 40,
+   "name": "KUNING"
   },
-  "levels": [
-    {
-      "min": 0,
-      "name": "HIJAU"
-    },
-    {
-      "min": 40,
-      "name": "KUNING"
-    },
-    {
-      "min": 60,
-      "name": "ORANYE"
-    },
-    {
-      "min": 80,
-      "name": "MERAH"
-    }
+  {
+   "min": 60,
+   "name": "ORANYE"
+  },
+  {
+   "min": 80,
+   "name": "MERAH"
+  }
+ ],
+ "locations": {
+  "gumitir": {
+   "label": "Jalur Gumitir",
+   "lat": -8.35,
+   "lon": 113.93
+  },
+  "jember_city": {
+   "label": "Jember kota",
+   "lat": -8.17,
+   "lon": 113.7
+  },
+  "ketapang_strait": {
+   "label": "Selat Bali / Ketapang-Gilimanuk",
+   "lat": -8.14,
+   "lon": 114.57
+  },
+  "south_jember_sea": {
+   "label": "Laut selatan Jember (Puger)",
+   "lat": -8.45,
+   "lon": 113.45
+  }
+ },
+ "news_queries": {
+  "global": [
+   "Selat Hormuz minyak",
+   "konflik Timur Tengah harga minyak dunia",
+   "kapal tanker minyak terlambat Pertamina"
   ],
-  "locations": {
-    "gumitir": {
-      "label": "Jalur Gumitir",
-      "lat": -8.35,
-      "lon": 113.93
-    },
-    "jember_city": {
-      "label": "Jember kota",
-      "lat": -8.17,
-      "lon": 113.7
-    },
-    "ketapang_strait": {
-      "label": "Selat Bali / Ketapang-Gilimanuk",
-      "lat": -8.14,
-      "lon": 114.57
-    },
-    "south_jember_sea": {
-      "label": "Laut selatan Jember (Puger)",
-      "lat": -8.45,
-      "lon": 113.45
-    }
+  "lokal": [
+   "BBM langka Jember antrean SPBU",
+   "antrean BBM Jember hari ini",
+   "harga bensin eceran Jember naik"
+  ],
+  "nasional": [
+   "antrean SPBU Pertamina",
+   "kelangkaan BBM Indonesia Pertamina stok",
+   "kuota Pertalite Solar subsidi BPH Migas"
+  ],
+  "regional": [
+   "antrean BBM Bondowoso",
+   "antrean BBM Banyuwangi",
+   "Ketapang Gilimanuk macet",
+   "Gumitir Jember ditutup",
+   "antrean BBM Lumajang Situbondo"
+  ]
+ },
+ "thresholds": {
+  "brent_change_7d_pct": {
+   "full": 10,
+   "half": 4,
+   "zero": 0
   },
-  "news_queries": {
-    "global": [
-      "Selat Hormuz minyak",
-      "konflik Timur Tengah harga minyak dunia",
-      "kapal tanker minyak terlambat Pertamina"
-    ],
-    "lokal": [
-      "BBM langka Jember antrean SPBU",
-      "antrean BBM Jember hari ini",
-      "harga bensin eceran Jember naik"
-    ],
-    "nasional": [
-      "antrean SPBU Pertamina",
-      "kelangkaan BBM Indonesia Pertamina stok",
-      "kuota Pertalite Solar subsidi BPH Migas"
-    ],
-    "regional": [
-      "antrean BBM Bondowoso",
-      "antrean BBM Banyuwangi",
-      "Ketapang Gilimanuk macet",
-      "Gumitir Jember ditutup",
-      "antrean BBM Lumajang Situbondo"
-    ]
+  "news_count_24h": {
+   "zero": 5,
+   "half": 30,
+   "full": 80
   },
-  "thresholds": {
-    "brent_change_7d_pct": {
-      "full": 10,
-      "half": 4,
-      "zero": 0
-    },
-    "news_count_24h": {
-      "zero": 5,
-      "half": 30,
-      "full": 80
-    },
-    "rain_sum_72h_gumitir_mm": {
-      "full": 120,
-      "half": 60,
-      "zero": 20
-    },
-    "usdidr_change_30d_pct": {
-      "full": 4,
-      "half": 1.5,
-      "zero": 0
-    },
-    "wave_max_72h_ketapang_m": {
-      "full": 2.5,
-      "half": 1.5,
-      "zero": 0.75
-    },
-    "wave_max_72h_south_m": {
-      "full": 4.0,
-      "half": 2.5,
-      "zero": 1.5
-    }
+  "rain_sum_72h_gumitir_mm": {
+   "full": 120,
+   "half": 60,
+   "zero": 20
   },
-  "timezone": "Asia/Jakarta"
+  "usdidr_change_30d_pct": {
+   "full": 4,
+   "half": 1.5,
+   "zero": 0
+  },
+  "wave_max_72h_ketapang_m": {
+   "full": 2.5,
+   "half": 1.5,
+   "zero": 0.75
+  },
+  "wave_max_72h_south_m": {
+   "full": 4.0,
+   "half": 2.5,
+   "zero": 1.5
+  }
+ },
+ "timezone": "Asia/Jakarta",
+ "forecast": {
+  "horizon_days": 7,
+  "holiday_major_boost": 10,
+  "holiday_minor_boost": 5,
+  "weekend_boost": 3
+ },
+ "known_events": []
 }

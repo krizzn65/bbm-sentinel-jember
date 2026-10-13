@@ -41,10 +41,44 @@ BBM dan peringkat SPBU kota/kampus yang paling terdampak.
    Tanpa indeks, skor, atau persentase. Isinya berasal dari status per
    jenis BBM dan peringkat SPBU dari
    `data/spbu_kota_jember.json` (11 SPBU kota/kampus).
-5. **ML** (`src/sentinel/train.py`): disengaja menolak melatih model sebelum
-   ada >=20 snapshot berlabel. Sebelum itu, indeks berbobot yang mengambil
-   keputusan, dan bobotnya ditinjau tiap episode baru. Mengklaim ML sejak
-   hari pertama dengan 4 data latih adalah kebohongan statistik.
+5. **Prediksi bertanggal** (`src/sentinel/forecast.py`): proyeksi 7 hari
+   dari tren indeks (basis median agar satu run anomali tidak menggerakkan
+   ramalan), momentum lapis lokal+regional, faktor kalender (hari libur
+   Indonesia di `data/holidays_id.json`, akhir pekan, kejadian terjadwal
+   di `config.json:known_events`), dan lapisan analog historis. Slope
+   diskalakan faktor kepercayaan berbasis rentang waktu observasi: data
+   beberapa menit tidak boleh diekstrapolasi menjadi ramalan seminggu.
+   Setiap prediksi disimpan dan diverifikasi terhadap realita hariannya
+   (MAE berjalan dilaporkan, bukan diklaim).
+6. **Belajar dari sejarah** (`src/sentinel/history.py` +
+   `data/historical_episodes.json` + `data/historical_windows.json`):
+   keempat episode terdokumentasi dikodekan menjadi vektor pemicu,
+   durasi, dan jeda menuju puncak per pola (distribusi fisik 7-9 hari,
+   puncak hari ke-2 s.d. ke-4; panik murni puncak ~1 hari, selesai 4
+   hari). Pola pemicu hari ini - dihitung dari pemicu bernama yang
+   ditambang kolektor berita (Gumitir, Ketapang, gelombang, tanker/
+   geopolitik, panik/penimbunan, tetangga) - dibandingkan dengan semua
+   episode selesai; episode terdekat meminjamkan jeda puncaknya untuk
+   menanggalkan perkiraan puncak episode berjalan. Episode yang sedang
+   berjalan tidak pernah dipakai melatih/menilai dirinya sendiri.
+   Jendela arsip kuantitatif (kurs, hujan Gumitir, gelombang Ketapang +
+   selatan; 14 hari sebelum s.d. 3 hari sesudah tiap episode) di-backfill
+   dengan `python3 scripts/backfill_history.py`.
+7. **ML** (`src/sentinel/train.py`): regresi logistik murni-Python
+   dilatih per ruang fitur begitu ada >=20 contoh berlabel dan kedua
+   kelas terisi - contoh episode (ruang pemicu) dan snapshot live (ruang
+   lapis, dilabeli dari episode terdokumentasi). Sebelum itu, indeks
+   berbobot + lapisan analog yang mengambil keputusan, dan status
+   model dilaporkan apa adanya di `alerts/model_report.json`.
+8. **Bukti visual ber-watermark** (`src/sentinel/imaging.py`): setiap
+   foto antrean (snapshot CCTV publik, foto berita/media sosial, foto
+   laporan warga) dibuatkan salinan berstempel tanpa mengubah piksel
+   asli: strip judul + panel berisi nama/kode/alamat SPBU, tanggal dan
+   jam WIB pengambilan (atau waktu diterima sistem, diberi label jujur
+   sebagai itu), keadaan antrean dalam kata awam + panjang antrean bila
+   memang tercatat, dan sumber gambar. Jejak audit: sidecar JSON +
+   SHA-256 + tabel `evidence_images` + `alerts/evidence_latest.json`.
+   Dicatat lewat `python3 scripts/watermark_evidence.py`.
 
 ## Menjalankan
 
@@ -78,5 +112,12 @@ laporan kosong harian di luar mode krisis.
   bukan penopang pipeline.
 - Angka ambang di `config.json` adalah titik awal dari 4 episode historis,
   bukan hasil optimasi. Kalibrasi adalah pekerjaan Fase 2.
+- Backfill arsip Brent untuk jendela historis belum terisi: FRED berulang
+  kali timeout dari server ini (kurs/hujan/gelombang lengkap). Menjalankan
+  ulang `scripts/backfill_history.py` akan melengkapinya tanpa mengubah
+  data lain.
+- CCTV SPBU Pertamina tidak dipublikasikan. Satu-satunya gambar yang sah
+  masuk sistem adalah CCTV publik yang memang terbuka, foto media, dan
+  foto laporan warga - semuanya lewat watermark di atas.
 
 Lisensi: MIT.

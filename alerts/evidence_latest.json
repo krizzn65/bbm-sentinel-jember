@@ -1,0 +1,13 @@
+{
+ "images": [
+  {
+   "station_code": "54.681.25",
+   "station_name": "SPBU Ahmad Yani",
+   "source": "CCTV publik",
+   "captured_at": "2026-10-13T23:26:06+07:00",
+   "queue_status": null,
+   "queue_length_m": null,
+   "watermarked_path": "/tmp/tmpfukjn491/out.jpg"
+  }
+ ]
+}

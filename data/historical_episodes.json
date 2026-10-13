@@ -1,0 +1,157 @@
+{
+ "dataset": "BBM Sentinel Jember historical learning dataset",
+ "created": "2026-10-13",
+ "rules": [
+  "Hanya fakta terverifikasi dari liputan berita 2026-10-13 yang dikodekan; nilai yang tidak diketahui dibiarkan null, tidak diisi tebakan.",
+  "Episode berstatus ongoing tidak dipakai melatih model untuk episodenya sendiri (anti-bocor).",
+  "peak_offset_days adalah estimasi terdokumentasi dari urutan kejadian, selalu disertai rentang dan dasar estimasi."
+ ],
+ "episodes": [
+  {
+   "id": "2025-07-gumitir",
+   "label": "Gumitir ditutup total",
+   "start": "2025-07-24",
+   "end": "2025-07-31",
+   "status": "closed",
+   "outcome": 1,
+   "pattern": "physical_distribution",
+   "peak_offset_days": 2,
+   "peak_offset_range": [
+    1,
+    3
+   ],
+   "peak_basis": "Penutupan mulai 24 Jul; antrean memanjang hingga sekitar 2 km pada hari-hari berikutnya.",
+   "severity": {
+    "queue_max_m": 2000,
+    "retail_price_max_idr": null,
+    "tanker_round_trip_hours_before": 4,
+    "tanker_round_trip_hours_during": 11,
+    "government_response": "alih suplai Surabaya/Malang/Semarang; 8 terduga penimbun ditangkap"
+   },
+   "triggers": {
+    "gumitir_closure": 1,
+    "gumitir_repair": 0,
+    "ketapang_congestion": 1,
+    "high_waves": 0,
+    "global_conflict_rumor": 0,
+    "tanker_schedule_change": 0,
+    "neighbor_shortage": 1,
+    "local_stockout": 1,
+    "panic_buying": 1,
+    "retailer_price_spike": 1,
+    "purchase_limit": 0,
+    "government_wfh": 0
+   },
+   "facts": "RTH tangki 4 -> 11 jam. Antrean hingga 2 km. Alih suplai Surabaya/Malang/Semarang.",
+   "duration_days_elapsed": 7
+  },
+  {
+   "id": "2026-03-panic",
+   "label": "Panic buying isu perang Timur Tengah",
+   "start": "2026-03-05",
+   "end": "2026-03-09",
+   "status": "closed",
+   "outcome": 1,
+   "pattern": "panic_information",
+   "peak_offset_days": 1,
+   "peak_offset_range": [
+    0,
+    2
+   ],
+   "peak_basis": "Rapat Pemkab 5 Mar menyatakan stok aman; tambahan pasokan 6-7 Mar; normal 9 Mar. Lonjakan permintaan terjadi segera setelah isu menyebar.",
+   "severity": {
+    "queue_max_m": null,
+    "retail_price_max_idr": 25000,
+    "purchase_cap_motor_litres": 10,
+    "extra_supply_litres": 400000,
+    "government_response": "pernyataan stok aman; tambahan pasokan 100 ribu L + 300 ribu L"
+   },
+   "triggers": {
+    "gumitir_closure": 0,
+    "gumitir_repair": 0,
+    "ketapang_congestion": 0,
+    "high_waves": 0,
+    "global_conflict_rumor": 1,
+    "tanker_schedule_change": 0,
+    "neighbor_shortage": 0,
+    "local_stockout": 0,
+    "panic_buying": 1,
+    "retailer_price_spike": 1,
+    "purchase_limit": 1,
+    "government_wfh": 0
+   },
+   "facts": "Stok dinyatakan aman. Tambahan pasokan 100k L (6 Mar) + 300k L (7 Mar). Normal 9 Mar.",
+   "duration_days_elapsed": 4
+  },
+  {
+   "id": "2026-09-distribution",
+   "label": "Distribusi tersendat Ketapang + Gumitir",
+   "start": "2026-09-05",
+   "end": "2026-09-14",
+   "status": "closed",
+   "outcome": 1,
+   "pattern": "mixed_distribution",
+   "peak_offset_days": 4,
+   "peak_offset_range": [
+    3,
+    5
+   ],
+   "peak_basis": "Antrean mulai 5-7 Sep; eskalasi kebijakan WFH/PJJ 10-12 Sep menandai fase terberat; dicabut 14 Sep.",
+   "severity": {
+    "queue_max_m": null,
+    "retail_price_max_idr": null,
+    "pertalite_distribution_pct_of_normal": 110,
+    "government_response": "WFH/PJJ 10-12 Sep; alih suplai Surabaya/Malang; usulan depo lokal"
+   },
+   "triggers": {
+    "gumitir_closure": 0,
+    "gumitir_repair": 1,
+    "ketapang_congestion": 1,
+    "high_waves": 1,
+    "global_conflict_rumor": 0,
+    "tanker_schedule_change": 0,
+    "neighbor_shortage": 1,
+    "local_stockout": 1,
+    "panic_buying": 1,
+    "retailer_price_spike": 0,
+    "purchase_limit": 0,
+    "government_wfh": 1
+   },
+   "facts": "Penyaluran Pertalite 110%. WFH/PJJ Pemkab 10-12 Sep, dicabut 14 Sep. Faktor: kemacetan Ketapang, gelombang Ketapang-Gilimanuk, perbaikan bored pile Gumitir, jembatan alternatif 15 ton vs tangki 21 ton.",
+   "duration_days_elapsed": 9
+  },
+  {
+   "id": "2026-10-distribution-pattern",
+   "label": "Penyesuaian pola distribusi / jadwal tanker",
+   "start": "2026-10-12",
+   "end": null,
+   "status": "ongoing",
+   "outcome": 1,
+   "pattern": "distribution_schedule",
+   "peak_offset_days": null,
+   "peak_offset_range": null,
+   "peak_basis": "Episode sedang berjalan saat dataset dibuat; tidak dipakai sebagai contoh selesai dan tidak boleh bocor ke prediksi untuk episodenya sendiri.",
+   "severity": {
+    "queue_max_m": null,
+    "retail_price_max_idr": null,
+    "government_response": "Pertamina menyatakan tidak ada pengurangan pengiriman; Bali ditambah 26.200 KL pada 12/14/16 Okt"
+   },
+   "triggers": {
+    "gumitir_closure": 0,
+    "gumitir_repair": 0,
+    "ketapang_congestion": 1,
+    "high_waves": 0,
+    "global_conflict_rumor": 1,
+    "tanker_schedule_change": 1,
+    "neighbor_shortage": 1,
+    "local_stockout": 1,
+    "panic_buying": 1,
+    "retailer_price_spike": 0,
+    "purchase_limit": 0,
+    "government_wfh": 0
+   },
+   "facts": "Pertamina 13 Okt: tidak ada pengurangan pengiriman, ada penyesuaian pola distribusi. Bali ditambah 26.200 KL (12/14/16 Okt). Bondowoso: konsumsi Pertalite naik 16-20%.",
+   "duration_days_elapsed": null
+  }
+ ]
+}

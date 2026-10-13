@@ -1,0 +1,113 @@
+{
+ "historical_episodes": {
+  "closed_examples": 3,
+  "episode_ids": [
+   "2025-07-gumitir",
+   "2026-03-panic",
+   "2026-09-distribution"
+  ],
+  "features": [
+   "gumitir_closure",
+   "gumitir_repair",
+   "ketapang_congestion",
+   "high_waves",
+   "global_conflict_rumor",
+   "tanker_schedule_change",
+   "neighbor_shortage",
+   "local_stockout",
+   "panic_buying",
+   "retailer_price_spike",
+   "purchase_limit",
+   "government_wfh"
+  ],
+  "priors": {
+   "episodes_closed": 3,
+   "median_duration_days": 7,
+   "median_peak_offset_days": 2,
+   "by_pattern": {
+    "physical_distribution": {
+     "n": 1,
+     "median_duration_days": 7,
+     "median_peak_offset_days": 2
+    },
+    "panic_information": {
+     "n": 1,
+     "median_duration_days": 4,
+     "median_peak_offset_days": 1
+    },
+    "mixed_distribution": {
+     "n": 1,
+     "median_duration_days": 9,
+     "median_peak_offset_days": 4
+    }
+   },
+   "trigger_frequency": {
+    "gumitir_closure": 0.33,
+    "gumitir_repair": 0.33,
+    "ketapang_congestion": 0.67,
+    "high_waves": 0.33,
+    "global_conflict_rumor": 0.33,
+    "tanker_schedule_change": 0.0,
+    "neighbor_shortage": 0.67,
+    "local_stockout": 0.67,
+    "panic_buying": 1.0,
+    "retailer_price_spike": 0.67,
+    "purchase_limit": 0.33,
+    "government_wfh": 0.33
+   }
+  },
+  "archival_windows": {
+   "2025-07-gumitir": {
+    "days": 25,
+    "brent_days": 0,
+    "fx_days": 17,
+    "rain_days": 25,
+    "wave_days": 25
+   },
+   "2026-03-panic": {
+    "days": 22,
+    "brent_days": 0,
+    "fx_days": 16,
+    "rain_days": 22,
+    "wave_days": 22
+   },
+   "2026-09-distribution": {
+    "days": 27,
+    "brent_days": 0,
+    "fx_days": 19,
+    "rain_days": 27,
+    "wave_days": 27
+   },
+   "2026-10-distribution-pattern": {
+    "days": 16,
+    "brent_days": 0,
+    "fx_days": 12,
+    "rain_days": 16,
+    "wave_days": 16
+   }
+  }
+ },
+ "live_snapshots": {
+  "labelled": 0,
+  "positives": 0,
+  "negatives": 0,
+  "features": [
+   "global",
+   "regional",
+   "nasional",
+   "lokal"
+  ]
+ },
+ "min_labelled_for_training": 20,
+ "models": {
+  "episode_trigger_model": {
+   "status": "not_fitted",
+   "reason": "3 contoh berlabel (3 positif / 0 negatif); perlu >= 20 dan kedua kelas terisi"
+  },
+  "live_snapshot_model": {
+   "status": "not_fitted",
+   "reason": "0 contoh berlabel (0 positif / 0 negatif); perlu >= 20 dan kedua kelas terisi"
+  }
+ },
+ "decision_maker": "weighted index + historical analog layer (models are reported, not yet promoted)"
+}

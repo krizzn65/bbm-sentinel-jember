@@ -1,0 +1,160 @@
+{
+ "made_at": "2026-10-13T23:25:06+07:00",
+ "base_risk": 42.5,
+ "latest_risk": 42.5,
+ "slope_per_day_effective": 1.2,
+ "slope_per_day_raw_capped": 15.0,
+ "fast_layer_now": 23.7,
+ "fast_slope_effective": 2.0,
+ "baseline_median": 42.5,
+ "samples": 6,
+ "recent_samples": 6,
+ "observed_span_hours": 0.42,
+ "data_trust": 0.08,
+ "alert_ready": true,
+ "analog": {
+  "episode_id": "2026-09-distribution",
+  "label": "Distribusi tersendat Ketapang + Gumitir",
+  "pattern": "mixed_distribution",
+  "similarity": 0.484,
+  "episode_start": "2026-10-13",
+  "expected_peak_date": "2026-10-17",
+  "expected_peak_date_id": "Sabtu, 17 Oktober 2026",
+  "analogue_duration_days": 9
+ },
+ "historical_priors": {
+  "episodes_closed": 3,
+  "median_duration_days": 7,
+  "median_peak_offset_days": 2,
+  "by_pattern": {
+   "physical_distribution": {
+    "n": 1,
+    "median_duration_days": 7,
+    "median_peak_offset_days": 2
+   },
+   "panic_information": {
+    "n": 1,
+    "median_duration_days": 4,
+    "median_peak_offset_days": 1
+   },
+   "mixed_distribution": {
+    "n": 1,
+    "median_duration_days": 9,
+    "median_peak_offset_days": 4
+   }
+  },
+  "trigger_frequency": {
+   "gumitir_closure": 0.33,
+   "gumitir_repair": 0.33,
+   "ketapang_congestion": 0.67,
+   "high_waves": 0.33,
+   "global_conflict_rumor": 0.33,
+   "tanker_schedule_change": 0.0,
+   "neighbor_shortage": 0.67,
+   "local_stockout": 0.67,
+   "panic_buying": 1.0,
+   "retailer_price_spike": 0.67,
+   "purchase_limit": 0.33,
+   "government_wfh": 0.33
+  }
+ },
+ "days": [
+  {
+   "date": "2026-10-14",
+   "date_id": "Rabu, 14 Oktober 2026",
+   "pred_index": 45.4,
+   "low": 26.0,
+   "high": 64.8,
+   "level": "KUNING",
+   "crisis_prob": 14,
+   "reasons": []
+  },
+  {
+   "date": "2026-10-15",
+   "date_id": "Kamis, 15 Oktober 2026",
+   "pred_index": 48.8,
+   "low": 26.2,
+   "high": 71.4,
+   "level": "KUNING",
+   "crisis_prob": 20,
+   "reasons": []
+  },
+  {
+   "date": "2026-10-16",
+   "date_id": "Jumat, 16 Oktober 2026",
+   "pred_index": 52.5,
+   "low": 26.7,
+   "high": 78.3,
+   "level": "KUNING",
+   "crisis_prob": 28,
+   "reasons": [
+    "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
+   ]
+  },
+  {
+   "date": "2026-10-17",
+   "date_id": "Sabtu, 17 Oktober 2026",
+   "pred_index": 57.2,
+   "low": 28.2,
+   "high": 86.2,
+   "level": "KUNING",
+   "crisis_prob": 41,
+   "reasons": [
+    "akhir pekan",
+    "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
+   ]
+  },
+  {
+   "date": "2026-10-18",
+   "date_id": "Minggu, 18 Oktober 2026",
+   "pred_index": 56.4,
+   "low": 24.2,
+   "high": 88.6,
+   "level": "KUNING",
+   "crisis_prob": 39,
+   "reasons": [
+    "akhir pekan",
+    "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
+   ]
+  },
+  {
+   "date": "2026-10-19",
+   "date_id": "Senin, 19 Oktober 2026",
+   "pred_index": 51.2,
+   "low": 15.8,
+   "high": 86.6,
+   "level": "KUNING",
+   "crisis_prob": 25,
+   "reasons": []
+  },
+  {
+   "date": "2026-10-20",
+   "date_id": "Selasa, 20 Oktober 2026",
+   "pred_index": 49.5,
+   "low": 10.9,
+   "high": 88.1,
+   "level": "KUNING",
+   "crisis_prob": 21,
+   "reasons": []
+  }
+ ],
+ "peak": {
+  "date": "2026-10-17",
+  "date_id": "Sabtu, 17 Oktober 2026",
+  "pred_index": 57.2,
+  "low": 28.2,
+  "high": 86.2,
+  "level": "KUNING",
+  "crisis_prob": 41,
+  "reasons": [
+   "akhir pekan",
+   "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
+  ]
+ },
+ "predicted_crisis_date": null,
+ "predicted_crisis_date_id": null,
+ "verification": {
+  "checked_days": 0,
+  "mae": null
+ }
+}

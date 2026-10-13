@@ -1,0 +1,15 @@
+{
+ "station_name": "SPBU Mastrip",
+ "station_code": "54.681.18",
+ "address": "Jl. Mastrip, Tegalgede, Sumbersari",
+ "captured_at": "2026-10-13T23:21:25+07:00",
+ "time_label": "Waktu foto",
+ "source": "CONTOH - bukan foto asli, hanya demo format watermark",
+ "queue_status": "antre panjang",
+ "queue_length_m": 300,
+ "wait_hours": null,
+ "original_path": "/tmp/demo_spbu.jpg",
+ "watermarked_path": "alerts/evidence/demo_mastrip_stamped.jpg",
+ "original_sha256": "40c4fe438ae68dbd793c44a65cac8cedec8252108d64de89719c6537939dae11",
+ "watermarked_sha256": "ff3091e49ce08a57bcb0503705285e45ff50c5ca9b7276b8913370726acbc118"
+}
