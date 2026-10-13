@@ -31,11 +31,15 @@ BBM dan peringkat SPBU kota/kampus yang paling terdampak.
    0-100 lewat ramp ambang yang eksplisit di `config.json`, atau z-score
    terhadap baseline bergulir bila riwayat sudah cukup. Indeks risiko adalah
    rata-rata berbobot per lapis: regional 0,35, lokal 0,25, global 0,20,
-   nasional 0,20.
+   nasional 0,20. Angka-angka ini hanya hidup di lapis mesin; keluaran ke
+   pengguna selalu bahasa awam (lihat poin mode krisis).
 3. **Level**: HIJAU <40, KUNING 40-59, ORANYE 60-79, MERAH >=80.
 4. **Mode krisis** (`src/sentinel/crisis.py`): aktif saat indeks >=60 atau
    antrean lokal terkonfirmasi. Menghasilkan `alerts/bulletin_latest.md`
-   berisi status per jenis BBM dan peringkat SPBU dari
+   berbahasa awam: status sederhana, bensin yang susah dicari, SPBU yang
+   sebaiknya dihindari / antre tapi jalan / masih lancar, dan satu saran.
+   Tanpa indeks, skor, atau persentase. Isinya berasal dari status per
+   jenis BBM dan peringkat SPBU dari
    `data/spbu_kota_jember.json` (11 SPBU kota/kampus).
 5. **ML** (`src/sentinel/train.py`): disengaja menolak melatih model sebelum
    ada >=20 snapshot berlabel. Sebelum itu, indeks berbobot yang mengambil
