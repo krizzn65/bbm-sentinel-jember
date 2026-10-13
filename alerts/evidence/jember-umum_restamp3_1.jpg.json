@@ -1,0 +1,33 @@
+{
+ "station_name": "SPBU di Jember (dari foto berita)",
+ "station_code": null,
+ "address": "",
+ "captured_at": "2026-10-13T21:03:00+07:00",
+ "time_label": "Perkiraan waktu foto (dari waktu berita terbit)",
+ "source": "Berita daring: Warga Jember Antre Berjam-jam Takut Kehabisan Stok BBM di SPBU, Pertamina Buka Suara",
+ "queue_status": "terhitung dari foto: 3 motor; 12 orang terlihat; 2 kendaraan sekadar lewat tidak dihitung",
+ "queue_length_m": 5.1,
+ "wait_hours": null,
+ "vehicle_counts": {
+  "queue": {
+   "orang": 12,
+   "sepeda": 0,
+   "mobil": 0,
+   "motor": 3,
+   "bus": 0,
+   "truk": 0
+  },
+  "passing": {
+   "orang": 0,
+   "sepeda": 0,
+   "mobil": 0,
+   "motor": 2,
+   "bus": 0,
+   "truk": 0
+  }
+ },
+ "original_path": "/home/hatch/workspace/bbm-sentinel-jember/alerts/harvest/20261014-001324_e7940945_annotated.jpg",
+ "watermarked_path": "alerts/evidence/jember-umum_restamp3_1.jpg",
+ "original_sha256": "211cd8b81d0d3078e6392fa2e3aa056f61052a53352a5733ab53111a8d28ce6d",
+ "watermarked_sha256": "94d0d86d9769183c8c73796b857af0a6a14b88f0b3ec98b9b11898939b50e725"
+}

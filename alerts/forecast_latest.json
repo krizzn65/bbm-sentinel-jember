@@ -1,15 +1,15 @@
 {
- "made_at": "2026-10-13T23:25:06+07:00",
+ "made_at": "2026-10-14T01:01:51+07:00",
  "base_risk": 42.5,
- "latest_risk": 42.5,
+ "latest_risk": 41.4,
  "slope_per_day_effective": 1.2,
  "slope_per_day_raw_capped": 15.0,
- "fast_layer_now": 23.7,
+ "fast_layer_now": 22.3,
  "fast_slope_effective": 2.0,
- "baseline_median": 42.5,
- "samples": 6,
- "recent_samples": 6,
- "observed_span_hours": 0.42,
+ "baseline_median": 42.4,
+ "samples": 7,
+ "recent_samples": 7,
+ "observed_span_hours": 2.04,
  "data_trust": 0.08,
  "alert_ready": true,
  "analog": {
@@ -60,33 +60,23 @@
  },
  "days": [
   {
-   "date": "2026-10-14",
-   "date_id": "Rabu, 14 Oktober 2026",
-   "pred_index": 45.4,
-   "low": 26.0,
-   "high": 64.8,
-   "level": "KUNING",
-   "crisis_prob": 14,
-   "reasons": []
-  },
-  {
    "date": "2026-10-15",
    "date_id": "Kamis, 15 Oktober 2026",
-   "pred_index": 48.8,
-   "low": 26.2,
-   "high": 71.4,
+   "pred_index": 47.3,
+   "low": 27.9,
+   "high": 66.7,
    "level": "KUNING",
-   "crisis_prob": 20,
+   "crisis_prob": 17,
    "reasons": []
   },
   {
    "date": "2026-10-16",
    "date_id": "Jumat, 16 Oktober 2026",
-   "pred_index": 52.5,
-   "low": 26.7,
-   "high": 78.3,
+   "pred_index": 51.3,
+   "low": 28.7,
+   "high": 73.9,
    "level": "KUNING",
-   "crisis_prob": 28,
+   "crisis_prob": 25,
    "reasons": [
     "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
    ]
@@ -94,11 +84,11 @@
   {
    "date": "2026-10-17",
    "date_id": "Sabtu, 17 Oktober 2026",
-   "pred_index": 57.2,
-   "low": 28.2,
-   "high": 86.2,
+   "pred_index": 56.7,
+   "low": 30.9,
+   "high": 82.5,
    "level": "KUNING",
-   "crisis_prob": 41,
+   "crisis_prob": 40,
    "reasons": [
     "akhir pekan",
     "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
@@ -107,11 +97,11 @@
   {
    "date": "2026-10-18",
    "date_id": "Minggu, 18 Oktober 2026",
-   "pred_index": 56.4,
-   "low": 24.2,
-   "high": 88.6,
+   "pred_index": 56.0,
+   "low": 27.0,
+   "high": 85.0,
    "level": "KUNING",
-   "crisis_prob": 39,
+   "crisis_prob": 38,
    "reasons": [
     "akhir pekan",
     "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
@@ -120,32 +110,42 @@
   {
    "date": "2026-10-19",
    "date_id": "Senin, 19 Oktober 2026",
-   "pred_index": 51.2,
-   "low": 15.8,
-   "high": 86.6,
+   "pred_index": 50.9,
+   "low": 18.7,
+   "high": 83.1,
    "level": "KUNING",
-   "crisis_prob": 25,
+   "crisis_prob": 24,
    "reasons": []
   },
   {
    "date": "2026-10-20",
    "date_id": "Selasa, 20 Oktober 2026",
-   "pred_index": 49.5,
-   "low": 10.9,
-   "high": 88.1,
+   "pred_index": 49.3,
+   "low": 13.9,
+   "high": 84.7,
    "level": "KUNING",
    "crisis_prob": 21,
+   "reasons": []
+  },
+  {
+   "date": "2026-10-21",
+   "date_id": "Rabu, 21 Oktober 2026",
+   "pred_index": 48.6,
+   "low": 10.0,
+   "high": 87.2,
+   "level": "KUNING",
+   "crisis_prob": 19,
    "reasons": []
   }
  ],
  "peak": {
   "date": "2026-10-17",
   "date_id": "Sabtu, 17 Oktober 2026",
-  "pred_index": 57.2,
-  "low": 28.2,
-  "high": 86.2,
+  "pred_index": 56.7,
+  "low": 30.9,
+  "high": 82.5,
   "level": "KUNING",
-  "crisis_prob": 41,
+  "crisis_prob": 40,
   "reasons": [
    "akhir pekan",
    "pola mirip episode Distribusi tersendat Ketapang + Gumitir"

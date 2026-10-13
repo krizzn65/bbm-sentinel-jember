@@ -1,0 +1,33 @@
+{
+ "station_name": "SPBU Ahmad Yani",
+ "station_code": "54.681.25",
+ "address": "Jl. Ahmad Yani No.26, Kepatihan, Kaliwates",
+ "captured_at": "2026-10-13T09:43:18+07:00",
+ "time_label": "Perkiraan waktu foto (dari waktu berita terbit)",
+ "source": "Berita daring: Antrean Beli Pertalite di Sejumlah SPBU Jember hingga Meluber ke Jalan, Ini Penjelasan Per",
+ "queue_status": "terhitung dari foto: 4 motor, 1 mobil, 1 truk; 10 orang terlihat; 4 kendaraan sekadar lewat tidak dihitung",
+ "queue_length_m": 19.8,
+ "wait_hours": null,
+ "vehicle_counts": {
+  "queue": {
+   "orang": 10,
+   "sepeda": 0,
+   "mobil": 1,
+   "motor": 4,
+   "bus": 0,
+   "truk": 1
+  },
+  "passing": {
+   "orang": 0,
+   "sepeda": 0,
+   "mobil": 0,
+   "motor": 4,
+   "bus": 0,
+   "truk": 0
+  }
+ },
+ "original_path": "/home/hatch/workspace/bbm-sentinel-jember/alerts/harvest/20261014-001452_f5e7db7d_annotated.jpg",
+ "watermarked_path": "alerts/evidence/54.681.25_restamp2_3.jpg",
+ "original_sha256": "7ff55b02b07a8b9b3fe45e47ef7f44d443e381f9a3f2c0eb4c0b1d832e901171",
+ "watermarked_sha256": "5c04b0b4f5ff1c03b244bc907577fcedfaee4413054829a98dc4b3cff8bbf2b2"
+}

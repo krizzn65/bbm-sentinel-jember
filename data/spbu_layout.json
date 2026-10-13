@@ -1,0 +1,128 @@
+{
+ "generated_by": "scripts/build_spbu_layout.py",
+ "imagery": "Esri World Imagery, zoom 19, 3x3 tiles (~230 m across)",
+ "note": "Reference only: station geometry for judging queue photos. Coordinates are geocoder results; visual_verified marks stations whose canopy/forecourt was confirmed inside the frame by eye.",
+ "stations": {
+  "54.681.18": {
+   "name": "SPBU Mastrip",
+   "address": "Jl. Mastrip, Tegalgede, Sumbersari",
+   "lat": -8.15739,
+   "lng": 113.71297,
+   "geocode_level": "FULL_ADDRESS (street vicinity)",
+   "geocode_relevance": 82,
+   "satellite_tile": "data/satellite/54.681.18.jpg",
+   "visual_verified": false,
+   "layout_notes": "Bingkai memuat sungai, jembatan, dan bangunan kampus; kanopi SPBU tidak teridentifikasi pasti. Koordinat perlu koreksi manual."
+  },
+  "54.681.25": {
+   "name": "SPBU Ahmad Yani",
+   "address": "Jl. Ahmad Yani No.26, Kepatihan, Kaliwates",
+   "lat": -8.17269,
+   "lng": 113.7042,
+   "geocode_level": "FULL_ADDRESS",
+   "geocode_relevance": 92,
+   "satellite_tile": "data/satellite/54.681.25.jpg",
+   "visual_verified": false,
+   "layout_notes": "Titik geocode jatuh di permukiman padat; kanopi SPBU tidak teridentifikasi pasti di dalam bingkai. Koordinat perlu koreksi manual sebelum dipakai sebagai acuan."
+  },
+  "54.681.11": {
+   "name": "SPBU Teuku Umar / Kebonsari",
+   "address": "Jl. Teuku Umar, Kebonsari, Sumbersari",
+   "lat": -8.19142,
+   "lng": 113.69618,
+   "geocode_level": "STREET",
+   "geocode_relevance": 91,
+   "satellite_tile": "data/satellite/54.681.11.jpg",
+   "visual_verified": false,
+   "layout_notes": null
+  },
+  "54.681.13": {
+   "name": "SPBU Cendrawasih Patrang",
+   "address": "Jl. Cendrawasih, Slawu, Patrang",
+   "lat": -8.15497,
+   "lng": 113.71251,
+   "geocode_level": "STREET",
+   "geocode_relevance": 81,
+   "satellite_tile": "data/satellite/54.681.13.jpg",
+   "visual_verified": false,
+   "layout_notes": null
+  },
+  "51.681.23": {
+   "name": "SPBU Kenanga",
+   "address": "Jl. Kenanga No.83, Jemberkidul, Kaliwates",
+   "lat": -8.16882,
+   "lng": 113.69302,
+   "geocode_level": "FULL_ADDRESS (low relevance)",
+   "geocode_relevance": 56,
+   "satellite_tile": "data/satellite/51.681.23.jpg",
+   "visual_verified": false,
+   "layout_notes": null
+  },
+  "53.681.35": {
+   "name": "SPBU Basuki Rahmat / Tegal Besar",
+   "address": "Jl. Basuki Rahmat No.19, Tegal Besar, Kaliwates",
+   "lat": -8.20337,
+   "lng": 113.69816,
+   "geocode_level": "FULL_ADDRESS",
+   "geocode_relevance": 92,
+   "satellite_tile": "data/satellite/53.681.35.jpg",
+   "visual_verified": false,
+   "layout_notes": null
+  },
+  "54.681.04": {
+   "name": "SPBU Gajah Mada",
+   "address": "Jl. Gajah Mada / Jl. Nasional III, Kaliwates Kidul, Kaliwates",
+   "lat": -8.17419,
+   "lng": 113.68833,
+   "geocode_level": "STREET",
+   "geocode_relevance": 90,
+   "satellite_tile": "data/satellite/54.681.04.jpg",
+   "visual_verified": false,
+   "layout_notes": null
+  },
+  "54.681.19": {
+   "name": "SPBU Wolter Monginsidi",
+   "address": "Jl. Wolter Monginsidi 79, Kranjingan, Sumbersari",
+   "lat": -8.21048,
+   "lng": 113.7005,
+   "geocode_level": "FULL_ADDRESS",
+   "geocode_relevance": 93,
+   "satellite_tile": "data/satellite/54.681.19.jpg",
+   "visual_verified": false,
+   "layout_notes": null
+  },
+  "54.681.12": {
+   "name": "SPBU Mangli (Otto Iskandardinata)",
+   "address": "Jl. Otto Iskandardinata No.86, Mangli, Kaliwates",
+   "lat": -8.19564,
+   "lng": 113.65239,
+   "geocode_level": "FULL_ADDRESS",
+   "geocode_relevance": 93,
+   "satellite_tile": "data/satellite/54.681.12.jpg",
+   "visual_verified": false,
+   "layout_notes": null
+  },
+  "54.681.10": {
+   "name": "SPBU Mangli (Brawijaya)",
+   "address": "Jl. Brawijaya 116, Mangli, Kaliwates",
+   "lat": -8.1908,
+   "lng": 113.65005,
+   "geocode_level": "FULL_ADDRESS",
+   "geocode_relevance": 90,
+   "satellite_tile": "data/satellite/54.681.10.jpg",
+   "visual_verified": false,
+   "layout_notes": null
+  },
+  "54.681.06": {
+   "name": "SPBU Baratan",
+   "address": "Desa Baratan, Patrang",
+   "lat": -8.13506,
+   "lng": 113.73783,
+   "geocode_level": "FULL_ADDRESS (named PERTAMINA)",
+   "geocode_relevance": 100,
+   "satellite_tile": "data/satellite/54.681.06.jpg",
+   "visual_verified": true,
+   "layout_notes": "Kanopi SPBU teridentifikasi visual: atap persegi panjang terang di tengah bingkai, sejajar jalan utama, di sisi tenggara jalan; halaman terbuka antara jalan dan kanopi. Antrean diperkirakan terbentuk di halaman/tepi jalan menuju kanopi."
+  }
+ }
+}

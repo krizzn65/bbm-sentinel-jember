@@ -126,6 +126,25 @@ BBM dan peringkat SPBU kota/kampus yang paling terdampak.
    mengisi tengah malam); bila jam memang tidak tercantum, panel
    watermark menyatakannya, tidak mengarang 00:00.
 
+## Ketahanan jadwal (penting)
+
+Penjadwalan TIDAK memakai systemd. VM tempat sistem ini berjalan diganti
+secara berkala oleh platform dan berkas unit di /etc tidak bertahan -
+terbukti 2026-10-13 23:57 WIB timer systemd hilang di tengah krisis dan
+pipeline berhenti 1,5 jam tanpa ada yang tahu. Kini:
+
+- Putaran per jam dijalankan cron Muse `bbm-sentinel-run` (milik goal,
+  dipulihkan otomatis oleh runtime setelah penggantian VM); alert 3-jam
+  oleh `bbm-sentinel-alert`, yang juga memeriksa kesegaran data dan
+  menjalankan satu putaran pemulihan sendiri bila data basi >4 jam.
+- Semua keadaan (kode, basis data, .venv, model vision) tinggal di
+  direktori home yang persisten. `scripts/run_once.sh` berkunci flock +
+  penjaga kesegaran 45 menit; `scripts/ensure_runtime.sh` membangun
+  ulang .venv/onnxruntime bila hilang dan mencatat kesehatan ke
+  `alerts/runtime_health.json`.
+- Berkas unit di `systemd/` hanya referensi bila sistem ini suatu hari
+  dipindah ke server sungguhan.
+
 ## Menjalankan
 
 ```sh
@@ -174,3 +193,63 @@ laporan kosong harian di luar mode krisis.
   - semuanya lewat watermark di atas.
 
 Lisensi: MIT.
+
+## Membedakan kendaraan antre vs sekadar lewat (v0.3.1)
+
+Atas koreksi pengguna (foto Ahmad Yani: motor di jalan raya ikut
+terhitung antre), `vision.classify_queue` kini menganalisis FORMASI
+antrean sebelum menghitung: centroid kendaraan dikelompokkan secara
+kerapatan (inti antrean = klaster terbesar), sumbu utama antrean
+dipasang pada klaster itu (koridor), lalu kendaraan di luar koridor
+yang tidak tersambung rantai formasi dinyatakan SEKADAR LEWAT dan
+tidak dihitung. Pengaman khusus: kotak kecil (jauh di latar) yang
+jauh dari inti antrean tidak pernah tersambung masuk — itulah ciri
+kendaraan lewat di ruas jalan seberang. Bila kendaraan terlalu
+sedikit untuk membaca formasi (<4), semua dihitung dan metodenya
+dinyatakan terbuka (`formasi_kurang`). Hasilnya mengalir ke cap air
+("Terdeteksi antre di foto: ..." dan baris "Sekadar lewat, tidak
+dihitung: ..."), buletin, dan kolom `vehicle_counts` berbentuk
+`{"queue": ..., "passing": ...}`. Pada foto Ahmad Yani: 8 motor
+terhitung awal menyusut menjadi 4 motor antre + 4 motor lewat
+(3 di antaranya persis yang ditunjuk pengguna).
+
+Referensi tata letak satelit: `scripts/build_spbu_layout.py`
+menyimpan mosaik citra satelit (Esri World Imagery z19, ~230 m)
+untuk ke-11 SPBU di `data/satellite/` dan indeksnya di
+`data/spbu_layout.json` (koordinat geocode + tingkat kecocokan +
+catatan tata letak hasil telaah visual; SPBU Baratan terverifikasi
+visual, Ahmad Yani dan Mastrip belum — titik geocode-nya jatuh di
+permukiman dan perlu koreksi manual). Berkas ini adalah acuan
+geometri stasiun untuk menilai foto, BUKAN pemantauan langsung:
+satelit tetap tidak dapat memantau antrean secara waktu-nyata
+(alasan lengkap di bagian satelit), dan pencocokan pose otomatis
+foto berita ke citra satelit tidak andal — keputusan antre/lewat
+dibuat dari formasi pada fotonya sendiri.
+
+## Pola antrean SPBU (dasar pengetahuan v0.3.2)
+
+Atas koreksi lanjutan pengguna (kendaraan besar di latar depan foto —
+tetangga antrean si pengambil foto — sempat dinyatakan "lewat"),
+`classify_queue` ditulis ulang di atas pola visual antrean BBM yang
+ditelaah dari foto/video berita dan media sosial (Jember, Bali,
+Palangka Raya, Balikpapan, Takengon):
+
+1. Antrean adalah sebuah BARISAN: pengendara menunggu rapat
+   bumper-ke-bumper, jadi keanggotaan diputuskan dari JARAK TEPI
+   antar-kotak relatif terhadap ukuran kotak (tahan perspektif),
+   bukan jarak titik tengah.
+2. Antrean MELUBER: antrean panjang tumpah dari halaman SPBU ke
+   badan jalan, bisa ratusan meter, sampai mengganggu lalu lintas.
+   Berada di jalan TIDAK menggugurkan kendaraan; yang menggugurkan
+   hanyalah keterputusan dari barisan.
+3. Kamera biasanya berada DI DALAM antrean (pengendara yang menunggu
+   merekam dari barisannya): kendaraan sangat besar yang terpotong
+   tepi bawah bingkai adalah tetangga antrean pengambil foto dan
+   dihitung antre, meski terdeteksi sebagian.
+4. Pengendara yang duduk di atas kendaraannya tepat di ujung
+   barisan memperpanjang barisan satu langkah.
+Yang tersisa adalah lalu lintas lewat: kendaraan menyendiri atau
+kelompok kecil terpisah, umumnya kecil di bingkai pada ruas jalan
+seberang. Pada foto Ahmad Yani hasil akhirnya: 5 motor + 1 mobil +
+1 truk antre (termasuk motor latar depan yang dikoreksi pengguna),
+3 motor kecil di kejauhan dinyatakan lewat.
