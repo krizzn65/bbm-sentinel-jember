@@ -79,6 +79,22 @@ BBM dan peringkat SPBU kota/kampus yang paling terdampak.
    memang tercatat, dan sumber gambar. Jejak audit: sidecar JSON +
    SHA-256 + tabel `evidence_images` + `alerts/evidence_latest.json`.
    Dicatat lewat `python3 scripts/watermark_evidence.py`.
+9. **Computer vision penghitung kendaraan** (`src/sentinel/vision.py`):
+   model YOLOv8 (COCO) diekspor ke ONNX dan dijalankan lokal dengan
+   onnxruntime - tanpa GPU, tanpa layanan awan. Setiap foto antrean
+   dianalisis per potongan (tiling) agar kendaraan jauh tetap terbaca,
+   lalu kendaraan DIKLASIFIKASIKAN per jenis: motor, mobil, truk, bus,
+   sepeda, plus orang. Hasil hitung masuk ke panel watermark ("Terdeteksi
+   di foto: ..."), ke buletin, dan ke tabel bukti. Panjang antrean
+   diperkirakan dari kendaraan yang terlihat (jarak antre baku per
+   jenis) dan selalu dilabeli perkiraan - hitungan bersifat batas bawah
+   karena foto hanya menangkap sebagian antrean. Model diambil/dibuat
+   sekali dengan `python3 scripts/fetch_vision_model.py` (folder
+   `models/` tidak masuk git). Dipakai lewat
+   `scripts/watermark_evidence.py --vision`. Uji nyata 2026-10-13 pada
+   foto antrean SPBU Tamiang (Wikimedia Commons): 28 orang, 1 motor,
+   1 truk terdeteksi benar; foto dari dalam mobil yang kendaraannya
+   tertutup dasbor terbaca sebagian - sesuai sifat batas bawah.
 
 ## Menjalankan
 

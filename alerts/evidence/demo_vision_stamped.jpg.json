@@ -1,0 +1,23 @@
+{
+ "station_name": "SPBU Tamiang (CONTOH UJI)",
+ "station_code": null,
+ "address": "Foto uji dari Wikimedia Commons, bukan SPBU Jember",
+ "captured_at": "2026-10-13T23:46:57+07:00",
+ "time_label": "Waktu diterima sistem",
+ "source": "CONTOH UJI computer vision - foto antrean SPBU Tamiang",
+ "queue_status": "terhitung dari foto: 1 motor, 1 truk",
+ "queue_length_m": 9.7,
+ "wait_hours": null,
+ "vehicle_counts": {
+  "orang": 28,
+  "sepeda": 0,
+  "mobil": 0,
+  "motor": 1,
+  "bus": 0,
+  "truk": 1
+ },
+ "original_path": "/tmp/demo_annotated.jpg",
+ "watermarked_path": "alerts/evidence/demo_vision_stamped.jpg",
+ "original_sha256": "6486b93d517e6663dbe074db713a78516d6c57e4c18cd292a562a5d90c330978",
+ "watermarked_sha256": "9c7fb530be6d2835418e2f3f6e6c18581c873480a86a4bcd35fee227d2c5fd0a"
+}

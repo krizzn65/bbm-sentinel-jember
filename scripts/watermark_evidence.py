@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from sentinel import imaging  # noqa: E402
+from sentinel import imaging, vision  # noqa: E402
 from sentinel.collectors.stations import load_stations  # noqa: E402
 from sentinel.store import Store  # noqa: E402
 
@@ -34,6 +34,9 @@ def main():
     ap.add_argument("--wait-h", type=float, default=None)
     ap.add_argument("--captured-at", default=None,
                     help="ISO datetime waktu foto diambil; kosongkan bila tidak diketahui")
+    ap.add_argument("--vision", action="store_true",
+                    help="jalankan computer vision: hitung kendaraan per jenis, "
+                         "beri kotak deteksi pada gambar, isi panjang antrean otomatis")
     args = ap.parse_args()
     stations = {s["code"]: s for s in load_stations()}
     st = stations.get(args.station_code)
@@ -44,12 +47,30 @@ def main():
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     out = ROOT / "alerts" / "evidence" / f"{args.station_code}_{stamp}_stamped.jpg"
     captured = datetime.fromisoformat(args.captured_at) if args.captured_at else None
+    queue_status, queue_m, counts = args.queue_status, args.queue_m, None
+    if args.vision:
+        annotated = ROOT / "alerts" / "evidence" / f"{args.station_code}_{stamp}_annotated.jpg"
+        res = vision.analyze(src, annotated)
+        if res.get("status") != "ok":
+            print(f"vision tidak tersedia: {res.get('reason')}")
+            return 2
+        counts = res["counts"]
+        src = annotated  # the stamped copy carries the detection boxes
+        if queue_status is None:
+            queue_status = f"terhitung dari foto: {res['summary_id']}"
+            if counts.get("orang"):
+                queue_status += f"; {counts['orang']} orang terlihat"
+        if queue_m is None and res["queue_length_est_m"]:
+            queue_m = res["queue_length_est_m"]
+        print(f"vision: {res['summary_id']} | orang {counts.get('orang', 0)} "
+              f"| perkiraan antrean {res['queue_length_est_m']} m "
+              f"| catatan: {res['note']}")
     meta = imaging.watermark_image(
         src, out, station_name=st["name"], station_code=st["code"],
         address=st["address"], captured_at=captured,
         time_label="Waktu foto" if captured else "Waktu diterima sistem",
-        source_label=args.source, queue_status=args.queue_status,
-        queue_length_m=args.queue_m, wait_hours=args.wait_h)
+        source_label=args.source, queue_status=queue_status,
+        queue_length_m=queue_m, wait_hours=args.wait_h, vehicle_counts=counts)
     store = Store(str(ROOT / "data" / "sentinel.db"))
     imaging.register_evidence(store, meta)
     print(json.dumps(meta, ensure_ascii=False, indent=1))

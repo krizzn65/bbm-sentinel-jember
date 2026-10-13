@@ -1,4 +1,8 @@
 requests>=2.31
 Pillow>=10.0
+onnxruntime>=1.17  # runtime computer vision (sentinel.vision)
+# Model weights are NOT pip packages: scripts/fetch_vision_model.py
+# downloads YOLOv8 .pt from HuggingFace and exports models/*.onnx
+# (that one-time step additionally needs torch + ultralytics in .venv).
 # Optional, only for the ML calibration stage (see src/sentinel/train.py):
 # scikit-learn>=1.4
