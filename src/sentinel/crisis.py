@@ -78,7 +78,7 @@ def _station_groups(station_results):
 
 
 def build_bulletin(store, risk, level, layers, feats, station_results,
-                   news_layers, cfg, prev=None):
+                   news_layers, cfg, prev=None, forecast_lay=None, evidence=None):
     tz = ZoneInfo(cfg.get("timezone", "Asia/Jakarta"))
     now = datetime.now(tz)
     hari = now.strftime("%A, %d %B %Y")
@@ -104,7 +104,10 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
         elif delta <= -5:
             trend_word = " Kondisinya mulai membaik dibanding pantauan sebelumnya."
     lines = [f"Info BBM Jember, {hari} pukul {jam} WIB",
-             f"Status: {status_plain}.{trend_word}", ""]
+             f"Status: {status_plain}.{trend_word}"]
+    if forecast_lay:
+        lines.append(forecast_lay)
+    lines.append("")
     fuels = fuel_status_summary(station_results, news_layers)
     if fuels:
         lines.append("Bensin yang lagi susah dicari:")
@@ -123,6 +126,20 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
         if fine:
             lines.append("Masih relatif lancar:")
             lines += [f"- {s}" for s in fine[:4]]
+        lines.append("")
+    if evidence:
+        from .imaging import fmt_dt_id
+        lines.append("Foto bukti terbaru (gambarnya terlampir):")
+        for ev in evidence[:3]:
+            when = ""
+            try:
+                when = " — " + fmt_dt_id(datetime.fromisoformat(ev["captured_at"]))
+            except Exception:
+                pass
+            q = ev.get("queue_status") or "keadaan antrean tercatat di gambar"
+            if ev.get("queue_length_m"):
+                q += f", sekitar {ev['queue_length_m']:.0f} meter"
+            lines.append(f"- {ev['station_name']}: {q}{when}")
         lines.append("")
     worst_fuel = None
     if fuels:

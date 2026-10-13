@@ -68,6 +68,37 @@ def mine_phrases(titles):
     return out
 
 
+def mine_triggers(titles):
+    """Named historical-pattern triggers, counted over titles.
+
+    These are the patterns the four documented Jember episodes actually
+    turned on (see data/historical_episodes.json). Counting them by name -
+    not just generic queue words - is what lets the forecast compare the
+    present situation with the right historical analogue."""
+    text = [t.lower() for t in titles]
+
+    def count(pred):
+        return sum(1 for t in text if pred(t))
+
+    return {
+        "gumitir_disruption": count(lambda t: "gumitir" in t and any(
+            w in t for w in ("tutup", "ditutup", "perbaikan", "longsor", "macet", "dialihkan"))),
+        "gumitir_closure_specific": count(lambda t: "gumitir" in t and any(
+            w in t for w in ("ditutup total", "tutup total", "penutupan", "longsor"))),
+        "ketapang_congestion": count(lambda t: ("ketapang" in t or "gilimanuk" in t) and any(
+            w in t for w in ("macet", "antre", "antri", "penumpukan", "padat", "gelombang"))),
+        "high_waves": count(lambda t: any(
+            w in t for w in ("gelombang tinggi", "ombak tinggi", "gelombang 2", "cuaca buruk"))),
+        "tanker_or_geopolitics": count(lambda t: any(
+            w in t for w in ("tanker", "hormuz", "timur tengah", "geopolitik", "jadwal kapal"))),
+        "panic_or_hoarding": count(lambda t: any(
+            w in t for w in ("panic buying", "panik", "memborong", "penimbun", "ditimbun", "eceran"))),
+        "neighbor_shortage": count(lambda t: any(
+            w in t for w in ("bondowoso", "banyuwangi", "situbondo", "lumajang", "bali"))
+            and any(w in t for w in ("antre", "antri", "langka", "kosong", "habis"))),
+    }
+
+
 def _safe_fetch(query):
     try:
         return fetch_rss(query)
@@ -105,12 +136,15 @@ def collect(store, run_id, cfg):
                     count72 += 1
                     titles.append(it["title"])
         mined = mine_phrases(titles)
+        triggers = mine_triggers(titles)
         prefix = f"news_{layer}"
         store.observe(run_id, layer, "google-news-rss", f"{prefix}_count_24h",
                       count24, meta={"queries": queries})
         store.observe(run_id, layer, "google-news-rss", f"{prefix}_count_72h", count72)
         for k in ("stockout_mentions", "queue_mentions", "queue_max_m", "wait_max_h"):
             store.observe(run_id, layer, "google-news-rss", f"{prefix}_{k}", mined[k])
+        for k, v in triggers.items():
+            store.observe(run_id, layer, "google-news-rss", f"{prefix}_trigger_{k}", v)
         out[layer] = {"count_24h": count24, "count_72h": count72, **mined,
-                      "titles": titles[:8]}
+                      "triggers": triggers, "titles": titles[:8]}
     return out
