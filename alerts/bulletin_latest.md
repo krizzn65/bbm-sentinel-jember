@@ -1,7 +1,23 @@
-BULETIN KRISIS BBM JEMBER - Tuesday, 13 October 2026 23:01 WIB
-Status kota: KUNING - indeks risiko 42.4 (sebelumnya 39.3, perubahan +3.1)
-Mode krisis aktif karena kekosongan/antrean lokal terkonfirmasi dari laporan, meski indeks gabungan belum mencapai ambang ORANYE.
-Per jenis BBM (dari laporan 24-72 jam terakhir):
-- Pertalite: KOSONG (3 laporan)
-SPBU kota + kampus, peringkat krisis tertinggi:
-Catatan: skor SPBU adalah estimasi dari laporan berita/media sosial terverifikasi + laporan lapangan; Pertamina tidak mempublikasikan stok per SPBU. Nilai keyakinan rendah berarti data tipis, bukan berarti aman.
+Info BBM Jember, Selasa, 13 Oktober 2026 pukul 23:07 WIB
+Status: ADA SPBU KEHABISAN STOK.
+
+Bensin yang lagi susah dicari:
+- Pertalite: habis di beberapa SPBU
+- Solar: habis di beberapa SPBU
+- Pertamax: masih tersedia
+
+Paling parah, hindari dulu:
+- Basuki Rahmat / Tegal Besar (nunggu sampai 1 jam)
+Antre, tapi masih jalan:
+- Ahmad Yani
+- Mastrip
+- Gajah Mada
+Masih relatif lancar:
+- Wolter Monginsidi
+- Mangli (Otto Iskandardinata)
+- Baratan
+- Kenanga
+
+Saran: kalau Pertalite di kendaraanmu tinggal sedikit, isi hari ini di SPBU yang masih lancar di atas. Isi secukupnya saja, tidak perlu menimbun.
+
+Sumber: laporan berita dan warga hari ini. Keadaan di SPBU bisa berubah sewaktu-waktu.
