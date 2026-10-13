@@ -76,7 +76,7 @@ def _wrap(draw, text, font, max_width):
 def watermark_image(input_path, output_path, *, station_name, station_code=None,
                     address=None, captured_at=None, time_label="Waktu foto",
                     source_label, queue_status=None, queue_length_m=None,
-                    wait_hours=None):
+                    wait_hours=None, vehicle_counts=None):
     """Write a stamped copy of the image + JSON sidecar. Returns metadata."""
     input_path, output_path = Path(input_path), Path(output_path)
     if captured_at is None:
@@ -105,6 +105,10 @@ def watermark_image(input_path, output_path, *, station_name, station_code=None,
     if wait_hours:
         q += f" — tunggu sampai {wait_hours:.0f} jam"
     lines.append((f"Keadaan antrean: {q}", f_body))
+    if vehicle_counts:
+        det = ", ".join(f"{v} {k}" for k, v in vehicle_counts.items() if v)
+        if det:
+            lines.append((f"Terdeteksi di foto: {det} (yang terlihat saja)", f_body))
     lines.append((f"Sumber gambar: {source_label}", f_body))
     wrapped = []
     for text, font in lines:
@@ -130,7 +134,7 @@ def watermark_image(input_path, output_path, *, station_name, station_code=None,
         "captured_at": captured_at.astimezone(TZ).isoformat(timespec="seconds"),
         "time_label": time_label, "source": source_label,
         "queue_status": queue_status, "queue_length_m": queue_length_m,
-        "wait_hours": wait_hours,
+        "wait_hours": wait_hours, "vehicle_counts": vehicle_counts,
         "original_path": str(input_path), "watermarked_path": str(output_path),
         "original_sha256": _sha256(input_path), "watermarked_sha256": _sha256(output_path),
     }
@@ -144,7 +148,12 @@ def ensure_table(store):
         "CREATE TABLE IF NOT EXISTS evidence_images (id INTEGER PRIMARY KEY, "
         "ts TEXT, station_code TEXT, station_name TEXT, source TEXT, "
         "captured_at TEXT, queue_status TEXT, queue_length_m REAL, "
-        "original_path TEXT, watermarked_path TEXT, sha256 TEXT)")
+        "original_path TEXT, watermarked_path TEXT, sha256 TEXT, "
+        "vehicle_counts TEXT)")
+    try:
+        store.conn.execute("ALTER TABLE evidence_images ADD COLUMN vehicle_counts TEXT")
+    except Exception:
+        pass  # column already there
     store.conn.commit()
 
 
@@ -153,12 +162,14 @@ def register_evidence(store, meta):
     store.conn.execute(
         "INSERT INTO evidence_images (ts, station_code, station_name, source, "
         "captured_at, queue_status, queue_length_m, original_path, "
-        "watermarked_path, sha256) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        "watermarked_path, sha256, vehicle_counts) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
         (datetime.now(TZ).isoformat(timespec="seconds"), meta.get("station_code"),
          meta.get("station_name"), meta.get("source"), meta.get("captured_at"),
          meta.get("queue_status"), meta.get("queue_length_m"),
          meta.get("original_path"), meta.get("watermarked_path"),
-         meta.get("watermarked_sha256")))
+         meta.get("watermarked_sha256"),
+         json.dumps(meta.get("vehicle_counts"), ensure_ascii=False)
+         if meta.get("vehicle_counts") else None))
     store.conn.commit()
     write_manifest(store)
 
@@ -167,11 +178,12 @@ def latest_evidence(store, limit=5):
     ensure_table(store)
     rows = store.conn.execute(
         "SELECT station_code, station_name, source, captured_at, queue_status, "
-        "queue_length_m, watermarked_path FROM evidence_images "
+        "queue_length_m, watermarked_path, vehicle_counts FROM evidence_images "
         "ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
     return [{"station_code": r[0], "station_name": r[1], "source": r[2],
              "captured_at": r[3], "queue_status": r[4], "queue_length_m": r[5],
-             "watermarked_path": r[6]} for r in rows]
+             "watermarked_path": r[6],
+             "vehicle_counts": json.loads(r[7]) if r[7] else None} for r in rows]
 
 
 def write_manifest(store):

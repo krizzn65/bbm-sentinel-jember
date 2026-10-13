@@ -139,6 +139,11 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
             q = ev.get("queue_status") or "keadaan antrean tercatat di gambar"
             if ev.get("queue_length_m"):
                 q += f", sekitar {ev['queue_length_m']:.0f} meter"
+            vc = ev.get("vehicle_counts") or {}
+            det = ", ".join(f"{v} {k}" for k, v in vc.items()
+                            if v and k in ("motor", "mobil", "truk", "bus"))
+            if det:
+                q += f" (terhitung di foto: {det})"
             lines.append(f"- {ev['station_name']}: {q}{when}")
         lines.append("")
     worst_fuel = None
