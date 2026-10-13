@@ -1,0 +1,162 @@
+{
+ "2026-01-01": {
+  "name": "Tahun Baru",
+  "major": true,
+  "estimated": false
+ },
+ "2026-01-16": {
+  "name": "Isra Mikraj",
+  "major": false,
+  "estimated": true
+ },
+ "2026-02-17": {
+  "name": "Imlek",
+  "major": true,
+  "estimated": true
+ },
+ "2026-03-19": {
+  "name": "Nyepi",
+  "major": true,
+  "estimated": true
+ },
+ "2026-03-20": {
+  "name": "Idul Fitri",
+  "major": true,
+  "estimated": true
+ },
+ "2026-03-21": {
+  "name": "Idul Fitri",
+  "major": true,
+  "estimated": true
+ },
+ "2026-04-03": {
+  "name": "Wafat Isa Almasih",
+  "major": false,
+  "estimated": false
+ },
+ "2026-04-05": {
+  "name": "Paskah",
+  "major": false,
+  "estimated": false
+ },
+ "2026-05-01": {
+  "name": "Hari Buruh",
+  "major": false,
+  "estimated": false
+ },
+ "2026-05-14": {
+  "name": "Kenaikan Isa Almasih",
+  "major": false,
+  "estimated": false
+ },
+ "2026-05-27": {
+  "name": "Idul Adha",
+  "major": true,
+  "estimated": true
+ },
+ "2026-06-01": {
+  "name": "Hari Lahir Pancasila",
+  "major": false,
+  "estimated": false
+ },
+ "2026-06-16": {
+  "name": "Tahun Baru Islam",
+  "major": false,
+  "estimated": true
+ },
+ "2026-08-17": {
+  "name": "Hari Kemerdekaan",
+  "major": false,
+  "estimated": false
+ },
+ "2026-08-25": {
+  "name": "Maulid Nabi",
+  "major": false,
+  "estimated": true
+ },
+ "2026-12-25": {
+  "name": "Natal",
+  "major": true,
+  "estimated": false
+ },
+ "2027-01-01": {
+  "name": "Tahun Baru",
+  "major": true,
+  "estimated": false
+ },
+ "2027-01-06": {
+  "name": "Isra Mikraj",
+  "major": false,
+  "estimated": true
+ },
+ "2027-02-06": {
+  "name": "Imlek",
+  "major": true,
+  "estimated": true
+ },
+ "2027-03-09": {
+  "name": "Nyepi",
+  "major": true,
+  "estimated": true
+ },
+ "2027-03-10": {
+  "name": "Idul Fitri",
+  "major": true,
+  "estimated": true
+ },
+ "2027-03-11": {
+  "name": "Idul Fitri",
+  "major": true,
+  "estimated": true
+ },
+ "2027-03-26": {
+  "name": "Wafat Isa Almasih",
+  "major": false,
+  "estimated": false
+ },
+ "2027-03-28": {
+  "name": "Paskah",
+  "major": false,
+  "estimated": false
+ },
+ "2027-05-01": {
+  "name": "Hari Buruh",
+  "major": false,
+  "estimated": false
+ },
+ "2027-05-06": {
+  "name": "Kenaikan Isa Almasih",
+  "major": false,
+  "estimated": false
+ },
+ "2027-05-17": {
+  "name": "Idul Adha",
+  "major": true,
+  "estimated": true
+ },
+ "2027-06-01": {
+  "name": "Hari Lahir Pancasila",
+  "major": false,
+  "estimated": false
+ },
+ "2027-06-06": {
+  "name": "Tahun Baru Islam",
+  "major": false,
+  "estimated": true
+ },
+ "2027-08-15": {
+  "name": "Maulid Nabi",
+  "major": false,
+  "estimated": true
+ },
+ "2027-08-17": {
+  "name": "Hari Kemerdekaan",
+  "major": false,
+  "estimated": false
+ },
+ "2027-12-25": {
+  "name": "Natal",
+  "major": true,
+  "estimated": false
+ }
+}
