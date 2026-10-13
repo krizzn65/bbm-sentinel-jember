@@ -27,6 +27,20 @@ LOC = {"gumitir": (-8.35, 113.93), "ketapang": (-8.14, 114.57),
        "south": (-8.45, 113.45)}
 
 
+def _stooq_brent_daily():
+    text = get_text("https://stooq.com/q/d/l/?s=brent.f&i=d",
+                    timeout=45, retries=1)
+    out = {}
+    for row in csv.DictReader(io.StringIO(text)):
+        try:
+            out[row["Date"]] = float(row["Close"])
+        except Exception:
+            continue
+    if len(out) < 100:
+        raise ValueError("stooq daily brent: too few rows")
+    return out
+
+
 def _fred_brent():
     text = get_text("https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
                     timeout=30, retries=2)
@@ -78,11 +92,14 @@ def _pct(series, day, lag_days):
 def main():
     episodes = json.loads((ROOT / "data" / "historical_episodes.json").read_text())["episodes"]
     today = date.today()
-    try:
-        brent = _fred_brent()
-    except Exception as exc:  # FRED is slow/flaky; Brent stays empty, not fatal
-        print(f"WARN brent backfill skipped: {exc}")
-        brent = {}
+    brent = {}
+    for name, fn in (("stooq-daily", _stooq_brent_daily), ("fred", _fred_brent)):
+        try:
+            brent = fn()
+            print(f"brent series: {name}, {len(brent)} hari")
+            break
+        except Exception as exc:  # flaky sources; Brent stays empty, not fatal
+            print(f"WARN brent via {name} failed: {exc}")
     windows = []
     for ep in episodes:
         start = date.fromisoformat(ep["start"])

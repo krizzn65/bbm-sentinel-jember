@@ -113,11 +113,18 @@ laporan kosong harian di luar mode krisis.
 - Angka ambang di `config.json` adalah titik awal dari 4 episode historis,
   bukan hasil optimasi. Kalibrasi adalah pekerjaan Fase 2.
 - Backfill arsip Brent untuk jendela historis belum terisi: FRED berulang
-  kali timeout dari server ini (kurs/hujan/gelombang lengkap). Menjalankan
-  ulang `scripts/backfill_history.py` akan melengkapinya tanpa mengubah
-  data lain.
-- CCTV SPBU Pertamina tidak dipublikasikan. Satu-satunya gambar yang sah
-  masuk sistem adalah CCTV publik yang memang terbuka, foto media, dan
-  foto laporan warga - semuanya lewat watermark di atas.
+  kali timeout dan Stooq tidak stabil dari server ini (kurs/hujan/
+  gelombang lengkap). Menjalankan ulang `scripts/backfill_history.py`
+  akan melengkapinya tanpa mengubah data lain.
+- CCTV: hasil riset 2026-10-13 - TIDAK ADA feed publik yang mengarah ke
+  SPBU mana pun di Jember. Jember memiliki 216 CCTV Polres/Pemkab (sejak
+  2017, termasuk perempatan Mangli) tetapi hanya dipantau dari Command
+  Center internal Polres; tidak ada portal publik (cctv.jemberkab.go.id
+  tidak terkonfirmasi ada). CCTV SPBU Pertamina tidak memiliki akses
+  publik di mana pun di Indonesia. CCTV Banyuwangi yang ter-stream ulang
+  pihak ketiga (Patung Kuda, Simpang Lima) bukan area Ketapang/Gumitir
+  dan nilainya kecil. Karena itu gambar antrean yang sah masuk sistem
+  hanyalah foto media/sosial saat krisis dan foto laporan warga/pengguna
+  - semuanya lewat watermark di atas.
 
 Lisensi: MIT.
