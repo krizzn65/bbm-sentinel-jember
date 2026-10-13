@@ -105,6 +105,107 @@ def _postprocess(output, scale, pad, orig_w, orig_h, conf_min=CONF_MIN):
     return dets
 
 
+def _edge_gap(a, b):
+    """Pixel gap between two boxes (0 when they touch or overlap)."""
+    dx = max(0, max(a[0], b[0]) - min(a[2], b[2]))
+    dy = max(0, max(a[1], b[1]) - min(a[3], b[3]))
+    return (dx * dx + dy * dy) ** 0.5
+
+
+def classify_queue(dets, img_w, img_h):
+    """Separate QUEUING vehicles from ones merely PASSING THROUGH the
+    photo. The rules encode what an SPBU queue actually looks like,
+    distilled from news and social-media photos/videos of fuel queues
+    (Jember, Bali, Palangka Raya, Balikpapan, Takengon):
+
+    1. A queue is a FILE: riders wait bumper-to-bumper in one or two
+       lines, so each member's box nearly touches the next member's.
+       Membership is decided by EDGE GAP relative to box size, which
+       is perspective-proof: far members are small and close together
+       in pixels, near members are large and far apart, but the gap
+       between neighbours stays small either way.
+    2. Queues SPILL: a long queue overflows the forecourt onto the
+       public road, sometimes for hundreds of metres. Being on the
+       road never disqualifies a vehicle; only disconnection from
+       the file does.
+    3. The camera usually sits INSIDE the queue (a waiting rider
+       filming): very large vehicles cut off by the bottom frame
+       edge are the photographer's queue neighbours, even when the
+       detector only catches part of them.
+    4. A mounted rider (an 'orang' box overlapping the vehicle)
+       right at the file's edge extends the file by one hop.
+    Passing traffic is what remains: isolated vehicles or small
+    separate groups, typically small in frame on the far carriageway.
+
+    With too few vehicles (<4) or no file of >=3 and no foreground
+    anchor, formation cannot be established: everything counts as
+    queue and the method says so - an honest fallback, never a
+    silent guess. 'orang' detections are not classified; they stay
+    counted as people visible in frame."""
+    vehicles = [d for d in dets if d["class"] in VEHICLE_CLASSES]
+    for d in dets:
+        d["in_queue"] = True
+    if len(vehicles) < 4:
+        return "formasi_kurang"
+    boxes = [d["box"] for d in vehicles]
+    diags = np.array([((b[2] - b[0]) ** 2 + (b[3] - b[1]) ** 2) ** 0.5
+                      for b in boxes])
+    parent = list(range(len(vehicles)))
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    for i in range(len(vehicles)):
+        for j in range(i + 1, len(vehicles)):
+            if _edge_gap(boxes[i], boxes[j]) <= 0.8 * min(diags[i], diags[j]):
+                ri, rj = find(i), find(j)
+                if ri != rj:
+                    parent[ri] = rj
+    comps = {}
+    for i in range(len(vehicles)):
+        comps.setdefault(find(i), []).append(i)
+    areas = np.array([(b[2] - b[0]) * (b[3] - b[1]) for b in boxes],
+                     dtype=float)
+    main = max(comps.values(),
+               key=lambda c: (len(c), sum(areas[i] for i in c)))
+    queue = set(main) if len(main) >= 3 else set()
+    # Rule 3: the photographer's neighbours, cut off at the frame's
+    # bottom edge, are queue even when only partially detected.
+    med_area = float(np.median(areas))
+    for i, b in enumerate(boxes):
+        if i in queue:
+            continue
+        tall_cut = b[3] >= 0.97 * img_h and (b[3] - b[1]) >= 0.25 * img_h
+        huge_low = areas[i] >= 5 * med_area and b[3] >= 0.8 * img_h
+        if tall_cut or huge_low:
+            queue.add(i)
+    if not queue:
+        return "tanpa_formasi"
+    # Rule 4: a mounted rider at the file's edge extends the file.
+    people = [d["box"] for d in dets if d["class"] == "orang"]
+
+    def mounted(b):
+        for pb in people:
+            ox = max(0, min(b[2], pb[2]) - max(b[0], pb[0]))
+            oy = max(0, min(b[3], pb[3]) - max(b[1], pb[1]))
+            if ox * oy >= 0.25 * (pb[2] - pb[0]) * (pb[3] - pb[1]):
+                return True
+        return False
+
+    for i, b in enumerate(boxes):
+        if i in queue or not mounted(b):
+            continue
+        if any(_edge_gap(b, boxes[j]) <= 1.6 * min(diags[i], diags[j])
+               for j in list(queue)):
+            queue.add(i)
+    for i, d in enumerate(vehicles):
+        d["in_queue"] = i in queue
+    return "formasi_antrean"
+
+
 def estimate_queue_m(counts):
     return round(sum(counts.get(c, 0) * SPACING_M[c] for c in SPACING_M), 1)
 
@@ -168,18 +269,25 @@ def analyze(image_path, annotated_path=None):
             dets.append({"class": d["class"], "confidence": d["confidence"],
                          "box": [b[0] + x1, b[1] + y1, b[2] + x1, b[3] + y1]})
     dets = _merge_nms(dets) if len(tiles) > 1 else dets
+    method = classify_queue(dets, orig_w, orig_h)
     counts = {c: 0 for c in CLASSES.values()}
+    passing = {c: 0 for c in CLASSES.values()}
     for d in dets:
-        counts[d["class"]] += 1
+        (counts if d.get("in_queue", True) else passing)[d["class"]] += 1
     result = {
         "status": "ok",
         "model": f"{MODEL_PATH.stem}-coco-onnx",
         "tiles": len(tiles),
         "counts": counts,
+        "passing_counts": passing,
+        "queue_method": method,
         "vehicles_total": sum(counts[c] for c in VEHICLE_CLASSES),
+        "passing_total": sum(passing[c] for c in VEHICLE_CLASSES),
         "queue_length_est_m": estimate_queue_m(counts),
         "summary_id": summarize(counts),
-        "note": "Hanya kendaraan yang terlihat di foto; antrean asli bisa lebih panjang dari yang terhitung.",
+        "note": ("Hanya kendaraan yang terlihat di foto; antrean asli bisa "
+                 "lebih panjang dari yang terhitung. Kendaraan yang sekadar "
+                 "lewat (di luar formasi antrean) tidak dihitung."),
         "detections": dets,
     }
     if annotated_path:
@@ -196,9 +304,11 @@ def annotate(image_path, detections, out_path):
         font = ImageFont.load_default()
     for d in detections:
         x1, y1, x2, y2 = d["box"]
-        color = COLORS.get(d["class"], (255, 255, 0))
+        passing = d.get("in_queue") is False
+        color = (150, 150, 150) if passing else COLORS.get(d["class"], (255, 255, 0))
         draw.rectangle([x1, y1, x2, y2], outline=color, width=max(2, img.size[0] // 300))
-        label = f"{d['class']} {d['confidence']:.2f}"
+        label = (f"lewat {d['class']}" if passing
+                 else f"{d['class']} {d['confidence']:.2f}")
         tw = draw.textlength(label, font=font)
         draw.rectangle([x1, max(0, y1 - font.size - 6), x1 + tw + 8, y1], fill=color)
         draw.text((x1 + 4, max(0, y1 - font.size - 4)), label, font=font, fill=(0, 0, 0))

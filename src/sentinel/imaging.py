@@ -117,9 +117,18 @@ def watermark_image(input_path, output_path, *, station_name, station_code=None,
         q += f" — tunggu sampai {wait_hours:.0f} jam"
     lines.append((f"Keadaan antrean: {q}", f_body))
     if vehicle_counts:
-        det = ", ".join(f"{v} {k}" for k, v in vehicle_counts.items() if v)
-        if det:
-            lines.append((f"Terdeteksi di foto: {det} (yang terlihat saja)", f_body))
+        if "queue" in vehicle_counts:  # new shape: queue vs passing split
+            q, p = vehicle_counts["queue"], vehicle_counts.get("passing") or {}
+            det = ", ".join(f"{v} {k}" for k, v in q.items() if v)
+            if det:
+                lines.append((f"Terdeteksi antre di foto: {det} (yang terlihat saja)", f_body))
+            pv = ", ".join(f"{v} {k}" for k, v in p.items() if v)
+            if pv:
+                lines.append((f"Sekadar lewat, tidak dihitung: {pv}", f_body))
+        else:
+            det = ", ".join(f"{v} {k}" for k, v in vehicle_counts.items() if v)
+            if det:
+                lines.append((f"Terdeteksi di foto: {det} (yang terlihat saja)", f_body))
     lines.append((f"Sumber gambar: {source_label}", f_body))
     wrapped = []
     for text, font in lines:

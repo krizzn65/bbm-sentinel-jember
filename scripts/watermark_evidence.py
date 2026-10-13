@@ -54,17 +54,19 @@ def main():
         if res.get("status") != "ok":
             print(f"vision tidak tersedia: {res.get('reason')}")
             return 2
-        counts = res["counts"]
+        counts = {"queue": res["counts"], "passing": res["passing_counts"]}
         src = annotated  # the stamped copy carries the detection boxes
         if queue_status is None:
             queue_status = f"terhitung dari foto: {res['summary_id']}"
-            if counts.get("orang"):
-                queue_status += f"; {counts['orang']} orang terlihat"
+            if res["counts"].get("orang"):
+                queue_status += f"; {res['counts']['orang']} orang terlihat"
+            if res.get("passing_total"):
+                queue_status += f"; {res['passing_total']} kendaraan lewat tidak dihitung"
         if queue_m is None and res["queue_length_est_m"]:
             queue_m = res["queue_length_est_m"]
-        print(f"vision: {res['summary_id']} | orang {counts.get('orang', 0)} "
-              f"| perkiraan antrean {res['queue_length_est_m']} m "
-              f"| catatan: {res['note']}")
+        print(f"vision: {res['summary_id']} | orang {res['counts'].get('orang', 0)} "
+              f"| lewat tidak dihitung {res.get('passing_total', 0)} "
+              f"| perkiraan antrean {res['queue_length_est_m']} m")
     meta = imaging.watermark_image(
         src, out, station_name=st["name"], station_code=st["code"],
         address=st["address"], captured_at=captured,

@@ -209,12 +209,15 @@ def _process_photo(store, raw_path, *, station, source_label, approx_time=None):
     res = vision.analyze(raw_path, annotated)
     counts, queue_m, img_for_stamp = None, None, raw_path
     if res.get("status") == "ok":
-        counts = res["counts"]
+        counts = {"queue": res["counts"], "passing": res["passing_counts"]}
         queue_m = res["queue_length_est_m"] or None
         img_for_stamp = annotated
         summary = (f"terhitung dari foto: {res['summary_id']}"
                    if res["vehicles_total"] else
                    "tidak ada kendaraan terhitung jelas di foto ini")
+        if res.get("passing_total"):
+            summary += (f"; {res['passing_total']} kendaraan sekadar lewat "
+                        f"tidak dihitung")
     else:
         summary = "keadaan antrean sesuai foto sumber"
     stamp = datetime.now(TZ).strftime("%Y%m%d-%H%M%S")

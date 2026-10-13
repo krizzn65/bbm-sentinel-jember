@@ -140,6 +140,8 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
             if ev.get("queue_length_m"):
                 q += f", sekitar {ev['queue_length_m']:.0f} meter"
             vc = ev.get("vehicle_counts") or {}
+            if "queue" in vc:
+                vc = vc["queue"]
             det = ", ".join(f"{v} {k}" for k, v in vc.items()
                             if v and k in ("motor", "mobil", "truk", "bus"))
             if det:
