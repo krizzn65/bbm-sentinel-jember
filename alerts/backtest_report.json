@@ -1,0 +1,61 @@
+{
+ "episodes_tested": 3,
+ "rows": [
+  {
+   "episode": "2025-07-gumitir",
+   "label": "Gumitir ditutup total",
+   "pattern": "physical_distribution",
+   "actual_duration_days": 7,
+   "actual_peak_offset_days": 2,
+   "best_analog": "2026-09-distribution",
+   "similarity": 0.486,
+   "analog_duration_days": 9,
+   "analog_peak_offset_days": 4,
+   "median_duration_days": 6.5,
+   "median_peak_offset_days": 2.5,
+   "analog_duration_error": 2,
+   "analog_peak_error": 2,
+   "median_duration_error": 0.5,
+   "median_peak_error": 0.5
+  },
+  {
+   "episode": "2026-03-panic",
+   "label": "Panic buying isu perang Timur Tengah",
+   "pattern": "panic_information",
+   "actual_duration_days": 4,
+   "actual_peak_offset_days": 1,
+   "best_analog": "2025-07-gumitir",
+   "similarity": 0.172,
+   "analog_duration_days": 7,
+   "analog_peak_offset_days": 2,
+   "median_duration_days": 8.0,
+   "median_peak_offset_days": 3.0,
+   "analog_duration_error": 3,
+   "analog_peak_error": 1,
+   "median_duration_error": 4.0,
+   "median_peak_error": 2.0
+  },
+  {
+   "episode": "2026-09-distribution",
+   "label": "Distribusi tersendat Ketapang + Gumitir",
+   "pattern": "mixed_distribution",
+   "actual_duration_days": 9,
+   "actual_peak_offset_days": 4,
+   "best_analog": "2025-07-gumitir",
+   "similarity": 0.486,
+   "analog_duration_days": 7,
+   "analog_peak_offset_days": 2,
+   "median_duration_days": 5.5,
+   "median_peak_offset_days": 1.5,
+   "analog_duration_error": 2,
+   "analog_peak_error": 2,
+   "median_duration_error": 3.5,
+   "median_peak_error": 2.5
+  }
+ ],
+ "mae_analog_duration_days": 2.33,
+ "mae_analog_peak_days": 1.67,
+ "mae_median_duration_days": 2.67,
+ "mae_median_peak_days": 1.67,
+ "note": "Sampel sangat kecil (episode tertutup yang terdokumentasi); angka ini indikator awal kalibrasi, bukan bukti statistik. Bertambah satu episode tertutup = satu baris uji baru."
+}

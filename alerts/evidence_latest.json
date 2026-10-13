@@ -3,12 +3,83 @@
   {
    "station_code": "54.681.25",
    "station_name": "SPBU Ahmad Yani",
-   "source": "CCTV publik",
-   "captured_at": "2026-10-14T01:18:10+07:00",
-   "queue_status": null,
-   "queue_length_m": null,
-   "watermarked_path": "/tmp/tmpim79fd9o/out.jpg",
-   "vehicle_counts": null
+   "source": "Berita daring: Antrean Beli Pertalite di Sejumlah SPBU Jember hingga Meluber ke Jalan, Ini Penjelasan Per",
+   "captured_at": "2026-10-13T09:43:18+07:00",
+   "queue_status": "terhitung dari foto: 5 motor, 1 mobil, 1 truk; 10 orang terlihat; 3 kendaraan sekadar lewat tidak dihitung",
+   "queue_length_m": 21.5,
+   "watermarked_path": "alerts/evidence/54.681.25_restamp3_3.jpg",
+   "vehicle_counts": {
+    "queue": {
+     "orang": 10,
+     "sepeda": 0,
+     "mobil": 1,
+     "motor": 5,
+     "bus": 0,
+     "truk": 1
+    },
+    "passing": {
+     "orang": 0,
+     "sepeda": 0,
+     "mobil": 0,
+     "motor": 3,
+     "bus": 0,
+     "truk": 0
+    }
+   }
+  },
+  {
+   "station_code": null,
+   "station_name": "SPBU di Jember (dari foto berita)",
+   "source": "Berita daring: Antrean Pertalite di Sejumlah SPBU Jember Mengular, Pertamina Pastikan Stok Aman",
+   "captured_at": "2026-10-13T11:11:57+07:00",
+   "queue_status": "terhitung dari foto: 5 motor, 1 mobil; 7 orang terlihat; 3 kendaraan sekadar lewat tidak dihitung",
+   "queue_length_m": 13.5,
+   "watermarked_path": "alerts/evidence/jember-umum_restamp3_2.jpg",
+   "vehicle_counts": {
+    "queue": {
+     "orang": 7,
+     "sepeda": 0,
+     "mobil": 1,
+     "motor": 5,
+     "bus": 0,
+     "truk": 0
+    },
+    "passing": {
+     "orang": 0,
+     "sepeda": 0,
+     "mobil": 0,
+     "motor": 3,
+     "bus": 0,
+     "truk": 0
+    }
+   }
+  },
+  {
+   "station_code": null,
+   "station_name": "SPBU di Jember (dari foto berita)",
+   "source": "Berita daring: Warga Jember Antre Berjam-jam Takut Kehabisan Stok BBM di SPBU, Pertamina Buka Suara",
+   "captured_at": "2026-10-13T21:03:00+07:00",
+   "queue_status": "terhitung dari foto: 3 motor; 12 orang terlihat; 2 kendaraan sekadar lewat tidak dihitung",
+   "queue_length_m": 5.1,
+   "watermarked_path": "alerts/evidence/jember-umum_restamp3_1.jpg",
+   "vehicle_counts": {
+    "queue": {
+     "orang": 12,
+     "sepeda": 0,
+     "mobil": 0,
+     "motor": 3,
+     "bus": 0,
+     "truk": 0
+    },
+    "passing": {
+     "orang": 0,
+     "sepeda": 0,
+     "mobil": 0,
+     "motor": 2,
+     "bus": 0,
+     "truk": 0
+    }
+   }
   }
  ]
 }

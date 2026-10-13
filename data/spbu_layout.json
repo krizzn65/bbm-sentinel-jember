@@ -6,24 +6,24 @@
   "54.681.18": {
    "name": "SPBU Mastrip",
    "address": "Jl. Mastrip, Tegalgede, Sumbersari",
-   "lat": -8.15739,
-   "lng": 113.71297,
-   "geocode_level": "FULL_ADDRESS (street vicinity)",
-   "geocode_relevance": 82,
+   "lat": -8.15989,
+   "lng": 113.71997,
+   "geocode_level": "FULL_ADDRESS (named PERTAMINA)",
+   "geocode_relevance": 55,
    "satellite_tile": "data/satellite/54.681.18.jpg",
    "visual_verified": false,
-   "layout_notes": "Bingkai memuat sungai, jembatan, dan bangunan kampus; kanopi SPBU tidak teridentifikasi pasti. Koordinat perlu koreksi manual."
+   "layout_notes": "Koordinat diperbarui: geocode bernama PERTAMINA di Tegal Gede, kawasan kampus Polije/UNEJ. Kanopi belum teridentifikasi pasti pada citra (bingkai didominasi bangunan kampus dan pepohonan)."
   },
   "54.681.25": {
    "name": "SPBU Ahmad Yani",
    "address": "Jl. Ahmad Yani No.26, Kepatihan, Kaliwates",
-   "lat": -8.17269,
-   "lng": 113.7042,
-   "geocode_level": "FULL_ADDRESS",
-   "geocode_relevance": 92,
+   "lat": -8.17359,
+   "lng": 113.70391,
+   "geocode_level": "FULL_ADDRESS (named PERTAMINA)",
+   "geocode_relevance": 72,
    "satellite_tile": "data/satellite/54.681.25.jpg",
    "visual_verified": false,
-   "layout_notes": "Titik geocode jatuh di permukiman padat; kanopi SPBU tidak teridentifikasi pasti di dalam bingkai. Koordinat perlu koreksi manual sebelum dipakai sebagai acuan."
+   "layout_notes": "Koordinat diperbarui: geocode bernama PERTAMINA di Kepatihan, tepi Jl. Ahmad Yani yang membujur barat laut-tenggara. Kanopi belum teridentifikasi pasti pada citra (kawasan sangat padat); dari foto antrean terverifikasi, SPBU berada di sisi timur jalan dengan papan harga di tepi jalan dan antrean terbentuk dari jalan menuju halaman."
   },
   "54.681.11": {
    "name": "SPBU Teuku Umar / Kebonsari",
@@ -34,7 +34,7 @@
    "geocode_relevance": 91,
    "satellite_tile": "data/satellite/54.681.11.jpg",
    "visual_verified": false,
-   "layout_notes": null
+   "layout_notes": "Kandidat struktur SPBU di sisi selatan Jl. Teuku Umar (bangunan kecil beratap terang + elemen merah di tengah bingkai bawah); belum pasti. Jalan membujur timur-barat; antrean diperkirakan meluber di sepanjang tepi selatan jalan."
   },
   "54.681.13": {
    "name": "SPBU Cendrawasih Patrang",
@@ -45,7 +45,7 @@
    "geocode_relevance": 81,
    "satellite_tile": "data/satellite/54.681.13.jpg",
    "visual_verified": false,
-   "layout_notes": null
+   "layout_notes": "Kanopi tidak teridentifikasi pada citra; kawasan permukiman dengan jalan diagonal di sisi timur bingkai."
   },
   "51.681.23": {
    "name": "SPBU Kenanga",
@@ -56,7 +56,7 @@
    "geocode_relevance": 56,
    "satellite_tile": "data/satellite/51.681.23.jpg",
    "visual_verified": false,
-   "layout_notes": null
+   "layout_notes": "PERINGATAN: geocode relevansi rendah (56) dan kelurahan hasil geocode (Gebang, Patrang) berbeda dari alamat tercatat (Jemberkidul, Kaliwates) - koordinat ini paling tidak pasti dari kesebelas SPBU, wajib verifikasi lapangan. Kanopi tidak teridentifikasi pada citra."
   },
   "53.681.35": {
    "name": "SPBU Basuki Rahmat / Tegal Besar",
@@ -67,7 +67,7 @@
    "geocode_relevance": 92,
    "satellite_tile": "data/satellite/53.681.35.jpg",
    "visual_verified": false,
-   "layout_notes": null
+   "layout_notes": "Kandidat kanopi: atap persegi terang di sisi tikungan jalan pada tengah bingkai; belum pasti (bisa jadi atap gudang). Jalan membujur timur laut-barat daya dengan lahan terbuka di sisi timur."
   },
   "54.681.04": {
    "name": "SPBU Gajah Mada",
@@ -78,7 +78,7 @@
    "geocode_relevance": 90,
    "satellite_tile": "data/satellite/54.681.04.jpg",
    "visual_verified": false,
-   "layout_notes": null
+   "layout_notes": "Bingkai memuat kawasan pusat kota (gedung besar berparkir bertingkat dan pendopo); kanopi SPBU tidak teridentifikasi pada citra."
   },
   "54.681.19": {
    "name": "SPBU Wolter Monginsidi",
@@ -89,7 +89,7 @@
    "geocode_relevance": 93,
    "satellite_tile": "data/satellite/54.681.19.jpg",
    "visual_verified": false,
-   "layout_notes": null
+   "layout_notes": "Kanopi tidak teridentifikasi; sisi utara jalan berupa bangunan industri/gudang dan sisi selatan lahan pertanian."
   },
   "54.681.12": {
    "name": "SPBU Mangli (Otto Iskandardinata)",
@@ -100,7 +100,7 @@
    "geocode_relevance": 93,
    "satellite_tile": "data/satellite/54.681.12.jpg",
    "visual_verified": false,
-   "layout_notes": null
+   "layout_notes": "Kanopi tidak teridentifikasi; tepi barat bingkai berupa jalan utara-selatan dan halaman terbuka berisi peralatan (bukan halaman SPBU ritel yang jelas)."
   },
   "54.681.10": {
    "name": "SPBU Mangli (Brawijaya)",
@@ -111,7 +111,7 @@
    "geocode_relevance": 90,
    "satellite_tile": "data/satellite/54.681.10.jpg",
    "visual_verified": false,
-   "layout_notes": null
+   "layout_notes": "Kanopi tidak teridentifikasi; bingkai memuat rel kereta dan jalan utama timur-barat dengan gudang beratap putih di sisi utara jalan."
   },
   "54.681.06": {
    "name": "SPBU Baratan",
@@ -124,5 +124,6 @@
    "visual_verified": true,
    "layout_notes": "Kanopi SPBU teridentifikasi visual: atap persegi panjang terang di tengah bingkai, sejajar jalan utama, di sisi tenggara jalan; halaman terbuka antara jalan dan kanopi. Antrean diperkirakan terbentuk di halaman/tepi jalan menuju kanopi."
   }
- }
+ },
+ "review": "Telaah visual menyeluruh 2026-10-14: hanya Baratan (54.681.06) yang kanopinya terkonfirmasi jelas. Sisanya berstatus kandidat atau belum teridentifikasi - citra satelit wilayah padat tidak selalu mutakhir dan kanopi SPBU kecil sulit dibedakan dari atap gudang/ruko. Status per stasiun dicatat apa adanya; tidak ada verifikasi yang dikarang."
 }

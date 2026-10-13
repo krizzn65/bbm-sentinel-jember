@@ -253,3 +253,47 @@ kelompok kecil terpisah, umumnya kecil di bingkai pada ruas jalan
 seberang. Pada foto Ahmad Yani hasil akhirnya: 5 motor + 1 mobil +
 1 truk antre (termasuk motor latar depan yang dikoreksi pengguna),
 3 motor kecil di kejauhan dinyatakan lewat.
+
+## v0.4 (2026-10-14): ground truth, social listening, calibration
+
+- **Citizen ground truth (`ground_reports`)**: reports from the user /
+  friends ("Ahmad Yani pertalite kosong") are recorded via
+  `scripts/report_ground.py` (positional or `--text` free-form parsing;
+  unparseable reports are rejected, never guessed). In station scoring
+  a fresh report is the strongest signal with explicit decay: full
+  authority 3h, floor x0.85 to 12h, x0.6 to 24h, ignored after; a
+  fresh "normal" report caps the station score at 25; fuel-specific
+  overrides apply for 6h; agreeing reports raise confidence. The
+  bulletin marks report-backed stations "(laporan warga)".
+- **Active learning (`learning.py`)**: every human correction of a
+  vision count is stored in `vision_corrections` and appended to
+  `data/vision_labels.jsonl`. Only human-verified counts become
+  labels - the model never trains on its own output. The user's two
+  corrections of 2026-10-14 (passing motorcycles; the photographer's
+  own queue neighbour) are the first entries.
+- **Social listening**: an agent sweep (cron `bbm-sentinel-social`,
+  every 3h) counts PUBLIC posts about Jember SPBU queues
+  (Instagram/Threads/Facebook; X/TikTok via web search) into
+  `alerts/social_signals.json` - counts, timestamps, station names
+  only, never commenter identities. `collectors/social.py` ingests it
+  while fresh (<=6h) as the local-layer feature `social_lokal_posts`
+  (saturates at 5 posts). First sweep, 2026-10-14 02:00 WIB: 16 queue
+  posts in 24h, naming Ahmad Yani, Mangli, Mastrip.
+- **Fine-tune readiness**: `scripts/build_vision_dataset.py` exports
+  YOLO box labels ONLY where detector counts match human-verified
+  counts exactly; `scripts/train_vision.py` refuses to train below
+  150 boxed images and says how far away that is (currently 1).
+  A trained `models/yolov8s_spbu.onnx` is preferred automatically.
+- **Backtest (`backtest.py`)**: leave-one-out over the 3 closed
+  episodes - analog picks (similarity 0.49/0.17/0.49) gave MAE
+  duration 2.33 days and peak offset 1.67 days, vs median-baseline
+  2.67/1.67. Dated forecasts therefore carry roughly +/-2 days of
+  honest uncertainty at this sample size; `alerts/backtest_report.json`.
+- **Satellite layout review completed**: coordinates for Ahmad Yani
+  and Mastrip re-geocoded to named-PERTAMINA matches; all 11 tiles
+  visually reviewed. Only Baratan's canopy is confirmed in imagery;
+  Teuku Umar and Basuki Rahmat have candidate structures; the rest
+  are honestly marked unidentifiable in current imagery (dense urban
+  tiles, small canopies), and Kenanga's geocode is flagged the least
+  reliable of the eleven (district mismatch - field check needed).
+  No verification is fabricated; see `data/spbu_layout.json`.

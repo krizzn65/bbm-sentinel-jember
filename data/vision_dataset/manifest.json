@@ -1,0 +1,15 @@
+{
+ "images_verified": 1,
+ "images_with_boxes": 1,
+ "needs_annotation": [],
+ "min_images": 150,
+ "ready_for_finetune": false,
+ "classes": {
+  "orang": 0,
+  "sepeda": 1,
+  "mobil": 2,
+  "motor": 3,
+  "bus": 4,
+  "truk": 5
+ }
+}
