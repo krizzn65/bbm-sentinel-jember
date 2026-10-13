@@ -73,10 +73,21 @@ def _wrap(draw, text, font, max_width):
     return lines or [""]
 
 
+def format_when(dt, date_only=False):
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=TZ)
+    dt = dt.astimezone(TZ)
+    if not date_only:
+        return fmt_dt_id(dt)
+    return (f"{WEEKDAYS_ID[dt.weekday()]}, {dt.day} "
+            f"{MONTHS_ID[dt.month - 1]} {dt.year} "
+            f"(jam tidak tercantum dari sumber)")
+
+
 def watermark_image(input_path, output_path, *, station_name, station_code=None,
                     address=None, captured_at=None, time_label="Waktu foto",
                     source_label, queue_status=None, queue_length_m=None,
-                    wait_hours=None, vehicle_counts=None):
+                    wait_hours=None, vehicle_counts=None, date_only=False):
     """Write a stamped copy of the image + JSON sidecar. Returns metadata."""
     input_path, output_path = Path(input_path), Path(output_path)
     if captured_at is None:
@@ -98,7 +109,7 @@ def watermark_image(input_path, output_path, *, station_name, station_code=None,
     lines = [(line1, f_title)]
     if address:
         lines.append((address, f_body))
-    lines.append((f"{time_label}: {fmt_dt_id(captured_at)}", f_body))
+    lines.append((f"{time_label}: {format_when(captured_at, date_only)}", f_body))
     q = queue_status or "belum dinilai"
     if queue_length_m:
         q += f" — antrean sekitar {queue_length_m:.0f} meter"

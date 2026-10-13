@@ -129,6 +129,24 @@ def match_station(text, stations=None):
     return None
 
 
+def extract_published(html):
+    """The article page's own publication datetime (JSON-LD / meta /
+    <time>) - far more precise than the RSS timestamp, which some feeds
+    pad to midnight. Returns an aware datetime or None."""
+    for pat in (r'"datePublished"\s*:\s*"([^"]+)"',
+                r'"dateCreated"\s*:\s*"([^"]+)"',
+                r'article:published_time"\s+content="([^"]+)"',
+                r'<time[^>]+datetime="([^"]+)"'):
+        m = re.search(pat, html)
+        if m:
+            try:
+                dt = datetime.fromisoformat(m.group(1).replace("Z", "+00:00"))
+                return dt if dt.tzinfo else dt.replace(tzinfo=TZ)
+            except ValueError:
+                continue
+    return None
+
+
 def resolve_url(link):
     req = urllib.request.Request(link, headers=UA)
     with urllib.request.urlopen(req, timeout=20) as resp:
@@ -202,6 +220,8 @@ def _process_photo(store, raw_path, *, station, source_label, approx_time=None):
     stamp = datetime.now(TZ).strftime("%Y%m%d-%H%M%S")
     code = station["code"] if station else "jember-umum"
     out = ROOT / "alerts" / "evidence" / f"{code}_{stamp}_stamped.jpg"
+    date_only = bool(approx_time) and \
+        (approx_time.hour, approx_time.minute, approx_time.second) == (0, 0, 0)
     meta = imaging.watermark_image(
         img_for_stamp, out,
         station_name=station["name"] if station else "SPBU di Jember (dari foto berita)",
@@ -212,7 +232,7 @@ def _process_photo(store, raw_path, *, station, source_label, approx_time=None):
         time_label=("Perkiraan waktu foto (dari waktu berita terbit)"
                     if approx_time else "Waktu diterima sistem"),
         source_label=source_label, queue_status=summary,
-        queue_length_m=queue_m, vehicle_counts=counts)
+        queue_length_m=queue_m, vehicle_counts=counts, date_only=date_only)
     store_evidence(store, meta)
     return meta
 
@@ -290,9 +310,21 @@ def harvest(store, cfg, force=False):
                 src = it["source"].strip()
                 label = (f"Berita {src}: {it['title'][:90]}" if src
                          else f"Berita daring: {it['title'][:90]}")
+                approx = it["pub"].astimezone(TZ)
+                published = extract_published(page_html) if page_html else None
+                if published is None and (approx.hour, approx.minute, approx.second) == (0, 0, 0):
+                    # RSS timestamp is a midnight placeholder: fetch the
+                    # article page for its real publication time.
+                    try:
+                        _fin, extra_html = resolve_url(it["link"])
+                        published = extract_published(extra_html)
+                    except Exception:
+                        published = None
+                if published is not None:
+                    approx = published.astimezone(TZ)
                 meta = _process_photo(
                     store, raw, station=station, source_label=label,
-                    approx_time=it["pub"].astimezone(TZ))
+                    approx_time=approx)
                 found.append({"station": meta["station_name"],
                               "watermarked": meta["watermarked_path"],
                               "vehicle_counts": meta.get("vehicle_counts")})

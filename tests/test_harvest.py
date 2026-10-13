@@ -24,6 +24,13 @@ def test_extract_images_prefers_og_and_skips_logos():
     assert not any("logo" in u for u in out)
 
 
+def test_extract_published_from_jsonld():
+    html = '<script type="application/ld+json">{"datePublished": "2026-10-13T09:43:18+07:00"}</script>'
+    dt = images.extract_published(html)
+    assert dt is not None and (dt.hour, dt.minute) == (9, 43)
+    assert images.extract_published("<html>tanpa tanggal</html>") is None
+
+
 def test_geo_gate():
     assert images.is_jember("Antrean BBM Mulai Terlihat di SPBU Ahmad Yani Jember")
     assert not images.is_jember("BBM Langka, Antrean SPBU di Sukawati Picu Kemacetan")

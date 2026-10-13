@@ -10,6 +10,15 @@ from sentinel import imaging
 from sentinel.store import Store
 
 
+def test_format_when_date_only_is_honest():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    dt = datetime(2026, 10, 12, 0, 0, tzinfo=ZoneInfo("Asia/Jakarta"))
+    assert imaging.format_when(dt) == "Senin, 12 Oktober 2026 • 00:00 WIB"
+    honest = imaging.format_when(dt, date_only=True)
+    assert "00:00" not in honest and "tidak tercantum" in honest
+
+
 def test_watermark_appends_panels_and_sidecar(tmp_path):
     src = tmp_path / "in.jpg"
     Image.new("RGB", (900, 600), (70, 90, 120)).save(src)

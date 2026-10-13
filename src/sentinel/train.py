@@ -109,6 +109,60 @@ def _windows_coverage():
     return cov
 
 
+def maintain_labels(store, crisis_active, now=None):
+    """Keep the crisis-window table alive without manual bookkeeping.
+
+    Opens a window automatically when a crisis episode is active and
+    none is open (so future episodes are captured from their first day,
+    before anyone codes them by hand), and closes the open window once
+    no run has reported crisis for 72 hours. Coding the closed episode
+    into data/historical_episodes.json (triggers, durations) stays a
+    curated step - that judgement is not automated away."""
+    from zoneinfo import ZoneInfo
+    now = now or datetime.now(timezone.utc)
+    open_row = store.conn.execute(
+        "SELECT id, start FROM labels WHERE end IS NULL ORDER BY id LIMIT 1").fetchone()
+    if open_row is None:
+        if crisis_active:
+            start = now.astimezone(ZoneInfo("Asia/Jakarta")).date().isoformat()
+            store.conn.execute(
+                "INSERT INTO labels(start, end, outcome, label, triggers) "
+                "VALUES (?, NULL, 1, ?, ?)",
+                (start, "Episode berjalan (terbuka otomatis)",
+                 json.dumps({}, ensure_ascii=False)))
+            store.conn.commit()
+            return "opened"
+        return None
+    if crisis_active:
+        return None
+    last = store.conn.execute(
+        "SELECT MAX(started_at) FROM runs WHERE summary LIKE '%crisis=True%'"
+    ).fetchone()[0]
+    if last:
+        last_dt = datetime.fromisoformat(last)
+        if now - last_dt >= timedelta(hours=72):
+            end = last_dt.astimezone(ZoneInfo("Asia/Jakarta")).date().isoformat()
+            store.conn.execute("UPDATE labels SET end=? WHERE id=?",
+                               (end, open_row[0]))
+            store.conn.commit()
+            return "closed"
+    return None
+
+
+def cycle(db_path=None, crisis_active=False):
+    """One scheduled self-improvement pass, run by the pipeline hourly:
+    maintain label windows, (re)label aged snapshots, refit any model
+    whose gate is now satisfied, and write the honest report."""
+    store = Store(db_path or str(ROOT / "data" / "sentinel.db"))
+    action = maintain_labels(store, crisis_active)
+    report = status(db_path)
+    report["label_maintenance"] = action
+    report["cycle_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    out = ROOT / "alerts" / "model_report.json"
+    out.write_text(json.dumps(report, ensure_ascii=False, indent=1))
+    return report
+
+
 def status(db_path=None):
     store = Store(db_path or str(ROOT / "data" / "sentinel.db"))
     Xe, ye, ids = _episode_examples()
@@ -126,10 +180,14 @@ def status(db_path=None):
         "min_labelled_for_training": MIN_LABELLED,
         "models": {},
     }
+    report["labels_open"] = store.conn.execute(
+        "SELECT COUNT(*) FROM labels WHERE end IS NULL").fetchone()[0]
     for name, X, y in (("episode_trigger_model", Xe, ye),
                        ("live_snapshot_model", Xs, ys)):
         if len(X) >= MIN_LABELLED and 0 < sum(y) < len(y):
-            report["models"][name] = _fit_logistic(X, y)
+            fitted = _fit_logistic(X, y)
+            fitted["fitted_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            report["models"][name] = fitted
         else:
             report["models"][name] = {
                 "status": "not_fitted",

@@ -119,6 +119,20 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
                              "analog": fc.get("analog"),
                              "historical_priors": fc.get("historical_priors"),
                              "lay_summary": fc_lay} if fc else None)}
+    try:
+        from . import train
+        ml_report = train.cycle(db_path, crisis_active=active)
+        ls = ml_report["live_snapshots"]
+        summary["ml"] = {
+            "labelled": ls["labelled"], "positives": ls["positives"],
+            "negatives": ls["negatives"],
+            "labels_open": ml_report.get("labels_open"),
+            "label_maintenance": ml_report.get("label_maintenance"),
+            "models": {k: ("fitted" if "weights" in v else v.get("reason"))
+                       for k, v in ml_report["models"].items()},
+        }
+    except Exception as exc:
+        errors.append(f"train: {exc}")
     out_dir = ROOT / "alerts"
     out_dir.mkdir(exist_ok=True)
     (out_dir / "latest_run.json").write_text(

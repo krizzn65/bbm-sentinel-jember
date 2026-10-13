@@ -113,6 +113,19 @@ BBM dan peringkat SPBU kota/kampus yang paling terdampak.
    (salah satunya terbaca kode 54.681.25 pada papan harga di foto =
    SPBU Ahmad Yani, terverifikasi visual).
 
+11. **Belajar berkelanjutan (ML)** (`src/sentinel/train.py`): setiap
+   putaran pipeline kini menjalankan satu siklus belajar otomatis -
+   jendela episode krisis dibuka otomatis saat krisis aktif dan ditutup
+   setelah 72 jam tanpa krisis; snapshot diberi label setelah berumur
+   5+ hari dari jendela episode terdokumentasi; model regresi logistik
+   dilatih ulang begitu sebuah ruang fitur mencapai >=20 contoh
+   berlabel dua kelas. Status jujur model selalu di
+   `alerts/model_report.json` dan ringkasannya masuk
+   `alerts/latest_run.json`. Waktu terbit foto bukti diambil dari
+   `datePublished` halaman berita itu sendiri (RSS sebagian media
+   mengisi tengah malam); bila jam memang tidak tercantum, panel
+   watermark menyatakannya, tidak mengarang 00:00.
+
 ## Menjalankan
 
 ```sh

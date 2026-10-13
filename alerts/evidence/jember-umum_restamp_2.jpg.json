@@ -1,0 +1,23 @@
+{
+ "station_name": "SPBU di Jember (dari foto berita)",
+ "station_code": null,
+ "address": "SPBU persisnya belum teridentifikasi dari berita",
+ "captured_at": "2026-10-13T11:11:57+07:00",
+ "time_label": "Perkiraan waktu foto (dari waktu berita terbit)",
+ "source": "Berita daring: Antrean Pertalite di Sejumlah SPBU Jember Mengular, Pertamina Pastikan Stok Aman",
+ "queue_status": "terhitung dari foto: 8 motor, 1 mobil",
+ "queue_length_m": 18.6,
+ "wait_hours": null,
+ "vehicle_counts": {
+  "orang": 7,
+  "sepeda": 0,
+  "mobil": 1,
+  "motor": 8,
+  "bus": 0,
+  "truk": 0
+ },
+ "original_path": "/home/hatch/workspace/bbm-sentinel-jember/alerts/harvest/20261014-001343_abbbc6c1_annotated.jpg",
+ "watermarked_path": "alerts/evidence/jember-umum_restamp_2.jpg",
+ "original_sha256": "f7e20ee8f37c511da9c86e1780b6624458e140f1d4acfd1db46a5ef9abea0edb",
+ "watermarked_sha256": "ff866e19cff853995acf1dac41a3884fc6187b980502db064216ba34fe85fb62"
+}
