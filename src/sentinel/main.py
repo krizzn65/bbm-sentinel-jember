@@ -2,7 +2,7 @@ import argparse
 import json
 from pathlib import Path
 
-from . import crisis, scoring
+from . import crisis, forecast, imaging, scoring
 from .collectors import gdelt, market, meteo, news, stations
 from .store import Store
 
@@ -70,11 +70,24 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
     store.save_risk(run_id, risk, level, layers, feats)
     news_layers = collected.get("news", {})
     active = crisis.crisis_active(store, risk, level, cfg)
+    fc, fc_lay = None, None
+    try:
+        fc = forecast.build_forecast(store, cfg, risk,
+                                     out_path=ROOT / "alerts" / "forecast_latest.json")
+        if fc:
+            fc_lay = forecast.lay_summary(fc)
+    except Exception as exc:  # forecast must never break the pipeline
+        errors.append(f"forecast: {exc}")
+    try:
+        evidence = imaging.latest_evidence(store, limit=5)
+    except Exception:
+        evidence = []
     bulletin = None
     if active:
         bulletin = crisis.build_bulletin(store, risk, level, layers, feats,
                                          station_results, news_layers, cfg,
-                                         prev=prev)
+                                         prev=prev, forecast_lay=fc_lay,
+                                         evidence=evidence)
     summary = {"run_id": run_id, "risk_index": risk, "level": level,
                "layer_scores": layers, "crisis_mode": active,
                "errors": errors,
@@ -83,7 +96,19 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
                    {"name": r["detail"]["name"], "code": r["station"]["code"],
                     "score": r["score"], "confidence": r["confidence"]}
                    for r in station_results[:5]],
-               "bulletin": bulletin}
+               "bulletin": bulletin,
+               "evidence_images": evidence,
+               "forecast": ({"peak_date": fc["peak"]["date"],
+                             "peak_date_id": fc["peak"]["date_id"],
+                             "peak_index": fc["peak"]["pred_index"],
+                             "predicted_crisis_date": fc["predicted_crisis_date"],
+                             "predicted_crisis_date_id": fc["predicted_crisis_date_id"],
+                             "verification": fc["verification"],
+                             "alert_ready": fc.get("alert_ready"),
+                             "data_trust": fc.get("data_trust"),
+                             "analog": fc.get("analog"),
+                             "historical_priors": fc.get("historical_priors"),
+                             "lay_summary": fc_lay} if fc else None)}
     out_dir = ROOT / "alerts"
     out_dir.mkdir(exist_ok=True)
     (out_dir / "latest_run.json").write_text(
