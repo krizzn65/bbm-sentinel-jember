@@ -273,6 +273,58 @@ def build_forecast(store, cfg, current_risk, out_path=None):
     return out
 
 
+def council(fc, stock_sim):
+    """The council of methods (v0.7): the bulletin used to quote the
+    analog's peak date while the stock twin quietly disagreed. Now
+    the three dated methods vote first - analog pattern, trend
+    projection, stock-flow twin - and only their consensus is
+    published, with the vote count stated. A method abstains when it
+    has no real signal (twin with zero dry share, weak analog)."""
+    from datetime import date as _date
+    votes = {}
+    if fc:
+        a = fc.get("analog") or {}
+        if a.get("expected_peak_date") and (a.get("similarity") or 0) >= 0.25:
+            votes["pola lama"] = a["expected_peak_date"]
+        peak = fc.get("peak") or {}
+        if peak.get("date") and (peak.get("pred_index") or 0) >= 40:
+            votes["tren risiko"] = peak["date"]
+    if stock_sim:
+        p = (stock_sim.get("city") or {}).get("Pertalite") or {}
+        if p.get("peak_dry_date") and (p.get("peak_dry_share") or 0) > 0:
+            votes["hitungan stok"] = p["peak_dry_date"]
+    if not votes:
+        return None
+    days = sorted((_date.fromisoformat(d), m) for m, d in votes.items())
+    # widest cluster within +-1 day wins; ties -> the earlier cluster
+    best = None
+    for i, (d0, _m) in enumerate(days):
+        cluster = [(d, m) for d, m in days if abs((d - d0).days) <= 1]
+        if best is None or len(cluster) > len(best):
+            best = cluster
+    picked = sorted(d for d, _m in best)
+    consensus = picked[len(picked) // 2]
+    spread = (picked[-1] - picked[0]).days if len(picked) > 1 else 0
+    from datetime import datetime as _dt
+    methods = (1 if stock_sim is not None else 0) + (2 if fc else 0)
+    lay = None
+    if len(best) >= 2:
+        lay = (f"Perkiraan gabungan ({len(best)} dari {methods} metode "
+               f"sepakat): antrean kemungkinan memuncak pada "
+               f"{fmt_date_id(_dt(consensus.year, consensus.month, consensus.day))}. "
+               f"Kalau bisa, isi bensin sebelum tanggal itu.")
+    else:
+        lay = (f"Perkiraan sementara (baru satu metode yang memberi "
+               f"tanggal): antrean kemungkinan memuncak pada "
+               f"{fmt_date_id(_dt(consensus.year, consensus.month, consensus.day))}.")
+    return {"date": consensus.isoformat(),
+            "date_id": fmt_date_id(_dt(consensus.year, consensus.month,
+                                       consensus.day)),
+            "votes": votes, "agreeing": len(best), "total": len(votes),
+            "methods": methods,
+            "spread_days": spread, "lay": lay}
+
+
 def lay_summary(fc):
     """One or two plain-language sentences for the human bulletin/alert.
 

@@ -116,6 +116,16 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
         stock_lay = " ".join(_lines) if _lines else None
     except Exception as exc:  # never break the pipeline
         errors.append(f"stockflow: {exc}")
+    try:
+        _council = forecast.council(fc, stock_sim)
+        if _council and fc is not None:
+            fc["council"] = _council
+            (ROOT / "alerts" / "forecast_latest.json").write_text(
+                json.dumps(fc, ensure_ascii=False, indent=1, default=str))
+            if fc.get("alert_ready") and _council.get("lay"):
+                fc_lay = _council["lay"]
+    except Exception as exc:  # never break the pipeline
+        errors.append(f"council: {exc}")
     ml_models_report = None
     try:
         from . import ml_models
@@ -142,6 +152,21 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
                 .date().isoformat(), _av, _qu, _fi,
                 [f for f, i in _fuels.items()
                  if i["status"] == "kosong"])
+            # Forwardable image card, same data as the text bulletin.
+            from . import card as _card
+            import re as _re
+            _m = _re.search(r"Info BBM Jember, (.+) pukul (\S+) WIB",
+                            bulletin or "")
+            _card.render_card(
+                ROOT / "alerts" / "bulletin_card.png",
+                risk=risk,
+                hari=_m.group(1) if _m else "",
+                jam=_m.group(2) if _m else "",
+                fuel_lines=[f"{f}: {crisis.FUEL_PLAIN.get(i['status'], i['status'])}"
+                            for f, i in _fuels.items()],
+                avoid=_av, queueing=_qu, fine=_fi,
+                peak_line=fc_lay,
+                footer_note="BBM Sentinel Jember — HIMANIKA")
         except Exception as exc:
             errors.append(f"bulletin_log: {exc}")
     audit_report = None

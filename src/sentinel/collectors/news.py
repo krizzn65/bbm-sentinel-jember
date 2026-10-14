@@ -122,6 +122,27 @@ def collect(store, run_id, cfg):
             if it["title"] not in seen_titles:
                 seen_titles.add(it["title"])
                 by_layer.setdefault(layer, []).append(it)
+    # Cross-layer de-echo (owner's precision programme, v0.7): one
+    # story must be counted ONCE, in the NARROWEST funnel layer that
+    # carries it. Provincial media re-report Jember stories under
+    # "Jawa Timur", so without this a single Jember headline inflated
+    # the jember, jatim and jawa layers simultaneously.
+    def _norm(t):
+        return " ".join(t.lower().split())
+    _NARROW_FIRST = ["kota", "lokal", "hulu", "regional", "jatim",
+                     "jawa", "nasional", "asia", "asean", "global"]
+    claimed = {}
+    for layer in _NARROW_FIRST:
+        for it in by_layer.get(layer, []):
+            claimed.setdefault(_norm(it["title"]), layer)
+    removed = 0
+    for layer, items in list(by_layer.items()):
+        keep = [it for it in items
+                if claimed.get(_norm(it["title"])) == layer]
+        removed += len(items) - len(keep)
+        by_layer[layer] = keep
+    store.observe(run_id, "global", "news", "news_dedup_removed",
+                  removed, now)
     for layer, queries in cfg["news_queries"].items():
         count24 = count72 = 0
         titles = []

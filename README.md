@@ -402,3 +402,34 @@ geographies until the campus stations:
   media report Jember under "Jawa Timur"); weights are set with
   that correlation in mind.
 - 50/50 tests pass.
+
+## v0.7 (2026-10-14): precision programme (owner's four picks)
+
+1. **Citizen-eye activation pack.** A forward-ready HIMANIKA
+   broadcast text ships in the goal files; the bulletin footer now
+   states honestly whether citizen reports actually arrived today
+   ("belum ada laporan warga yang masuk hari ini" while the count
+   is zero) instead of always claiming both sources.
+2. **De-echo + council of methods.** News stories are deduplicated
+   ACROSS funnel layers: one story counts once, in the narrowest
+   layer carrying it (313 duplicate instances removed on the first
+   live run). Rewritten-headline echoes survive exact dedupe - the
+   residual provincial heat is bounded by the layer weights and
+   noted, not hidden. The dated peak is now a council decision:
+   analog pattern, trend projection and stock twin vote (a method
+   abstains when it has no signal); the bulletin publishes only the
+   consensus with its vote count ("Perkiraan gabungan (2 dari 3
+   metode sepakat): ... Minggu, 18 Oktober 2026").
+3. **Data debts.** Historical backfill rerun: rain/wave/FX windows
+   filled for all four episodes; Brent still 0 - FRED times out
+   from this VM (source-blocked, recorded). Kenanga coordinates
+   RESOLVED by cross-check: public directories + the Pertamina
+   listing (-8.169007, 113.692769) agree with the stored point
+   within ±30 m and the address matches. Vision dataset builder
+   rerun: 1 verified image with boxes (pseudo-labels only where
+   detector counts match human-verified counts - by design).
+4. **Bulletin image card.** Every crisis run renders
+   alerts/bulletin_card.png (1080px, calm band colour by risk %,
+   same data as the text bulletin, citizen-eye call to action in
+   the footer) for forwarding into community groups.
+- 56/56 tests pass; run 23 clean (risk 39.3).

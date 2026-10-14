@@ -13,7 +13,7 @@ Two audiences, two formats, deliberately kept apart:
 Crisis mode itself is entered while the risk index is ORANYE+ or local
 stock-outs / queues are confirmed by reports."""
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -171,8 +171,23 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
     else:
         lines.append("Saran: isi seperti biasa, secukupnya. Belum perlu ikut antre panjang.")
     lines.append("")
-    lines.append("Sumber: laporan berita dan warga hari ini. Keadaan di SPBU "
-                 "bisa berubah sewaktu-waktu.")
+    # Honest sourcing (v0.7): say whether citizen reports actually
+    # arrived today - the network is only real when it reports.
+    try:
+        from datetime import timedelta as _td
+        _cut = (now - _td(hours=24)).astimezone(timezone.utc).isoformat()
+        _n_rep = store.conn.execute(
+            "SELECT COUNT(*) FROM ground_reports WHERE ts >= ?",
+            (_cut,)).fetchone()[0]
+    except Exception:
+        _n_rep = 0
+    if _n_rep:
+        lines.append(f"Sumber: laporan berita dan {_n_rep} laporan warga "
+                     "hari ini. Keadaan di SPBU bisa berubah sewaktu-waktu.")
+    else:
+        lines.append("Sumber: laporan berita hari ini (belum ada laporan "
+                     "warga yang masuk hari ini). Keadaan di SPBU bisa "
+                     "berubah sewaktu-waktu.")
     text = "\n".join(lines)
     out_dir = ROOT / "alerts"
     out_dir.mkdir(exist_ok=True)
