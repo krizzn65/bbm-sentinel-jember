@@ -1,16 +1,1 @@
-{
- "ts": "2026-10-14T01:59:18.865553+07:00",
- "platform": "instagram/facebook/threads (social.search)",
- "posts_found": 26,
- "queue_posts": 16,
- "window_h": 24,
- "stations_mentioned": [
-  "Ahmad Yani",
-  "Mangli",
-  "Mastrip"
- ],
- "samples": [
-  "Reel RRI Jember (Instagram/Facebook, 13 Okt pagi): laporan lapangan antrean Pertalite malam hari di SPBU Ahmad Yani; warga menyebut antrean juga terjadi di Kaliwates dan Mangli.",
-  "16 unggahan publik dalam 24 jam terakhir membicarakan antrean SPBU Jember (reel dan foto warga), terbanyak menyebut Ahmad Yani."
- ]
-}
+{"by_source":{"grup_facebook":8,"tiktok_x_web":0,"umum_ig_fb_threads":38},"platform":"instagram/facebook/threads (social.search) + grup warga + web X/TikTok","posts_found":46,"queue_posts":46,"samples":["46 unggahan publik dalam 24 jam membahas antrean/kekosongan BBM di Jember: laporan lapangan RRI Jember dari SPBU Jalan Mastrip dan Jalan Ahmad Yani (antrean Pertalite mengular ke jalan raya), video warga SPBU Tanggul dan POM Kesilir juga antre panjang, serta warga mengeluhkan Pertalite eceran Rp13.000/liter; media lokal (Prosalina, KISS FM, TribunJatim-Timur, infojemberid) dan akun komunitas (jembermedsos, jember.eksklusif) ramai memberitakan penyesuaian distribusi Pertamina.","CATATAN METODOLOGI: angka sapuan ini lebih besar dari sapuan 05:02 WIB (19 unggahan) karena sapuan ini memakai ranking recency + top 25 dengan 4 kueri sehingga menangkap lebih banyak unggahan dalam jendela 24 jam yang hampir sama (tumpang tindih ~21 jam); hanya ~2 unggahan yang benar-benar baru sejak sapuan sebelumnya. Kenaikan angka adalah artefak cakupan pengambilan, BUKAN lonjakan nyata percakapan warga. Beberapa unggahan adalah grafis yang sama diposting ulang penulis yang sama ke beberapa grup FB. Filter group_names IWJ tetap tidak menghasilkan bacaan tambahan (no_post_blocks); unggahan grup tertangkap lewat pencarian umum. Pencarian web X/TikTok tidak dijalankan karena hasil sosial sudah melimpah, bukan tipis. Akun pantau @pemkab.jember, @wadul.guse, @kompastv_jember tidak memunculkan unggahan baru dalam jendela ini."],"stations_mentioned":["SPBU Jalan Mastrip","SPBU Jalan Ahmad Yani","SPBU Tanggul","POM Kesilir (Ambulu/Wuluhan)","SPBU 54.681.52 (foto lama 7 Sep, repost 13 Okt)","Depo BBM Gebang (konteks tuntutan reaktivasi)","Pertalite eceran Rp13.000/liter (konteks keluhan warga)"],"ts":"2026-10-14T08:03:23+07:00","window_h":24}

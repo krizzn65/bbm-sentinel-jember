@@ -91,6 +91,14 @@ def _calendar_boost(day, holidays, cfg):
         if abs((ev_day - day).days) <= 1:
             boost += float(ev.get("impact", 10))
             reasons.append(ev.get("name", "kejadian terjadwal"))
+    # Local demand pulse (payday window, pasaran market cycle,
+    # harvest seasons, campus terms) - see calendar_id.py; capped
+    # inside demand_factors so it can tilt a day, never manufacture
+    # a crisis on its own.
+    from .calendar_id import demand_factors
+    d_boost, d_reasons = demand_factors(day)
+    boost += d_boost
+    reasons += d_reasons
     return boost, reasons
 
 

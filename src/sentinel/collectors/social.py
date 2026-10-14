@@ -36,6 +36,13 @@ def collect(store, run_id, cfg):
     queue_posts = int(data.get("queue_posts") or 0)
     store.observe(run_id, "lokal", "social-listening",
                   "social_queue_posts_24h", queue_posts)
+    by_source = data.get("by_source") or {}
+    for src_name, src_count in by_source.items():
+        try:
+            store.observe(run_id, "lokal", "social-listening",
+                          f"social_posts_{src_name}", int(src_count))
+        except Exception:
+            pass
     store.observe(run_id, "lokal", "social-listening",
                   "social_posts_found_24h", int(data.get("posts_found") or 0))
     store.conn.execute(
@@ -48,5 +55,6 @@ def collect(store, run_id, cfg):
     store.conn.commit()
     return {"status": "ok", "queue_posts": queue_posts,
             "posts_found": int(data.get("posts_found") or 0),
+            "by_source": by_source,
             "stations_mentioned": data.get("stations_mentioned") or [],
             "age_h": round(age_h, 1)}

@@ -349,12 +349,66 @@ def process_inbox(store, cfg):
     stations = {st["code"]: st for st in load_stations()}
     done = 0
     for path in sorted(INBOX_DIR.glob("*")):
-        if path.suffix.lower() not in (".jpg", ".jpeg", ".png") or not path.is_file():
+        if path.suffix.lower() not in (".jpg", ".jpeg", ".png", ".mp4",
+                                      ".mov", ".mkv", ".webm") \
+                or not path.is_file():
             continue
         code = next((c for c in stations if c in path.name), None)
-        meta = _process_photo(
-            store, path, station=stations.get(code),
-            source_label="Foto dari unggahan publik (media sosial)")
+        video_wait = None
+        if path.suffix.lower() in (".mp4", ".mov", ".mkv", ".webm"):
+            # Citizen video: analyse the whole clip (median queue over
+            # frames + wait estimate), stamp its middle frame as the
+            # photo evidence.
+            import tempfile
+            from .. import vision_video
+            va = vision_video.analyze_video(str(path))
+            meta = None
+            with tempfile.TemporaryDirectory() as td:
+                frames = vision_video.extract_frames(str(path), td)
+                if frames:
+                    meta = _process_photo(
+                        store, frames[len(frames) // 2],
+                        station=stations.get(code),
+                        source_label="Foto dari video warga (media sosial)")
+            if va.get("status") == "ok":
+                video_wait = va["wait_estimate_min"]
+        else:
+            meta = _process_photo(
+                store, path, station=stations.get(code),
+                source_label="Foto dari unggahan publik (media sosial)")
+        # Citizen-sensor network: a queue photo from a named reporter
+        # is photographic evidence, so it also becomes a ground
+        # report (marked as photo-derived and machine-counted).
+        # Filename pattern: 54.681.25-budi.jpg / 54.681.25_budi.jpg.
+        if code and meta and meta.get("vehicle_counts"):
+            from ..store import now_iso
+            vc = meta["vehicle_counts"]
+            q = vc.get("queue", vc) if isinstance(vc, dict) else {}
+            vehicles = sum(q.get(k, 0) for k in
+                           ("motor", "mobil", "truk", "bus"))
+            if vehicles >= 5:
+                rest = path.name.replace(code, "").strip("-_ ")
+                token = (rest.replace("_", "-").split("-")[0]
+                         if rest else "")
+                reporter = (token if token and len(token) > 2
+                            and not token.isdigit()
+                            else "jaringan mata warga")
+                queue_m = meta.get("queue_length_m")
+                note = (f"foto jaringan mata warga: terhitung {vehicles} "
+                        f"kendaraan antre"
+                        + (f" ±{queue_m:.0f} m" if queue_m else "")
+                        + (f"; perkiraan waktu tunggu {video_wait[0]:.0f}-"
+                           f"{video_wait[1]:.0f} menit (dari video)"
+                           if video_wait else "")
+                        + " (hitungan mesin dari foto, belum diverifikasi "
+                          "manusia)")
+                store.conn.execute(
+                    "INSERT INTO ground_reports(ts, station_code,"
+                    " fuel_type, status, queue_note, reporter)"
+                    " VALUES (?,?,?,?,?,?)",
+                    (now_iso(), code, "umum", "antre_panjang", note,
+                     reporter))
+                store.conn.commit()
         processed = INBOX_DIR / "processed"
         processed.mkdir(exist_ok=True)
         path.rename(processed / path.name)

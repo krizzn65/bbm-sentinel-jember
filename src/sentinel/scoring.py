@@ -89,6 +89,23 @@ def build_features(store, cfg):
     v = feats["news_regional_stockout"]["value"]
     if v is not None:
         feats["news_regional_stockout"]["score"] = round(min(100.0, v * 20.0), 1)
+    # Upstream sensors (Tapal Kuda): shortages in Banyuwangi /
+    # Bondowoso / Situbondo / Lumajang and trouble at the Tanjungwangi
+    # terminal or Ketapang precede Jember's own queues by hours to
+    # days - Jember's crisis is born there, not at its pumps. These
+    # feed the REGIONAL layer as the earliest warning the system has.
+    feats["news_hulu_stockout"] = {
+        "layer": "regional",
+        "value": _latest(store, "news_hulu_stockout_mentions"), "score": None}
+    v = feats["news_hulu_stockout"]["value"]
+    if v is not None:
+        feats["news_hulu_stockout"]["score"] = round(min(100.0, v * 10.0), 1)
+    feats["news_hulu_queue"] = {
+        "layer": "regional",
+        "value": _latest(store, "news_hulu_queue_mentions"), "score": None}
+    v = feats["news_hulu_queue"]["value"]
+    if v is not None:
+        feats["news_hulu_queue"]["score"] = round(min(100.0, v * 2.0), 1)
     add("news_nasional_24h", "nasional", _latest(store, "news_nasional_count_24h"),
         "news_count_24h", use_z=True)
     add("news_lokal_24h", "lokal", _latest(store, "news_lokal_count_24h"),
@@ -115,6 +132,20 @@ def build_features(store, cfg):
     v = feats["social_lokal_posts"]["value"]
     if v is not None:
         feats["social_lokal_posts"]["score"] = round(min(100.0, v * 20.0), 1)
+    # Public complaints + official PPID attention: a citizen who
+    # bothers to file/tag a complaint, and the regency publishing
+    # fuel-crisis field news, are stronger intent signals than
+    # general posts, so the combined count saturates at 4.
+    feats["complaint_lokal"] = {
+        "layer": "lokal",
+        "value": None, "score": None}
+    parts = [x for x in (_latest(store, "complaint_posts_24h"),
+                         _latest(store, "ppid_fuel_articles_72h"))
+             if x is not None]
+    if parts:
+        feats["complaint_lokal"]["value"] = sum(parts)
+        feats["complaint_lokal"]["score"] = round(
+            min(100.0, sum(parts) * 25.0), 1)
     return feats
 
 
