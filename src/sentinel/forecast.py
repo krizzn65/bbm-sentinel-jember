@@ -176,8 +176,14 @@ def build_forecast(store, cfg, current_risk, out_path=None):
     xs = [(s[0] - recent[0][0]).total_seconds() / 86400 for s in recent]
     raw_slope_day = _ols_slope(xs, [s[1] for s in recent])
     slope_day = max(-15.0, min(15.0, raw_slope_day)) * trust
-    fast = [0.6 * (s[2].get("lokal") or 0) + 0.4 * (s[2].get("regional") or 0)
-            for s in recent]
+    # Fast layer = the funnel's narrow end (Jember + Tapal Kuda +
+    # city stations); pre-v0.6 snapshots carry the old key names.
+    def _fast_of(layers):
+        jem = layers.get("jember", layers.get("lokal")) or 0
+        tap = layers.get("tapal_kuda", layers.get("regional")) or 0
+        kot = layers.get("kota_kampus") or 0
+        return 0.45 * jem + 0.35 * tap + 0.20 * kot
+    fast = [_fast_of(s[2]) for s in recent]
     fast_now = fast[-1] if fast else 0.0
     raw_fast_slope = _ols_slope(xs, fast) if len(fast) >= 3 else 0.0
     fast_slope = max(-25.0, min(25.0, raw_fast_slope)) * trust

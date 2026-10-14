@@ -75,7 +75,8 @@ def priors(episodes=None):
 def current_pattern(store):
     """Binary trigger vector for right now, from the newest observations."""
     vec = {k: 0 for k in TRIGGER_KEYS}
-    for layer in ("global", "regional", "lokal", "hulu"):
+    for layer in ("global", "regional", "lokal", "hulu", "asia",
+                  "asean", "jawa", "jatim", "kota"):
         for live, hist in LIVE_MAP.items():
             row = store.latest(f"news_{layer}_trigger_{live}")
             if row and row["value"] and row["value"] >= 1:

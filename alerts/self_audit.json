@@ -1,8 +1,14 @@
 {
- "graded_days": 0,
- "history": [],
- "mean_avoid_precision": null,
- "mean_fine_stability": null,
+ "graded_days": 1,
+ "history": [
+  {
+   "date": "2026-10-13",
+   "avoid_precision": 1.0,
+   "fine_stability": 1.0
+  }
+ ],
+ "mean_avoid_precision": 1.0,
+ "mean_fine_stability": 1.0,
  "forecast_peak_mae": null,
  "forecast_checks_done": 0,
  "latest_grade": null

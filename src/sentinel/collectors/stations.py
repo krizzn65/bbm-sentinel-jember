@@ -65,6 +65,48 @@ def report_effect(reports, now):
     return floor, cap, overrides, fresh, latest_age
 
 
+def _locality_tokens(st):
+    """Distinctive place words for one station (street/district),
+    used to prove a headline is really about THIS station."""
+    toks = set()
+    for a in list(st.get("aliases", [])) + [st["name"]]:
+        s = a.lower().replace("spbu", " ").replace(st["code"], " ")
+        for w in s.split():
+            if len(w) >= 5 and w != "jember":
+                toks.add(w)
+        phrase = " ".join(s.split())
+        if len(phrase) >= 6 and "jember" not in phrase:
+            toks.add(phrase)
+    return toks
+
+
+def gate_fuel_status(fuel_status, titles, tokens):
+    """Precision gate (owner's rule: never claim a stockout loosely).
+
+    The per-station news query uses OR branches, so loosely related
+    stories leak in - a Probolinggo Pertalite story once flipped
+    Mastrip's Pertalite to 'kosong'. A station-level 'kosong' now
+    survives only when a title that names THIS station/area also
+    carries a stockout word for that fuel. Otherwise the status is
+    downgraded to 'disebut' (mentioned) and flagged unverified.
+    City-wide stockout headlines still feed the CITY fuel summary;
+    they just no longer pin 'kosong' on a specific station."""
+    from .news import STOCKOUT_WORDS
+    out = {}
+    for fuel, info in fuel_status.items():
+        info = dict(info)
+        if info.get("status") == "kosong":
+            seg = [t for t in titles if fuel.lower() in t.lower()]
+            hit = any(any(tok in t.lower() for tok in tokens)
+                      and any(w in t.lower() for w in STOCKOUT_WORDS)
+                      for t in seg)
+            if not hit:
+                info["status"] = "disebut"
+                info["unverified"] = True
+        out[fuel] = info
+    return out
+
+
 def _station_titles(st):
     titles, seen = [], set()
     for alias in st["aliases"][:2]:
@@ -101,7 +143,8 @@ def collect(store, run_id, cfg):
             score = max(score, floor)
         if cap is not None:
             score = min(score, cap)
-        fuel_status = dict(mined["fuel_status"])
+        fuel_status = gate_fuel_status(
+            dict(mined["fuel_status"]), titles, _locality_tokens(st))
         fuel_status.update(overrides)
         agreeing = sum(1 for r in reports
                        if (r["status"] or "").lower() in _FLOOR)

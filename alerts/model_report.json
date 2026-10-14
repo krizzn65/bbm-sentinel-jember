@@ -92,10 +92,15 @@
   "positives": 0,
   "negatives": 0,
   "features": [
-   "global",
-   "regional",
-   "nasional",
-   "lokal"
+   "dunia",
+   "asia",
+   "asean",
+   "indonesia",
+   "jawa",
+   "jatim",
+   "tapal_kuda",
+   "jember",
+   "kota_kampus"
   ]
  },
  "min_labelled_for_training": 20,
@@ -112,5 +117,5 @@
  "labels_open": 1,
  "decision_maker": "weighted index + historical analog layer (models are reported, not yet promoted)",
  "label_maintenance": null,
- "cycle_at": "2026-10-14T01:03:36+00:00"
+ "cycle_at": "2026-10-14T02:16:31+00:00"
 }

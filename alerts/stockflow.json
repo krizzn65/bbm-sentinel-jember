@@ -1,16 +1,16 @@
 {
  "generated": "2026-10-14",
  "assumptions": {
-  "disruption_factor": 0.2,
+  "disruption_factor": 0.05,
   "disruption_parts": [
    0.5,
    0.3,
    0.3
   ],
-  "surge_factor": 1.3000000000000003,
+  "surge_factor": 1.2000000000000002,
   "calibration": {
-   "mean_fill_observed": 0.46,
-   "mean_fill_simulated": 0.46,
+   "mean_fill_observed": 0.7,
+   "mean_fill_simulated": 0.71,
    "d_signals": 0.755,
    "s_signals": 2.2
   },
@@ -20,25 +20,25 @@
  "city": {
   "Pertalite": {
    "dry_share_by_day": [
-    0.36,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
     0.0,
     0.0,
     0.0,
     0.0,
     0.0
    ],
-   "peak_dry_date": "2026-10-15",
-   "peak_dry_share": 1.0,
-   "recovery_date": "2026-10-23",
-   "normal_date": "2026-10-23"
+   "peak_dry_date": "2026-10-14",
+   "peak_dry_share": 0.0,
+   "recovery_date": "2026-10-14",
+   "normal_date": "2026-10-14"
   },
   "Pertamax": {
    "dry_share_by_day": [
@@ -49,40 +49,40 @@
     0.0,
     0.0,
     0.0,
-    0.36,
-    0.36,
+    0.0,
+    0.0,
     0.0,
     0.0,
     0.0,
     0.0,
     0.0
    ],
-   "peak_dry_date": "2026-10-21",
-   "peak_dry_share": 0.36,
-   "recovery_date": "2026-10-23",
-   "normal_date": "2026-10-23"
+   "peak_dry_date": "2026-10-14",
+   "peak_dry_share": 0.0,
+   "recovery_date": "2026-10-14",
+   "normal_date": "2026-10-14"
   },
   "Bio Solar": {
    "dry_share_by_day": [
     0.0,
     0.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
     0.0,
     0.0,
     0.0,
     0.0,
     0.0
    ],
-   "peak_dry_date": "2026-10-16",
-   "peak_dry_share": 1.0,
-   "recovery_date": "2026-10-23",
-   "normal_date": "2026-10-23"
+   "peak_dry_date": "2026-10-14",
+   "peak_dry_share": 0.0,
+   "recovery_date": "2026-10-14",
+   "normal_date": "2026-10-14"
   }
  },
  "stations": {
@@ -90,19 +90,19 @@
    "name": "SPBU Mastrip",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-14",
+     "stockout_date": null,
      "tank_kl": 45,
      "demand_kl_day": 20.7,
-     "start_fill_pct": 5
+     "start_fill_pct": 70
     },
     "Pertamax": {
-     "stockout_date": "2026-10-21",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 6.9,
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 11.5,
      "start_fill_pct": 70
@@ -113,19 +113,19 @@
    "name": "SPBU Ahmad Yani",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-15",
+     "stockout_date": null,
      "tank_kl": 45,
      "demand_kl_day": 20.7,
      "start_fill_pct": 70
     },
     "Pertamax": {
-     "stockout_date": "2026-10-21",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 6.9,
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 11.5,
      "start_fill_pct": 70
@@ -136,7 +136,7 @@
    "name": "SPBU Teuku Umar / Kebonsari",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-15",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 12.9,
      "start_fill_pct": 70
@@ -148,7 +148,7 @@
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 20,
      "demand_kl_day": 7.2,
      "start_fill_pct": 70
@@ -159,7 +159,7 @@
    "name": "SPBU Cendrawasih Patrang",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-15",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 12.9,
      "start_fill_pct": 70
@@ -171,7 +171,7 @@
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 20,
      "demand_kl_day": 7.2,
      "start_fill_pct": 70
@@ -182,10 +182,10 @@
    "name": "SPBU Kenanga",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-14",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 12.9,
-     "start_fill_pct": 5
+     "start_fill_pct": 70
     },
     "Pertamax": {
      "stockout_date": null,
@@ -194,7 +194,7 @@
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 20,
      "demand_kl_day": 7.2,
      "start_fill_pct": 70
@@ -205,19 +205,19 @@
    "name": "SPBU Basuki Rahmat / Tegal Besar",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-15",
+     "stockout_date": null,
      "tank_kl": 45,
      "demand_kl_day": 20.7,
      "start_fill_pct": 70
     },
     "Pertamax": {
-     "stockout_date": "2026-10-21",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 6.9,
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 11.5,
      "start_fill_pct": 70
@@ -228,19 +228,19 @@
    "name": "SPBU Gajah Mada",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-15",
+     "stockout_date": null,
      "tank_kl": 45,
      "demand_kl_day": 20.7,
      "start_fill_pct": 70
     },
     "Pertamax": {
-     "stockout_date": "2026-10-21",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 6.9,
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 11.5,
      "start_fill_pct": 70
@@ -251,10 +251,10 @@
    "name": "SPBU Wolter Monginsidi",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-14",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 12.9,
-     "start_fill_pct": 5
+     "start_fill_pct": 70
     },
     "Pertamax": {
      "stockout_date": null,
@@ -263,7 +263,7 @@
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 20,
      "demand_kl_day": 7.2,
      "start_fill_pct": 70
@@ -274,7 +274,7 @@
    "name": "SPBU Mangli (Otto Iskandardinata)",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-15",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 12.9,
      "start_fill_pct": 70
@@ -286,7 +286,7 @@
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 20,
      "demand_kl_day": 7.2,
      "start_fill_pct": 70
@@ -297,7 +297,7 @@
    "name": "SPBU Mangli (Brawijaya)",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-15",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 12.9,
      "start_fill_pct": 70
@@ -309,7 +309,7 @@
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 20,
      "demand_kl_day": 7.2,
      "start_fill_pct": 70
@@ -320,10 +320,10 @@
    "name": "SPBU Baratan",
    "fuels": {
     "Pertalite": {
-     "stockout_date": "2026-10-14",
+     "stockout_date": null,
      "tank_kl": 30,
      "demand_kl_day": 12.9,
-     "start_fill_pct": 5
+     "start_fill_pct": 70
     },
     "Pertamax": {
      "stockout_date": null,
@@ -332,7 +332,7 @@
      "start_fill_pct": 70
     },
     "Bio Solar": {
-     "stockout_date": "2026-10-16",
+     "stockout_date": null,
      "tank_kl": 20,
      "demand_kl_day": 7.2,
      "start_fill_pct": 70

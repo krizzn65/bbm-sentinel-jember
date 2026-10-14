@@ -6,10 +6,15 @@
   "exit_risk_index": 35
  },
  "layer_weights": {
-  "global": 0.2,
-  "lokal": 0.25,
-  "nasional": 0.2,
-  "regional": 0.35
+  "dunia": 0.08,
+  "asia": 0.05,
+  "asean": 0.05,
+  "indonesia": 0.14,
+  "jawa": 0.08,
+  "jatim": 0.1,
+  "tapal_kuda": 0.2,
+  "jember": 0.16,
+  "kota_kampus": 0.14
  },
  "levels": [
   {
@@ -81,6 +86,31 @@
    "BBM langka Lumajang antrean",
    "Terminal BBM Tanjungwangi distribusi Pertamina",
    "truk tangki antre Ketapang Banyuwangi"
+  ],
+  "asia": [
+   "harga minyak Asia Dubai crude BBM",
+   "kilang minyak Asia gangguan pasokan bahan bakar",
+   "Asia fuel shortage refinery oil supply"
+  ],
+  "asean": [
+   "kelangkaan BBM Asia Tenggara",
+   "Malaysia Thailand fuel shortage petrol station",
+   "impor BBM Singapura Pertamina pasokan"
+  ],
+  "jawa": [
+   "antrean BBM di Jawa SPBU",
+   "depo BBM Surabaya Tanjung Perak distribusi Pertamina",
+   "BBM langka Jawa Tengah Jawa Barat antrean"
+  ],
+  "jatim": [
+   "antrean BBM Jawa Timur",
+   "Pertamina Patra Niaga Jatimbalinus stok BBM",
+   "BBM langka Malang Surabaya SPBU antre"
+  ],
+  "kota": [
+   "SPBU Mastrip Jember antre",
+   "antrean SPBU Jember kota hari ini",
+   "SPBU Ahmad Yani Jember antrean BBM"
   ]
  },
  "thresholds": {

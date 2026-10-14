@@ -1,25 +1,25 @@
 {
- "made_at": "2026-10-14T08:03:08+07:00",
- "base_risk": 29.0,
- "latest_risk": 28.2,
- "slope_per_day_effective": -1.89,
- "slope_per_day_raw_capped": -15.0,
- "fast_layer_now": 42.3,
- "fast_slope_effective": 3.15,
- "baseline_median": 29.4,
- "samples": 18,
- "recent_samples": 18,
- "observed_span_hours": 9.06,
- "data_trust": 0.126,
- "alert_ready": false,
+ "made_at": "2026-10-14T09:16:13+07:00",
+ "base_risk": 41.1,
+ "latest_risk": 41.7,
+ "slope_per_day_effective": -1.3,
+ "slope_per_day_raw_capped": -9.14,
+ "fast_layer_now": 40.5,
+ "fast_slope_effective": 3.57,
+ "baseline_median": 29.6,
+ "samples": 22,
+ "recent_samples": 22,
+ "observed_span_hours": 10.28,
+ "data_trust": 0.143,
+ "alert_ready": true,
  "analog": {
   "episode_id": "2026-09-distribution",
   "label": "Distribusi tersendat Ketapang + Gumitir",
   "pattern": "mixed_distribution",
   "similarity": 0.484,
-  "episode_start": "2026-10-13",
-  "expected_peak_date": "2026-10-17",
-  "expected_peak_date_id": "Sabtu, 17 Oktober 2026",
+  "episode_start": "2026-10-14",
+  "expected_peak_date": "2026-10-18",
+  "expected_peak_date_id": "Minggu, 18 Oktober 2026",
   "analogue_duration_days": 9
  },
  "historical_priors": {
@@ -62,11 +62,11 @@
   {
    "date": "2026-10-15",
    "date_id": "Kamis, 15 Oktober 2026",
-   "pred_index": 33.4,
-   "low": 14.5,
-   "high": 52.4,
-   "level": "HIJAU",
-   "crisis_prob": 3,
+   "pred_index": 42.8,
+   "low": 24.1,
+   "high": 61.6,
+   "level": "KUNING",
+   "crisis_prob": 10,
    "reasons": [
     "musim panen"
    ]
@@ -74,25 +74,24 @@
   {
    "date": "2026-10-16",
    "date_id": "Jumat, 16 Oktober 2026",
-   "pred_index": 36.3,
-   "low": 14.2,
-   "high": 58.5,
-   "level": "HIJAU",
-   "crisis_prob": 5,
+   "pred_index": 44.5,
+   "low": 22.5,
+   "high": 66.5,
+   "level": "KUNING",
+   "crisis_prob": 13,
    "reasons": [
     "pasaran Legi",
-    "musim panen",
-    "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
+    "musim panen"
    ]
   },
   {
    "date": "2026-10-17",
    "date_id": "Sabtu, 17 Oktober 2026",
-   "pred_index": 40.1,
-   "low": 14.7,
-   "high": 65.4,
+   "pred_index": 48.9,
+   "low": 23.7,
+   "high": 74.0,
    "level": "KUNING",
-   "crisis_prob": 8,
+   "crisis_prob": 20,
    "reasons": [
     "akhir pekan",
     "pasaran Pahing",
@@ -103,11 +102,11 @@
   {
    "date": "2026-10-18",
    "date_id": "Minggu, 18 Oktober 2026",
-   "pred_index": 36.7,
-   "low": 8.2,
-   "high": 65.2,
-   "level": "HIJAU",
-   "crisis_prob": 5,
+   "pred_index": 47.2,
+   "low": 18.8,
+   "high": 75.6,
+   "level": "KUNING",
+   "crisis_prob": 17,
    "reasons": [
     "akhir pekan",
     "musim panen",
@@ -117,23 +116,24 @@
   {
    "date": "2026-10-19",
    "date_id": "Senin, 19 Oktober 2026",
-   "pred_index": 30.2,
-   "low": 0.0,
-   "high": 62.0,
-   "level": "HIJAU",
-   "crisis_prob": 2,
+   "pred_index": 41.4,
+   "low": 9.8,
+   "high": 73.0,
+   "level": "KUNING",
+   "crisis_prob": 9,
    "reasons": [
-    "musim panen"
+    "musim panen",
+    "pola mirip episode Distribusi tersendat Ketapang + Gumitir"
    ]
   },
   {
    "date": "2026-10-20",
    "date_id": "Selasa, 20 Oktober 2026",
-   "pred_index": 27.5,
-   "low": 0.0,
-   "high": 62.5,
+   "pred_index": 37.5,
+   "low": 2.8,
+   "high": 72.3,
    "level": "HIJAU",
-   "crisis_prob": 2,
+   "crisis_prob": 6,
    "reasons": [
     "musim panen"
    ]
@@ -141,11 +141,11 @@
   {
    "date": "2026-10-21",
    "date_id": "Rabu, 21 Oktober 2026",
-   "pred_index": 27.0,
+   "pred_index": 35.4,
    "low": 0.0,
-   "high": 65.1,
+   "high": 73.4,
    "level": "HIJAU",
-   "crisis_prob": 2,
+   "crisis_prob": 4,
    "reasons": [
     "pasaran Legi",
     "musim panen"
@@ -155,11 +155,11 @@
  "peak": {
   "date": "2026-10-17",
   "date_id": "Sabtu, 17 Oktober 2026",
-  "pred_index": 40.1,
-  "low": 14.7,
-  "high": 65.4,
+  "pred_index": 48.9,
+  "low": 23.7,
+  "high": 74.0,
   "level": "KUNING",
-  "crisis_prob": 8,
+  "crisis_prob": 20,
   "reasons": [
    "akhir pekan",
    "pasaran Pahing",
