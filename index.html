@@ -3,124 +3,264 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Info BBM Jember — BBM Sentinel</title>
+<title>Info BBM Jember, BBM Sentinel</title>
+<meta name="description" content="Papan pengumuman risiko kelangkaan BBM untuk Jember kota dan kampus: tingkat risiko hari ini, perkiraan puncak antrean, SPBU paling rawan, dan buletin harian.">
 <style>
-  :root { --ink:#1d2b24; --mut:#5a6b62; --card:#ffffff; --bg:#f4f6f3; }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-         background:var(--bg); color:var(--ink); }
-  header { color:#fff; padding:28px 20px 22px; }
-  header .wrap, main { max-width:860px; margin:0 auto; }
-  h1 { margin:0 0 4px; font-size:26px; letter-spacing:.4px; }
-  header p { margin:2px 0; opacity:.92; }
-  .risk { font-size:64px; font-weight:800; line-height:1.05; margin:10px 0 2px; }
-  main { padding:18px 14px 40px; display:grid; gap:14px; }
-  .card { background:var(--card); border-radius:14px; padding:18px 20px;
-          box-shadow:0 1px 4px rgba(20,40,30,.08); }
-  .card h2 { margin:0 0 10px; font-size:17px; color:#14532d; }
-  pre { white-space:pre-wrap; font:inherit; margin:0; line-height:1.5; }
-  .fuel { margin:10px 0; }
-  .fuel b { display:inline-block; min-width:96px; }
-  .strip { display:flex; gap:3px; margin-top:5px; }
-  .strip i { flex:1; height:14px; border-radius:3px; background:#dce5de; }
-  .strip i.hot { background:#d97706; }
-  .strip i.dry { background:#b91c1c; }
-  .mut { color:var(--mut); font-size:13px; }
-  .peak { font-size:19px; font-weight:650; }
-  footer { max-width:860px; margin:0 auto; padding:0 20px 30px; color:var(--mut);
-           font-size:13px; line-height:1.55; }
-  a { color:#14532d; }
+  :root{
+    --paper:#faf8f2; --ink:#1c2420; --mut:#43514a; --line:#d8d2c2;
+    --green:#14532d; --green-soft:#e7efe8; --card:#fffdf8;
+    --r-low:#2e7d4f; --r-mid:#a87b00; --r-high:#c05a10; --r-crit:#b22222;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);
+       font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+       line-height:1.55}
+  a{color:var(--green)}
+  a:focus-visible, summary:focus-visible{outline:3px solid var(--green);outline-offset:2px;border-radius:2px}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px}
+
+  /* Papan nama: suara koran lokal, satu-satunya ornamen adalah garis ganda */
+  header{background:var(--green);color:#fff;padding:26px 0 20px}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin:0}
+  h1{font-family:Georgia,"Times New Roman",serif;font-weight:700;
+     font-size:clamp(30px,6vw,44px);line-height:1.1;margin:6px 0 8px}
+  .dateline{margin:0;font-size:14px;opacity:.92}
+  .rule{border-top:3px solid #fff;border-bottom:1px solid #fff;height:5px;margin-top:16px;opacity:.9}
+
+  main{padding:22px 0 8px}
+  section{margin:0 0 30px}
+  h2{font-family:Georgia,"Times New Roman",serif;font-size:21px;margin:0 0 4px;color:var(--green)}
+  .sub{color:var(--mut);font-size:14px;margin:0 0 12px}
+
+  /* Keputusan hari ini: titik fokus tunggal halaman */
+  .decision{border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding:18px 0 20px}
+  .riskrow{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+  .risk{font-family:Georgia,"Times New Roman",serif;font-weight:700;
+        font-size:clamp(64px,15vw,104px);line-height:1}
+  .riskunit{font-size:17px;color:var(--mut);max-width:300px}
+  .gauge{position:relative;height:14px;border-radius:7px;margin:18px 0 6px;
+         background:linear-gradient(to right,var(--r-low) 0 40%,var(--r-mid) 40% 60%,var(--r-high) 60% 80%,var(--r-crit) 80% 100%)}
+  .marker{position:absolute;top:-7px;width:4px;height:28px;background:var(--ink);border-radius:2px;transform:translateX(-2px)}
+  .marker::after{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+                 border:6px solid transparent;border-top:8px solid var(--ink)}
+  .ticks{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:10px}
+  .council{font-size:19px;font-weight:650;margin:10px 0 0}
+  .advice{margin:4px 0 0;color:var(--mut)}
+
+  /* Grafik batang 7 hari: menjawab "hari apa paling rawan?" */
+  .chart{display:flex;align-items:flex-end;gap:8px;height:150px;border-bottom:2px solid var(--ink);padding-top:8px}
+  .bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .bar i{display:block;width:100%;max-width:64px;background:#9db8a6;border-radius:4px 4px 0 0}
+  .bar.peak i{background:var(--r-high)}
+  .bar b{font-size:13px;margin-top:6px}
+  .bar span{font-size:12px;color:var(--mut)}
+  details{margin-top:10px}
+  summary{cursor:pointer;color:var(--green);font-size:14px;min-height:44px;display:flex;align-items:center}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  th{background:var(--green-soft)}
+
+  /* Daftar peringkat SPBU */
+  ol.rank{list-style:none;margin:0;padding:0;counter-reset:rk}
+  ol.rank li{display:grid;grid-template-columns:26px 1fr;gap:4px 10px;padding:10px 0;border-bottom:1px solid var(--line)}
+  ol.rank li:last-child{border-bottom:none}
+  ol.rank .no{counter-increment:rk;font-family:Georgia,serif;font-weight:700;color:var(--green);font-size:18px}
+  ol.rank .no::before{content:counter(rk)}
+  ol.rank .nm{font-weight:600}
+  ol.rank .bar2{grid-column:2;height:8px;border-radius:4px;background:#e3ddcb;overflow:hidden}
+  ol.rank .bar2 i{display:block;height:100%;background:var(--r-high)}
+
+  /* Strip stok 14 hari */
+  .fuel{padding:12px 0;border-bottom:1px solid var(--line)}
+  .fuel:last-child{border-bottom:none}
+  .fuel .head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .fuel .nm{font-weight:650}
+  .fuel .dt{color:var(--mut);font-size:14px}
+  .strip{display:flex;gap:3px;margin-top:8px}
+  .strip i{flex:1;height:16px;border-radius:3px;background:#e0ead9}
+  .strip i.hot{background:#d97706}
+  .strip i.dry{background:#b22222}
+  .legend{font-size:13px;color:var(--mut);margin-top:8px}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  pre{white-space:pre-wrap;font:inherit;margin:0;line-height:1.6}
+  .err{color:var(--r-crit)}
+  footer{border-top:2px solid var(--ink);margin-top:6px;padding:16px 0 34px;color:var(--mut);font-size:14px}
+  footer p{margin:6px 0}
+  @media (min-width:760px){
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 34px}
+  }
 </style>
 </head>
 <body>
-<header id="band" style="background:#2e7d4f">
+<header>
   <div class="wrap">
-    <h1>INFO BBM JEMBER</h1>
-    <p id="waktu">Memuat data terbaru…</p>
-    <div class="risk" id="risk">–</div>
-    <p>Tingkat risiko kelangkaan BBM di Jember kota + kampus (0% = aman, 100% = krisis penuh).</p>
+    <p class="kicker">BBM Sentinel Jember, diterbitkan oleh HIMANIKA</p>
+    <h1>Info BBM Jember</h1>
+    <p class="dateline" id="dateline">Memuat edisi data terakhir…</p>
+    <div class="rule" aria-hidden="true"></div>
   </div>
 </header>
-<main>
-  <section class="card" id="puncakCard" hidden>
-    <h2>Perkiraan puncak antrean</h2>
-    <div class="peak" id="puncak">–</div>
-    <p class="mut" id="puncakNote"></p>
+
+<main class="wrap">
+  <section class="decision" aria-labelledby="h-keputusan">
+    <h2 id="h-keputusan">Keadaan hari ini</h2>
+    <div class="riskrow">
+      <div class="risk" id="risk">…</div>
+      <p class="riskunit">tingkat risiko kelangkaan BBM di Jember kota dan kampus, dari 0% (aman) sampai 100% (krisis penuh)</p>
+    </div>
+    <div class="gauge" role="img" aria-label="Skala risiko 0 sampai 100 persen" id="gauge">
+      <div class="marker" id="marker" style="left:0%"></div>
+    </div>
+    <div class="ticks" aria-hidden="true"><span>0%</span><span>40%</span><span>60%</span><span>80%</span><span>100%</span></div>
+    <p class="council" id="council">Memuat perkiraan puncak…</p>
+    <p class="advice" id="advice"></p>
   </section>
 
-  <section class="card">
-    <h2>Buletin hari ini</h2>
-    <pre id="buletin">Memuat…</pre>
+  <div class="cols">
+    <section aria-labelledby="h-pekan">
+      <h2 id="h-pekan">Risiko sepekan ke depan</h2>
+      <p class="sub">Tinggi batang adalah perkiraan tingkat risiko per hari. Batang oranye adalah hari tertinggi.</p>
+      <div class="chart" id="chart" role="img" aria-label="Grafik batang perkiraan risiko tujuh hari ke depan"></div>
+      <details>
+        <summary>Lihat angka per hari dalam tabel</summary>
+        <div id="daytable"></div>
+      </details>
+    </section>
+
+    <section aria-labelledby="h-rawan">
+      <h2 id="h-rawan">SPBU paling rawan kosong duluan</h2>
+      <p class="sub">Urutan menurut hitungan sistem: keadaan SPBU saat ini, jarak tempuh truk tangki dari Banyuwangi, dan riwayat kerawanannya.</p>
+      <ol class="rank" id="rank"><li><span class="nm">Memuat…</span></li></ol>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-stok">
+    <h2 id="h-stok">Hitungan stok per jenis BBM, 14 hari</h2>
+    <p class="sub">Perkiraan dari model hitungan tangki SPBU, dikalibrasi mengikuti keadaan yang teramati. Bukan data resmi Pertamina.</p>
+    <div id="stok">Memuat…</div>
+    <p class="legend">Hijau muda: stok diperkirakan aman. Oranye: sebagian SPBU menipis. Merah: diperkirakan ada SPBU kehabisan.</p>
   </section>
 
-  <section class="card">
-    <h2>Hitungan stok per jenis BBM (14 hari)</h2>
-    <div id="stok"></div>
-    <p class="mut">Perkiraan dari model hitungan stok (kembaran digital tangki SPBU),
-    bukan data resmi Pertamina. Merah = diperkirakan ada SPBU kehabisan; oranye = sebagian menipis.</p>
+  <section aria-labelledby="h-buletin">
+    <h2 id="h-buletin">Buletin lengkap hari ini</h2>
+    <p class="sub">Teks yang sama dengan buletin yang beredar di WhatsApp.</p>
+    <div class="panel"><pre id="buletin">Memuat…</pre></div>
   </section>
 
-  <section class="card">
-    <h2>Seberapa akurat sistem ini?</h2>
-    <p id="audit">Memuat…</p>
-    <p class="mut">Angka di atas adalah hasil penilaian sistem terhadap ramalannya sendiri,
-    diterbitkan apa adanya — termasuk saat belum ada yang bisa dinilai.</p>
+  <section aria-labelledby="h-jujur">
+    <h2 id="h-jujur">Seberapa akurat sistem ini?</h2>
+    <div class="panel">
+      <p id="audit" style="margin-top:0">Memuat…</p>
+      <p>Pada uji mundur ke tiga krisis Jember sebelumnya (Juli 2025, Maret 2026, September 2026), tanggal puncak yang diramalkan meleset rata-rata 1,7 hari dan durasi krisis meleset rata-rata 2,3 hari. Sampelnya kecil, jadi angka itu indikator awal, bukan janji.</p>
+      <p style="margin-bottom:0">Sumber data: berita publik (Google News), cuaca dan gelombang (Open-Meteo), harga minyak dan kurs (Stooq dan FRED), unggahan publik warga, serta foto antrean. Pertamina tidak menerbitkan data stok per SPBU ke publik, jadi keadaan per SPBU adalah perkiraan yang diberi label sumbernya, bukan angka resmi.</p>
+    </div>
   </section>
 </main>
+
 <footer>
-  BBM Sentinel Jember — sistem peringatan dini kelangkaan BBM buatan warga, dijalankan oleh
-  HIMANIKA. Data halaman ini diperbarui mengikuti unggahan terakhir ke repositori
-  (<a href="https://github.com/krizzn65/bbm-sentinel-jember">github.com/krizzn65/bbm-sentinel-jember</a>);
-  keadaan di SPBU bisa berubah sewaktu-waktu. Melihat antrean di SPBU? Foto dan kirimkan —
-  foto lapangan adalah bukti terkuat sistem ini.
+  <div class="wrap">
+    <p><strong>Info BBM Jember</strong> adalah papan pengumuman dari sistem BBM Sentinel Jember, dijalankan oleh HIMANIKA (Himpunan Mahasiswa Informatika). Kode dan datanya terbuka di <a href="https://github.com/krizzn65/bbm-sentinel-jember">github.com/krizzn65/bbm-sentinel-jember</a>.</p>
+    <p>Halaman ini menampilkan data per unggahan terakhir ke repositori, dan jam datanya tertulis di papan nama. Keadaan di SPBU bisa berubah sewaktu-waktu.</p>
+    <p>Melihat antrean di SPBU? Foto antreannya dan kirimkan beserta nama SPBU-nya. Foto dari lapangan adalah bukti terkuat yang dimiliki sistem ini, jauh lebih kuat daripada berita.</p>
+  </div>
 </footer>
+
 <script>
 const $ = id => document.getElementById(id);
-function bandColor(r){ return r>=80 ? "#b22222" : r>=60 ? "#d06e14" : r>=40 ? "#c49400" : "#2e7d4f"; }
+const gagal = (el, apa) => { el.innerHTML = ""; const s = document.createElement("span");
+  s.className = "err"; s.textContent = apa + " gagal dimuat. Coba segarkan halaman ini.";
+  el.appendChild(s); };
 async function getJSON(p){ const r = await fetch(p); if(!r.ok) throw new Error(p); return r.json(); }
+const riskColor = r => r >= 80 ? "#b22222" : r >= 60 ? "#c05a10" : r >= 40 ? "#a87b00" : "#2e7d4f";
+const DOW = ["Min","Sen","Sel","Rab","Kam","Jum","Sab"];
+
 (async () => {
-  try {
-    const fc = await getJSON("alerts/forecast_latest.json");
+  let fc = null;
+  try { fc = await getJSON("alerts/forecast_latest.json"); } catch(e) {}
+  if (fc) {
     const risk = fc.latest_risk;
     if (typeof risk === "number") {
       $("risk").textContent = Math.round(risk) + "%";
-      $("band").style.background = bandColor(risk);
+      $("risk").style.color = riskColor(risk);
+      $("marker").style.left = Math.max(0, Math.min(100, risk)) + "%";
+      $("gauge").setAttribute("aria-label", "Skala risiko 0 sampai 100 persen, posisi sekarang " + Math.round(risk) + " persen");
     }
-    if (fc.made_at) $("waktu").textContent = "Data per " + new Date(fc.made_at).toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }) + " WIB";
+    if (fc.made_at) {
+      const t = new Date(fc.made_at);
+      $("dateline").textContent = "Data per " + t.toLocaleDateString("id-ID", { weekday:"long", day:"numeric", month:"long", year:"numeric", timeZone:"Asia/Jakarta" }) +
+        ", diperbarui pukul " + t.toLocaleTimeString("id-ID", { hour:"2-digit", minute:"2-digit", timeZone:"Asia/Jakarta" }).replace(":", ".") + " WIB";
+    }
     const c = fc.council;
     if (c && c.date_id) {
-      $("puncakCard").hidden = false;
-      $("puncak").textContent = c.date_id;
-      $("puncakNote").textContent = "Kesepakatan " + c.agreeing + " dari " + c.methods +
-        " metode ramalan (pola krisis lama, tren risiko, hitungan stok). Rentang antarmetode: " +
-        c.spread_days + " hari. Isi bensin sebelum tanggal itu bila memungkinkan.";
+      $("council").textContent = "Antrean diperkirakan memuncak pada " + c.date_id + ".";
+      $("advice").textContent = "Kesepakatan " + c.agreeing + " dari " + c.methods + " metode ramalan, rentang antarmetode " +
+        c.spread_days + " hari. Bila tangki kendaraan mulai kosong, isi sebelum tanggal itu di SPBU yang masih lancar.";
+    } else {
+      $("council").textContent = "Belum ada tanggal puncak yang disepakati metode ramalan.";
     }
-  } catch(e) { $("waktu").textContent = "Data ramalan belum tersedia."; }
+    const days = fc.days || [];
+    if (days.length) {
+      const max = Math.max(...days.map(d => d.pred_index));
+      const chart = $("chart"); chart.innerHTML = "";
+      const tbl = ["<table><tr><th>Hari</th><th>Tanggal</th><th>Risiko</th></tr>"];
+      for (const d of days) {
+        const dt = new Date(d.date + "T00:00:00+07:00");
+        const cell = document.createElement("div");
+        cell.className = "bar" + (d.pred_index === max ? " peak" : "");
+        cell.innerHTML = "<i style='height:" + Math.max(6, d.pred_index) + "%'></i><b>" +
+          DOW[dt.getDay()] + "</b><span>" + Math.round(d.pred_index) + "%</span>";
+        chart.appendChild(cell);
+        tbl.push("<tr><td>" + d.date_id.split(",")[0] + "</td><td>" + d.date_id + "</td><td>" + Math.round(d.pred_index) + "%</td></tr>");
+      }
+      tbl.push("</table>");
+      $("daytable").innerHTML = tbl.join("");
+    } else { gagal($("chart"), "Grafik sepekan"); }
+  } else {
+    gagal($("council"), "Data ramalan");
+    $("dateline").textContent = "Edisi data terakhir belum tersedia.";
+  }
+
   try {
-    const t = await (await fetch("alerts/bulletin_latest.md")).text();
-    $("buletin").textContent = t.trim();
-  } catch(e) { $("buletin").textContent = "Buletin belum tersedia."; }
+    const sf2 = await getJSON("alerts/station_forecast.json");
+    const rank = $("rank"); rank.innerHTML = "";
+    for (const s of (sf2.ranking || []).slice(0, 5)) {
+      const li = document.createElement("li");
+      li.innerHTML = "<span class='no' aria-hidden='true'></span><span class='nm'></span>" +
+        "<span class='bar2'><i style='width:" + Math.round((s.dry_risk || 0) * 100) + "%'></i></span>";
+      li.querySelector(".nm").textContent = s.name;
+      rank.appendChild(li);
+    }
+    if (!rank.children.length) rank.innerHTML = "<li><span class='nm'>Belum ada peringkat.</span></li>";
+  } catch(e) { gagal($("rank"), "Peringkat SPBU"); }
+
   try {
     const sf = await getJSON("alerts/stockflow.json");
-    const box = $("stok");
+    const box = $("stok"); box.innerHTML = "";
     for (const [fuel, v] of Object.entries(sf.city)) {
       const div = document.createElement("div"); div.className = "fuel";
       const cells = (v.dry_share_by_day || []).map(x =>
         "<i class='" + (x >= 0.25 ? "dry" : x > 0 ? "hot" : "") + "'></i>").join("");
-      div.innerHTML = "<b>" + fuel + "</b> hari paling kering: " + (v.peak_dry_date || "–") +
-        " · membaik: " + (v.recovery_date || "–") + " · normal: " + (v.normal_date || "–") +
-        "<div class='strip'>" + cells + "</div>";
+      div.innerHTML = "<div class='head'><span class='nm'></span><span class='dt'>Hari paling kering " +
+        (v.peak_dry_date || "belum ada") + " · membaik " + (v.recovery_date || "belum ada") +
+        " · normal " + (v.normal_date || "belum ada") + "</span></div><div class='strip'>" + cells + "</div>";
+      div.querySelector(".nm").textContent = fuel;
       box.appendChild(div);
     }
-  } catch(e) { $("stok").textContent = "Data stok belum tersedia."; }
+  } catch(e) { gagal($("stok"), "Hitungan stok"); }
+
+  try {
+    const t = await (await fetch("alerts/bulletin_latest.md")).text();
+    $("buletin").textContent = t.trim();
+  } catch(e) { gagal($("buletin"), "Buletin"); }
+
   try {
     const au = await getJSON("alerts/self_audit.json");
     $("audit").textContent = au.forecast_checks_done > 0
-      ? "Ramalan tanggal yang sudah selesai dinilai: " + au.forecast_checks_done +
-        " (kesalahan rata-rata " + au.forecast_peak_mae + " hari). Hari buletin yang dinilai: " + au.graded_days + "."
-      : "Belum ada ramalan tanggal yang selesai dinilai — sistem masih mengumpulkan bukti. " +
-        "Pada uji mundur ke tiga krisis Jember sebelumnya, tanggal puncak meleset rata-rata 1,7 hari.";
-  } catch(e) { $("audit").textContent = "Data audit belum tersedia."; }
+      ? "Sampai hari ini, " + au.forecast_checks_done + " ramalan tanggal sudah selesai dinilai terhadap kejadian sebenarnya, dengan kesalahan rata-rata " + au.forecast_peak_mae + " hari. Buletin harian yang sudah dinilai ulang: " + au.graded_days + " hari."
+      : "Sampai hari ini belum ada ramalan tanggal yang selesai dinilai, karena ramalan pertama sistem ini baru terbit 13 Oktober 2026 dan tanggalnya belum lewat. Penilaian berjalan otomatis setiap hari dan hasilnya diterbitkan di sini apa adanya.";
+  } catch(e) { gagal($("audit"), "Data audit"); }
 })();
 </script>
 </body>
