@@ -1,0 +1,27 @@
+{
+ "gates": {
+  "statsforecast_hourly_points": 48,
+  "ridge_snapshots": 40,
+  "nhits_daily_points": 60
+ },
+ "models": {
+  "statsforecast_ensemble": {
+   "kind": "classical ensemble (Nixtla statsforecast)",
+   "status": "gated",
+   "waiting_for": "18/48 titik risiko per jam"
+  },
+  "nhits": {
+   "kind": "deep learning (Nixtla neuralforecast NHITS)",
+   "status": "gated",
+   "waiting_for": "2/60 hari data (puncak harian)"
+  }
+ },
+ "data": {
+  "hourly_points": 18,
+  "daily_points": 2
+ },
+ "env": {
+  "statsforecast": "2.1.1",
+  "neuralforecast": "terpasang tetapi impor gagal di server ini (rantai dependensinya bertabrakan dengan numpy sistem)"
+ }
+}

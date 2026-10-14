@@ -1,9 +1,10 @@
 import argparse
 import json
+from datetime import datetime
 from pathlib import Path
 
 from . import crisis, forecast, imaging, scoring
-from .collectors import gdelt, market, meteo, news, social, stations
+from .collectors import complaints, gdelt, market, meteo, news, social, stations
 from .store import Store
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,7 +34,8 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
     run_id = store.start_run()
     collected, errors = {}, []
     for name, fn in (("market", market.collect), ("meteo", meteo.collect),
-                     ("news", news.collect), ("social", social.collect)):
+                     ("news", news.collect), ("social", social.collect),
+                     ("complaints", complaints.collect)):
         try:
             collected[name] = fn(store, run_id, cfg)
             print(f"[sentinel] collector {name} ok", flush=True)
@@ -91,12 +93,63 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
         evidence = imaging.latest_evidence(store, limit=5)
     except Exception:
         evidence = []
+    station_fc, station_fc_lay = None, None
+    try:
+        from . import station_forecast
+        station_fc = station_forecast.build_station_forecast(store)
+        (ROOT / "alerts" / "station_forecast.json").write_text(
+            json.dumps(station_fc, ensure_ascii=False, indent=1))
+        station_fc_lay = station_forecast.lay_line(station_fc)
+    except Exception as exc:  # never break the pipeline
+        errors.append(f"station_forecast: {exc}")
+    stock_sim, stock_lay = None, None
+    try:
+        from . import stockflow
+        _analog = None
+        if fc and fc.get("analog"):
+            _analog = {"expected_duration_days":
+                       fc["analog"].get("analogue_duration_days")}
+        stock_sim = stockflow.simulate(store, feats, _analog)
+        (ROOT / "alerts" / "stockflow.json").write_text(
+            json.dumps(stock_sim, ensure_ascii=False, indent=1))
+        _lines = stockflow.lay_lines(stock_sim)
+        stock_lay = " ".join(_lines) if _lines else None
+    except Exception as exc:  # never break the pipeline
+        errors.append(f"stockflow: {exc}")
+    ml_models_report = None
+    try:
+        from . import ml_models
+        ml_models_report = ml_models.run(store)
+    except Exception as exc:
+        errors.append(f"ml_models: {exc}")
     bulletin = None
     if active:
         bulletin = crisis.build_bulletin(store, risk, level, layers, feats,
                                          station_results, news_layers, cfg,
                                          prev=prev, forecast_lay=fc_lay,
-                                         evidence=evidence)
+                                         evidence=evidence,
+                                         station_forecast_lay=station_fc_lay,
+                                         stockflow_lay=stock_lay)
+        try:
+            from . import selfaudit
+            _av, _qu, _fi = crisis._station_groups(station_results)
+            _fuels = crisis.fuel_status_summary(station_results,
+                                                news_layers)
+            from zoneinfo import ZoneInfo
+            selfaudit.append_bulletin_log(
+                datetime.now(ZoneInfo(cfg.get("timezone",
+                                               "Asia/Jakarta")))
+                .date().isoformat(), _av, _qu, _fi,
+                [f for f, i in _fuels.items()
+                 if i["status"] == "kosong"])
+        except Exception as exc:
+            errors.append(f"bulletin_log: {exc}")
+    audit_report = None
+    try:
+        from . import selfaudit
+        audit_report = selfaudit.run(store, cfg)
+    except Exception as exc:
+        errors.append(f"selfaudit: {exc}")
     summary = {"run_id": run_id, "risk_index": risk, "level": level,
                "layer_scores": layers, "crisis_mode": active,
                "errors": errors,
@@ -106,7 +159,26 @@ def run(db_path=None, with_gdelt=False, with_stations=True):
                     "score": r["score"], "confidence": r["confidence"]}
                    for r in station_results[:5]],
                "bulletin": bulletin,
+               "stockflow": ({"pertalite_city": stock_sim["city"]["Pertalite"],
+                              "assumptions": stock_sim["assumptions"]}
+                             if stock_sim else None),
+               "ml_models": ml_models_report,
+               "self_audit": ({"graded_days": audit_report["graded_days"],
+                               "mean_avoid_precision":
+                                   audit_report["mean_avoid_precision"],
+                               "mean_fine_stability":
+                                   audit_report["mean_fine_stability"]}
+                              if audit_report else None),
+               "station_forecast": ({"top_dry_first": [
+                   {"name": r["name"], "code": r["code"],
+                    "dry_risk": r["dry_risk"]}
+                   for r in station_fc["ranking"][:3]]}
+                   if station_fc else None),
                "social_signals": collected.get("social"),
+               "complaint_signals": collected.get("complaints"),
+               "upstream": (collected.get("news", {}).get("hulu")
+                            if isinstance(collected.get("news"), dict)
+                            else None),
                "harvest": harvest_summary,
                "evidence_images": evidence,
                "forecast": ({"peak_date": fc["peak"]["date"],

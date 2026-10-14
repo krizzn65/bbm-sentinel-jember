@@ -34,6 +34,10 @@ CREATE TABLE IF NOT EXISTS social_signals (
   id INTEGER PRIMARY KEY, ts TEXT, platform TEXT, posts_found INTEGER,
   queue_posts INTEGER, stations_mentioned TEXT, detail TEXT
 );
+CREATE TABLE IF NOT EXISTS self_audit (
+  id INTEGER PRIMARY KEY, ts TEXT, graded_date TEXT UNIQUE,
+  avoid_precision REAL, fine_stability REAL, detail TEXT
+);
 """
 
 

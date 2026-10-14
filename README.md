@@ -297,3 +297,74 @@ seberang. Pada foto Ahmad Yani hasil akhirnya: 5 motor + 1 mobil +
   tiles, small canopies), and Kenanga's geocode is flagged the least
   reliable of the eleven (district mismatch - field check needed).
   No verification is fabricated; see `data/spbu_layout.json`.
+
+## v0.4.1 (2026-10-14): public complaint channels
+
+- **`collectors/complaints.py`**: two public sources, no logins.
+  (1) PPID Kabupaten Jember's own published news (server-rendered,
+  dated slugs): fuel-related items in the last 72h are counted and
+  station names mined - this is where Wadul Gus'e follow-ups and
+  field reports are officially published. (2) `alerts/
+  complaint_signals.json` from the sweep agent: counts of PUBLIC
+  complaint posts (citizens complaining openly / tagging the
+  official Wadul Gus'e accounts) plus whatever the public LAPOR!
+  agency wall for Pemkab Jember visibly shows to an ordinary
+  visitor. Scoring gains the local feature `complaint_lokal`
+  (combined count, saturates at 4). Complaint contents and reporter
+  identities are never collected - counts and station names only.
+- **Boundary (unchanged)**: the complaint INBOXES themselves
+  (Wadul Gus'e WhatsApp/call-center 112, LAPOR! backend) are not
+  public and are not accessed - they hold citizens' personal data.
+  A verbal claim of regency permission is not a credential; if
+  Pemkab issues an official feed/API key/export, it will be wired
+  in here through the credential vault the same day.
+- The user never has to file daily reports: his reports remain the
+  strongest single signal when he happens to send one, but the
+  system now hunts public data on its own (news, social, PPID,
+  public complaint walls) every cycle.
+
+## v0.5 (2026-10-14): stock-flow digital twin + Nixtla model registry
+
+- **`stockflow.py` - the numbers layer the owner asked for.** Per
+  station and per fuel (Pertalite/Pertamax/Bio Solar), a day-by-day
+  tank simulation for 14 days. Parameters live in
+  `data/station_params.json`, every one carrying its basis:
+  Pertamina publishes NO per-station tank or sales data, so tank
+  sizes are station-class estimates, station demand is split from
+  the documented regency figure (~700 KL/day, 41 outlets, city
+  share 55% - an explicit assumption), fuel mix follows the
+  national subsidised pattern. The signal-derived disruption and
+  panic-surge factors are then CALIBRATED against reality each run:
+  the episode's elapsed days are replayed and the (D, S) pair whose
+  simulated mean fill matches the observed mean fill wins (first
+  live calibration: signals said D 0.755 / S 2.2; the data said
+  D 0.20 / S 1.30 - matching Pertamina's rerouting account). Output
+  `alerts/stockflow.json`: per-station stockout dates, the city's
+  driest day, recovery and normal dates; plain-language lines join
+  the bulletin ("Perkiraan hitungan stok: ... mulai membaik
+  sekitar ..., kembali normal sekitar ... ±2 hari").
+- **`ml_models.py` - adopted forecasting ecosystem: Nixtla.**
+  Researched and installed for real: statsforecast 2.1.1
+  (AutoETS/AutoTheta/SeasonalNaive) works in the venv after
+  repairing a three-way collision (Debian pandas built for numpy
+  1.x leaking into the venv; numpy pinned 2.1.3, pandas 2.2.3
+  venv-local). neuralforecast is installed but its import chain
+  still collides with the system matplotlib - and its NHITS deep
+  model is behind a 60-daily-points data gate anyway (we have 1
+  day). Registry in `alerts/ml_models.json`, every model reporting
+  its true state each run: statsforecast ensemble gated at 17/48
+  hourly points (opens in ~1.5 days), NHITS gated at 1/60 days.
+  No model decides anything until it out-proves the weighted
+  index in the self-audit.
+- Also in this build: upstream Tapal Kuda news layer (Banyuwangi/
+  Bondowoso/Situbondo/Lumajang + Tanjungwangi/Ketapang as regional
+  features), per-station dry-out ranking in the bulletin, citizen
+  eye network (watchlist + group sweeps + photo-to-report intake +
+  shareable guide), video queue analysis with wait-time estimates,
+  the Jember demand calendar (payday, pasaran cycle anchored on
+  17 Aug 1945 = Jumat Legi, harvest, campus terms) inside the
+  forecast, public complaint channels (PPID + LAPOR! public wall),
+  and a self-audit that grades yesterday's bulletin against
+  today's station scores (`alerts/self_audit.json`).
+- 47/47 tests pass. Local commit only - per the owner's rule,
+  nothing is pushed until he declares everything done.

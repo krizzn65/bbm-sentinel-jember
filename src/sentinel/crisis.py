@@ -80,7 +80,8 @@ def _station_groups(station_results):
 
 
 def build_bulletin(store, risk, level, layers, feats, station_results,
-                   news_layers, cfg, prev=None, forecast_lay=None, evidence=None):
+                   news_layers, cfg, prev=None, forecast_lay=None, evidence=None,
+                   station_forecast_lay=None, stockflow_lay=None):
     tz = ZoneInfo(cfg.get("timezone", "Asia/Jakarta"))
     now = datetime.now(tz)
     hari = now.strftime("%A, %d %B %Y")
@@ -128,6 +129,12 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
         if fine:
             lines.append("Masih relatif lancar:")
             lines += [f"- {s}" for s in fine[:4]]
+        lines.append("")
+    if station_forecast_lay:
+        lines.append(station_forecast_lay)
+        lines.append("")
+    if stockflow_lay:
+        lines.append(stockflow_lay)
         lines.append("")
     if evidence:
         from .imaging import fmt_dt_id

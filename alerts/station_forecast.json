@@ -1,0 +1,148 @@
+{
+ "generated_from": "station_forecast v1 (45/25/20/10)",
+ "ranking": [
+  {
+   "code": "53.681.35",
+   "name": "SPBU Basuki Rahmat / Tegal Besar",
+   "dry_risk": 0.634,
+   "components": {
+    "current_score": 78.0,
+    "route_distance_km": 73.8,
+    "route_norm": 0.41,
+    "vulnerability": 0.9,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "54.681.25",
+   "name": "SPBU Ahmad Yani",
+   "dry_risk": 0.504,
+   "components": {
+    "current_score": 52.0,
+    "route_distance_km": 73.4,
+    "route_norm": 0.36,
+    "vulnerability": 0.9,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "54.681.12",
+   "name": "SPBU Mangli (Otto Iskandardinata)",
+   "dry_risk": 0.46,
+   "components": {
+    "current_score": 24.0,
+    "route_distance_km": 78.9,
+    "route_norm": 0.97,
+    "vulnerability": 0.55,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "54.681.10",
+   "name": "SPBU Mangli (Brawijaya)",
+   "dry_risk": 0.414,
+   "components": {
+    "current_score": 12.0,
+    "route_distance_km": 79.2,
+    "route_norm": 1.0,
+    "vulnerability": 0.55,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "54.681.04",
+   "name": "SPBU Gajah Mada",
+   "dry_risk": 0.407,
+   "components": {
+    "current_score": 40.0,
+    "route_distance_km": 75.1,
+    "route_norm": 0.55,
+    "vulnerability": 0.45,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "54.681.18",
+   "name": "SPBU Mastrip",
+   "dry_risk": 0.345,
+   "components": {
+    "current_score": 40.0,
+    "route_distance_km": 71.7,
+    "route_norm": 0.18,
+    "vulnerability": 0.6,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "54.681.19",
+   "name": "SPBU Wolter Monginsidi",
+   "dry_risk": 0.322,
+   "components": {
+    "current_score": 28.0,
+    "route_distance_km": 73.6,
+    "route_norm": 0.38,
+    "vulnerability": 0.5,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "54.681.11",
+   "name": "SPBU Teuku Umar / Kebonsari",
+   "dry_risk": 0.28,
+   "components": {
+    "current_score": 0.0,
+    "route_distance_km": 74.1,
+    "route_norm": 0.44,
+    "vulnerability": 0.85,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "51.681.23",
+   "name": "SPBU Kenanga",
+   "dry_risk": 0.268,
+   "components": {
+    "current_score": 12.0,
+    "route_distance_km": 74.6,
+    "route_norm": 0.5,
+    "vulnerability": 0.45,
+    "fresh_reports": 0,
+    "coords_trust": "rendah"
+   }
+  },
+  {
+   "code": "54.681.06",
+   "name": "SPBU Baratan",
+   "dry_risk": 0.208,
+   "components": {
+    "current_score": 24.0,
+    "route_distance_km": 70.1,
+    "route_norm": 0.0,
+    "vulnerability": 0.5,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  },
+  {
+   "code": "54.681.13",
+   "name": "SPBU Cendrawasih Patrang",
+   "dry_risk": 0.159,
+   "components": {
+    "current_score": 0.0,
+    "route_distance_km": 72.6,
+    "route_norm": 0.28,
+    "vulnerability": 0.45,
+    "fresh_reports": 0,
+    "coords_trust": "normal"
+   }
+  }
+ ]
+}
