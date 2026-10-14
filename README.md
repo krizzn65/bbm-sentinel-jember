@@ -368,3 +368,37 @@ seberang. Pada foto Ahmad Yani hasil akhirnya: 5 motor + 1 mobil +
   today's station scores (`alerts/self_audit.json`).
 - 47/47 tests pass. Local commit only - per the owner's rule,
   nothing is pushed until he declares everything done.
+
+## v0.6 (2026-10-14): the nine-layer funnel
+
+The owner's architecture, implemented literally. Analysis narrows
+like the crisis itself forms - world first, then ever smaller
+geographies until the campus stations:
+
+  dunia (0.08) -> asia (0.05) -> asean (0.05) -> indonesia (0.14)
+  -> jawa (0.08) -> jatim (0.10) -> tapal_kuda (0.20)
+  -> jember (0.16) -> kota_kampus (0.14)
+
+- New news funnels (config news_queries): asia (Asian crude/Dubai
+  benchmark chatter, refinery disruptions), asean (SE-Asia fuel
+  shortages, Singapore import logistics), jawa (Java-wide queues,
+  Surabaya/Tanjung Perak depot - Jember's documented fallback
+  supply route), jatim (Patra Niaga Jatimbalinus, provincial
+  queues), kota (city/campus-specific station chatter). Each layer:
+  a z-scored 24h count + stockout mentions.
+- Existing signals re-homed: markets/geopolitics -> dunia;
+  waves/rain/regional news/Tapal Kuda upstream towns -> tapal_kuda;
+  national news -> indonesia; Jember news/social/complaints ->
+  jember; the 11 stations' own max/mean crisis scores ->
+  kota_kampus.
+- risk_index renormalises over layers that have data: a silent
+  collector neither dilutes nor fabricates. forecast's fast layer
+  and train.py's snapshot space follow the funnel keys (with
+  fallbacks to pre-v0.6 key names in stored snapshots).
+- First live read (run 20): dunia 32.3, asia 0.0, asean 10.0,
+  indonesia 50.0, jawa 65.0, jatim 84.5, tapal_kuda 24.1,
+  jember 55.0, kota_kampus 26.6 -> index 41.1 KUNING. Note the
+  provincial layers partly echo Jember's own news (provincial
+  media report Jember under "Jawa Timur"); weights are set with
+  that correlation in mind.
+- 50/50 tests pass.

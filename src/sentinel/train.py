@@ -86,7 +86,12 @@ def _snapshot_examples(store):
         if (now - t) < timedelta(days=5):
             continue  # outcome window not observable yet
         layers = json.loads(layers_json or "{}")
-        X.append([float(layers.get(k) or 0) for k in ("global", "regional", "nasional", "lokal")])
+        _fb = {"dunia": "global", "tapal_kuda": "regional",
+               "indonesia": "nasional", "jember": "lokal"}
+        X.append([float(layers.get(k, layers.get(_fb.get(k, ""))) or 0)
+                  for k in ("dunia", "asia", "asean", "indonesia",
+                            "jawa", "jatim", "tapal_kuda", "jember",
+                            "kota_kampus")])
         y.append(1 if any(s <= t + timedelta(days=5) and e >= t for s, e in spans) else 0)
     return X, y
 
@@ -176,7 +181,10 @@ def status(db_path=None):
         },
         "live_snapshots": {"labelled": len(Xs),
                            "positives": sum(ys), "negatives": len(ys) - sum(ys),
-                           "features": ["global", "regional", "nasional", "lokal"]},
+                           "features": ["dunia", "asia", "asean",
+                                        "indonesia", "jawa", "jatim",
+                                        "tapal_kuda", "jember",
+                                        "kota_kampus"]},
         "min_labelled_for_training": MIN_LABELLED,
         "models": {},
     }

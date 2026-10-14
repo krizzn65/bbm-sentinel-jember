@@ -19,12 +19,6 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[2]
 
-LEVEL_PLAIN = {
-    "HIJAU": "AMAN",
-    "KUNING": "WASPADA",
-    "ORANYE": "SIAGA, antrean likely dalam 1-3 hari",
-    "MERAH": "KRISIS",
-}
 FUEL_PLAIN = {
     "kosong": "habis di beberapa SPBU",
     "antre": "antre panjang",
@@ -44,7 +38,7 @@ def crisis_active(store, risk, level, cfg):
 def fuel_status_summary(station_results, news_layers):
     status = {}
     rank = {"kosong": 3, "antre": 2, "disebut": 1}
-    for layer in ("lokal", "regional"):
+    for layer in ("lokal", "kota", "regional", "jatim"):
         for fuel, info in (news_layers.get(layer, {}).get("fuel_status") or {}).items():
             cur = status.get(fuel)
             if cur is None or rank[info["status"]] > rank[cur["status"]]:
@@ -68,12 +62,16 @@ def _station_groups(station_results):
             label += f" (nunggu sampai {d['wait_max_h']:.0f} jam)"
         if d.get("report_fresh_count"):
             label += " (laporan warga)"
+        dry = [f for f, i in (d.get("fuel_status") or {}).items()
+               if i.get("status") == "kosong"]
+        if dry:
+            label += f" ({', '.join(dry)} dilaporkan habis)"
         if res["score"] >= 60:
             avoid.append(label)
-        elif res["score"] >= 30:
+        elif res["score"] >= 30 or dry:
+            # A station reported dry for a fuel never appears under
+            # "still fine", whatever its news-volume score says.
             queueing.append(label)
-        elif res["score"] > 0:
-            fine.append(label)
         else:
             fine.append(label)
     return avoid, queueing, fine
@@ -96,9 +94,12 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
                     ("November", "November"), ("December", "Desember")):
         hari = hari.replace(en, idn)
     jam = now.strftime("%H:%M")
-    status_plain = LEVEL_PLAIN.get(level, level)
-    if risk < cfg["crisis_mode"]["enter_risk_index"]:
-        status_plain = "ADA SPBU KEHABISAN STOK"
+    # Owner's format (2026-10-14): the headline is a plain percentage
+    # 0-100%, not a status word. Level names stay in the machine
+    # layer only. A stockout-confirmed crisis keeps its factual
+    # sentence under the percentage.
+    status_plain = f"Tingkat risiko: {risk:.0f}%"
+    stockout_confirmed = risk < cfg["crisis_mode"]["enter_risk_index"]
     trend_word = ""
     if prev:
         delta = risk - prev["risk_index"]
@@ -107,7 +108,9 @@ def build_bulletin(store, risk, level, layers, feats, station_results,
         elif delta <= -5:
             trend_word = " Kondisinya mulai membaik dibanding pantauan sebelumnya."
     lines = [f"Info BBM Jember, {hari} pukul {jam} WIB",
-             f"Status: {status_plain}.{trend_word}"]
+             f"{status_plain}.{trend_word}"]
+    if stockout_confirmed:
+        lines.append("Sudah ada SPBU yang kehabisan stok.")
     if forecast_lay:
         lines.append(forecast_lay)
     lines.append("")
