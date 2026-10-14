@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-13",
+ "generated_at": "2026-10-14",
  "note": "Arsip kuantitatif per episode. News-derived features tidak bisa di-backfill dari Google News RSS dan sengaja dikosongkan.",
  "windows": [
   {
@@ -914,7 +914,7 @@
   {
    "episode_id": "2026-10-distribution-pattern",
    "window_start": "2026-09-28",
-   "window_end": "2026-10-13",
+   "window_end": "2026-10-14",
    "days": [
     {
      "date": "2026-09-28",
@@ -1104,9 +1104,21 @@
      "brent_change_7d_pct": null,
      "usdidr": 17881,
      "usdidr_change_30d_pct": 1.58,
-     "rain_gumitir_mm": 0.3,
+     "rain_gumitir_mm": 0.4,
      "wave_ketapang_max_m": 0.62,
-     "wave_south_max_m": 2.32
+     "wave_south_max_m": 2.3
+    },
+    {
+     "date": "2026-10-14",
+     "days_from_start": 2,
+     "in_episode": true,
+     "brent_close": null,
+     "brent_change_7d_pct": null,
+     "usdidr": null,
+     "usdidr_change_30d_pct": null,
+     "rain_gumitir_mm": 0.5,
+     "wave_ketapang_max_m": 0.4,
+     "wave_south_max_m": 1.88
     }
    ]
   }

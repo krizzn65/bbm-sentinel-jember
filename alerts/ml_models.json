@@ -8,7 +8,7 @@
   "statsforecast_ensemble": {
    "kind": "classical ensemble (Nixtla statsforecast)",
    "status": "gated",
-   "waiting_for": "22/48 titik risiko per jam"
+   "waiting_for": "23/48 titik risiko per jam"
   },
   "nhits": {
    "kind": "deep learning (Nixtla neuralforecast NHITS)",
@@ -17,7 +17,7 @@
   }
  },
  "data": {
-  "hourly_points": 22,
+  "hourly_points": 23,
   "daily_points": 2
  },
  "env": {

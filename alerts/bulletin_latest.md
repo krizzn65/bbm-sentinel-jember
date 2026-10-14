@@ -1,7 +1,7 @@
-Info BBM Jember, Rabu, 14 Oktober 2026 pukul 09:16 WIB
-Tingkat risiko: 42%.
+Info BBM Jember, Rabu, 14 Oktober 2026 pukul 09:32 WIB
+Tingkat risiko: 39%.
 Sudah ada SPBU yang kehabisan stok.
-Perkiraan dari pola krisis sebelumnya: antrean kemungkinan memuncak pada Minggu, 18 Oktober 2026. Kalau bisa, isi bensin sebelum tanggal itu.
+Perkiraan gabungan (2 dari 3 metode sepakat): antrean kemungkinan memuncak pada Minggu, 18 Oktober 2026. Kalau bisa, isi bensin sebelum tanggal itu.
 
 Bensin yang lagi susah dicari:
 - Pertalite: habis di beberapa SPBU
@@ -31,4 +31,4 @@ Foto bukti terbaru (gambarnya terlampir):
 
 Saran: kalau Pertalite di kendaraanmu tinggal sedikit, isi hari ini di SPBU yang masih lancar di atas. Isi secukupnya saja, tidak perlu menimbun.
 
-Sumber: laporan berita dan warga hari ini. Keadaan di SPBU bisa berubah sewaktu-waktu.
+Sumber: laporan berita hari ini (belum ada laporan warga yang masuk hari ini). Keadaan di SPBU bisa berubah sewaktu-waktu.

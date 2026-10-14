@@ -79,11 +79,11 @@
     "wave_days": 27
    },
    "2026-10-distribution-pattern": {
-    "days": 16,
+    "days": 17,
     "brent_days": 0,
     "fx_days": 12,
-    "rain_days": 16,
-    "wave_days": 16
+    "rain_days": 17,
+    "wave_days": 17
    }
   }
  },
@@ -117,5 +117,5 @@
  "labels_open": 1,
  "decision_maker": "weighted index + historical analog layer (models are reported, not yet promoted)",
  "label_maintenance": null,
- "cycle_at": "2026-10-14T02:16:31+00:00"
+ "cycle_at": "2026-10-14T02:32:30+00:00"
 }

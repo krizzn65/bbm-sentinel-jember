@@ -5,13 +5,13 @@
   "disruption_parts": [
    0.5,
    0.3,
-   0.3
+   0.25
   ],
   "surge_factor": 1.2000000000000002,
   "calibration": {
    "mean_fill_observed": 0.7,
    "mean_fill_simulated": 0.71,
-   "d_signals": 0.755,
+   "d_signals": 0.738,
    "s_signals": 2.2
   },
   "disruption_days_expected": 7,

@@ -56,7 +56,8 @@
    "geocode_relevance": 56,
    "satellite_tile": "data/satellite/51.681.23.jpg",
    "visual_verified": false,
-   "layout_notes": "PERINGATAN: geocode relevansi rendah (56) dan kelurahan hasil geocode (Gebang, Patrang) berbeda dari alamat tercatat (Jemberkidul, Kaliwates) - koordinat ini paling tidak pasti dari kesebelas SPBU, wajib verifikasi lapangan. Kanopi tidak teridentifikasi pada citra."
+   "layout_notes": "Cek silang 2026-10-14: alamat cocok dengan direktori publik (Jl. Kenanga No.83, Jemberkidul, Kaliwates) dan koordinat cantuman Pertamina (-8.169007, 113.692769) berjarak hanya ±30 m dari koordinat tersimpan - lokasi terkonfirmasi tingkat alamat. Kanopi belum terverifikasi visual dari citra satelit.",
+   "cross_checked": "2026-10-14 direktori publik + cantuman Pertamina (±30 m)"
   },
   "53.681.35": {
    "name": "SPBU Basuki Rahmat / Tegal Besar",
